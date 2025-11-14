@@ -9,13 +9,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.TilePane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.layout.Region?>
 <BorderPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.encuestas.controller.HomeController">
     <top>
-        <HBox alignment="CENTER_LEFT" styleClass="header-bar" prefHeight="50.0">
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar" prefHeight="60.0">
             <padding>
                 <Insets left="20.0" right="20.0" />
             </padding>
             <Label styleClass="header-title" text="Encuestas" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <FontIcon iconLiteral="fa-user" iconSize="24" styleClass="user-icon"/>
+            <Label text="Iniciar sesión" styleClass="user-name"/>
         </HBox>
     </top>
     <center>
@@ -25,7 +32,6 @@
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="20.0">
-
                 <TextField fx:id="searchField" promptText="Buscar encuesta" prefWidth="350.0" styleClass="search-field"/>
                 <Label text="Filtrar por:" styleClass="filter-label" />
                 <ComboBox fx:id="categoryFilter" promptText="Categoría" prefWidth="200.0" styleClass="category-filter-dropdown"/>
