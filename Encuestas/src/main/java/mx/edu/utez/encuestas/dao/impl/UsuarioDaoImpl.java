@@ -64,4 +64,22 @@ public class UsuarioDaoImpl implements IUsuario {
         }
         return false;
     }
+
+    public boolean crearEncuesta(String titulo, String categoria, byte[] imagen, String estado, int creadorId) {
+        String sql = "INSERT INTO Encuestas (titulo, categoria, imagen, estado, creador_id) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, titulo);
+            stmt.setString(2, categoria);
+            stmt.setBytes(3, imagen);
+            stmt.setString(4, estado);
+            stmt.setInt(5, creadorId);
+
+            return stmt.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.err.println("Error al crear encuesta: " + e.getMessage());
+            return false;
+        }
+    }
 }

@@ -1,0 +1,127 @@
+package mx.edu.utez.encuestas.controller;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import mx.edu.utez.encuestas.dao.IEncuestaDao;
+import mx.edu.utez.encuestas.dao.impl.UsuarioDaoImpl;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
+import mx.edu.utez.encuestas.model.Usuario;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class CrearEncuestaController {
+
+    @FXML private TextField tituloField;
+    @FXML private TextField categoriaField;
+    @FXML private TextField rutaImagenField;
+    @FXML private CheckBox estadoCheck;
+    @FXML private Button crearButton;
+
+    private File imagenSeleccionada;
+    private final UsuarioDaoImpl dao = new UsuarioDaoImpl();
+    IEncuestaDao encuestaDao = new EncuestaDaoImpl(); //
+
+    // Simulación de sesión activa
+    private final int idDocente = 1; // ← reemplaza con el ID real del usuario logueado
+
+    private String plantilla;
+
+    public void setPlantilla(String plantilla) {
+        this.plantilla = plantilla;
+        System.out.println("Plantilla seleccionada: " + plantilla);
+    }
+
+    private Usuario docente;
+
+    public void setDocente(Usuario docente) {
+        this.docente = docente;
+    }
+
+    @FXML
+    private void onSeleccionarImagen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar imagen");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg"));
+        imagenSeleccionada = fileChooser.showOpenDialog(null);
+        if (imagenSeleccionada != null) {
+            rutaImagenField.setText(imagenSeleccionada.getName());
+        }
+    }
+
+    @FXML
+    private void onCrearEncuesta() {
+        String titulo = tituloField.getText();
+        String categoria = categoriaField.getText();
+        String estado = estadoCheck.isSelected() ? "activa" : "inactiva";
+
+        if (titulo.isEmpty() || categoria.isEmpty()) {
+            mostrarAlerta("Título y categoría son obligatorios.");
+            return;
+        }
+
+        byte[] imagenBytes = new byte[0];
+        if (imagenSeleccionada != null) {
+            try (FileInputStream fis = new FileInputStream(imagenSeleccionada)) {
+                imagenBytes = fis.readAllBytes();
+            } catch (IOException e) {
+                mostrarAlerta("Error al leer la imagen.");
+                return;
+            }
+        }
+
+        boolean exito = dao.crearEncuesta(titulo, categoria, imagenBytes, estado, idDocente);
+        if (exito) {
+            mostrarAlerta("Encuesta creada exitosamente.");
+
+            // 🔗 Aquí va la redirección a la vista de agregar preguntas
+            int idEncuesta = encuestaDao.obtenerUltimoIdEncuestaDelDocente(idDocente); // o usar RETURN_GENERATED_KEYS
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/agregarPreguntas.fxml"));
+                Parent root = loader.load();
+
+                AgregarPreguntasController controller = loader.getController();
+                controller.setIdEncuesta(idEncuesta);
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Agregar preguntas");
+                stage.show();
+
+                // Opcional: cerrar la ventana actual
+                Stage actual = (Stage) crearButton.getScene().getWindow();
+                actual.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                mostrarAlerta("Error al abrir la vista de preguntas.");
+            }
+
+        } else {
+            mostrarAlerta("Error al crear la encuesta.");
+        }
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Crear encuesta");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void limpiarCampos() {
+        tituloField.clear();
+        categoriaField.clear();
+        rutaImagenField.clear();
+        estadoCheck.setSelected(true);
+        imagenSeleccionada = null;
+    }
+}

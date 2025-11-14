@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="mx.edu.utez.encuestas.controller.AgregarPreguntasController"
+      spacing="15" alignment="TOP_CENTER"
+      stylesheets="@../css/agregarPreguntas.css"
+      styleClass="preguntas-root">
+
+    <Label text="Agregar preguntas a la encuesta" styleClass="titulo" />
+
+    <TextArea fx:id="preguntaField" promptText="Escribe la pregunta aquí..." wrapText="true" prefRowCount="3" />
+
+    <VBox fx:id="opcionesBox" spacing="10">
+        <!-- Aquí se agregan dinámicamente los TextField de opciones -->
+    </VBox>
+
+    <HBox spacing="10">
+        <Button text="+ Agregar opción" onAction="#onAgregarOpcion" />
+        <Button text="Guardar pregunta" onAction="#onGuardarPregunta" />
+    </HBox>
+
+    <Separator />
+
+    <Button text="Finalizar encuesta" onAction="#onFinalizar" styleClass="boton-finalizar" />
+</VBox>

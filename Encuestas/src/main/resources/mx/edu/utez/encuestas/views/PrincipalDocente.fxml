@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.edu.utez.encuestas.controller.PrincipalDocenteController"
+            stylesheets="@../css/principalDocente.css">
+
+    <VBox prefHeight="700.0" prefWidth="1000.0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <!-- Header -->
+        <HBox fx:id="header" alignment="CENTER_LEFT" spacing="10.0">
+            <Label text="📋 Forms" styleClass="logo-label" />
+            <TextField promptText="Search" styleClass="search-field" />
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                <StackPane>
+                    <Circle radius="15.0" styleClass="avatar-circle" />
+                    <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true" />
+                </StackPane>
+            </HBox>
+        </HBox>
+
+        <!-- Contenido scrollable -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <VBox spacing="20.0">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                </padding>
+
+                <!-- Crear nueva encuesta -->
+                <Label text="Create a new form" styleClass="section-title" />
+
+                <GridPane hgap="20.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="150.0" />
+                        <RowConstraints prefHeight="30.0" />
+                    </rowConstraints>
+
+                    <!-- Botón crear en blanco -->
+                    <VBox alignment="CENTER" onMouseClicked="#crearFormularioEnBlanco">
+                        <StackPane styleClass="form-box-border">
+                            <Label text="+" styleClass="plus-icon" />
+                        </StackPane>
+                        <Label text="Blank" />
+                    </VBox>
+
+                    <!-- Plantillas -->
+                    <VBox alignment="CENTER" GridPane.columnIndex="1">
+                        <ImageView fitHeight="120.0" fitWidth="120.0" />
+                        <Label text="Self Assessment" />
+                    </VBox>
+
+                    <VBox alignment="CENTER" GridPane.columnIndex="2">
+                        <StackPane styleClass="form-box-gray" />
+                        <Label text="Class Evaluation" />
+                    </VBox>
+
+                    <VBox alignment="CENTER" GridPane.columnIndex="3">
+                        <StackPane styleClass="form-box-pink" />
+                        <Label text="Exam" />
+                    </VBox>
+
+                    <VBox alignment="CENTER" GridPane.columnIndex="4">
+                        <StackPane styleClass="form-box-yellow" />
+                        <Label text="Worksheet" />
+                    </VBox>
+
+                    <VBox alignment="CENTER" GridPane.columnIndex="5">
+                        <StackPane styleClass="form-box-green" />
+                        <Label text="Course Evaluation" />
+                    </VBox>
+                </GridPane>
+
+                <!-- Formularios recientes -->
+                <Label text="Recent forms" styleClass="section-title" />
+                <VBox fx:id="contenedorEncuestas" spacing="10.0" />
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>

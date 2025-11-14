@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="mx.edu.utez.encuestas.controller.CrearEncuestaController"
+      alignment="CENTER"
+      spacing="20"
+      stylesheets="@../css/crearEncuesta.css"
+      styleClass="crear-root">
+
+    <Label text="Crear nueva encuesta" styleClass="titulo" />
+
+    <VBox spacing="10">
+        <Label text="Título" />
+        <TextField fx:id="tituloField" promptText="Ej. Satisfacción del curso" />
+
+        <Label text="Categoría" />
+        <TextField fx:id="categoriaField" promptText="Ej. Educación, Tecnología..." />
+
+        <Label text="Imagen (opcional)" />
+        <HBox spacing="10">
+            <TextField fx:id="rutaImagenField" promptText="Selecciona una imagen..." editable="false" />
+            <Button text="Buscar" onAction="#onSeleccionarImagen" />
+        </HBox>
+
+        <CheckBox fx:id="estadoCheck" text="Activa" selected="true" />
+    </VBox>
+
+    <Button text="Crear encuesta" fx:id="crearButton" onAction="#onCrearEncuesta" styleClass="boton" />
+</VBox>

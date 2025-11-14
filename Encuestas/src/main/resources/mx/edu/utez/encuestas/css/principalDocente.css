@@ -1,0 +1,97 @@
+.logo-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5e35b1;
+    -fx-padding: 0 0 0 20px;
+}
+
+.search-field {
+    -fx-pref-height: 30px;
+    -fx-pref-width: 250px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.avatar-circle {
+    -fx-fill: #c5e1a5;
+    -fx-stroke: transparent;
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.form-box-border {
+    -fx-pref-height: 120px;
+    -fx-pref-width: 120px;
+    -fx-border-color: #5e35b1;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-alignment: center;
+}
+
+.plus-icon {
+    -fx-font-size: 50px;
+}
+
+.form-box-gray {
+    -fx-pref-height: 120px;
+    -fx-pref-width: 120px;
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+.form-box-pink {
+    -fx-pref-height: 120px;
+    -fx-pref-width: 120px;
+    -fx-background-color: #fce4ec;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+.form-box-yellow {
+    -fx-pref-height: 120px;
+    -fx-pref-width: 120px;
+    -fx-background-color: #fff9c4;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+.form-box-green {
+    -fx-pref-height: 120px;
+    -fx-pref-width: 120px;
+    -fx-background-color: #a5d6a7;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+.recent-form-box {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.5, 0, 0);
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10;
+}
+
+.recent-form-box:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.recent-form-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.recent-form-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+.recent-form-time {
+    -fx-font-size: 12px;
+    -fx-text-fill: #999;
+}
