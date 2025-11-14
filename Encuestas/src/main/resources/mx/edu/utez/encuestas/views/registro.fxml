@@ -6,10 +6,10 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="mx.edu.utez.encuestas.controller."
+      fx:controller="mx.edu.utez.encuestas.controller.RegistroController"
       alignment="CENTER"
       spacing="20"
-      stylesheets="@../css"
+      stylesheets="@../css/registro.css"
       styleClass="registro-root">
 
     <Label text="Crear nueva cuenta" styleClass="titulo" />
@@ -28,5 +28,5 @@
         <PasswordField fx:id="claveField" promptText="Contraseña segura" />
     </VBox>
 
-    <Button text="Registrarse" fx:id="registrarButton" " />
+    <Button text="Registrarse" fx:id="registrarButton" onAction="#onRegistrar" styleClass="boton" />
 </VBox>

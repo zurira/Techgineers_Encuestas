@@ -32,4 +32,36 @@ public class UsuarioDaoImpl implements IUsuario {
         }
         return null;
     }
+
+    @Override
+    public boolean existeUsuario(String nombreUsuario) {
+        String query = "SELECT COUNT(*) FROM Usuarios WHERE nombre_usuario = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nombreUsuario);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar usuario: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean registrarUsuario(Usuario usuario) {
+        String query = "INSERT INTO Usuarios (correo, nombre, nombre_usuario, contraseña) VALUES (?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, usuario.getCorreo());
+            stmt.setString(2, usuario.getNombre());
+            stmt.setString(3, usuario.getNombreUsuario());
+            stmt.setString(4, usuario.getContraseña());
+            return stmt.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.err.println("Error al registrar usuario: " + e.getMessage());
+        }
+        return false;
+    }
 }

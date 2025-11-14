@@ -4,4 +4,6 @@ import mx.edu.utez.encuestas.model.Usuario;
 
 public interface IUsuario {
     Usuario validarLogin(String nombreUsuario, String contraseña);
+    boolean registrarUsuario(Usuario usuario);
+    boolean existeUsuario(String nombreUsuario);
 }
