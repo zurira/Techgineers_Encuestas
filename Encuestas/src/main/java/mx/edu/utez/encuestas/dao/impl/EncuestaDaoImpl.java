@@ -3,6 +3,8 @@ package mx.edu.utez.encuestas.dao.impl;
 import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IEncuestaDao;
 import mx.edu.utez.encuestas.model.Encuesta;
+import mx.edu.utez.encuestas.model.Opcion;
+import mx.edu.utez.encuestas.model.Pregunta;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -109,5 +111,47 @@ public class EncuestaDaoImpl implements IEncuestaDao {
             System.err.println("Error al crear encuesta: " + e.getMessage());
             return false;
         }
+    }
+
+    public List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta) {
+        List<Pregunta> lista = new ArrayList<>();
+        String sql = "SELECT id, texto FROM Preguntas WHERE encuesta_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idEncuesta);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Pregunta(rs.getInt("id"), rs.getString("texto")));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al obtener preguntas: " + e.getMessage());
+        }
+
+        return lista;
+    }
+
+    public List<Opcion> obtenerOpcionesPorPregunta(int idPregunta) {
+        List<Opcion> lista = new ArrayList<>();
+        String sql = "SELECT id, texto FROM Opciones WHERE pregunta_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPregunta);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Opcion(rs.getInt("id"), rs.getString("texto")));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al obtener opciones: " + e.getMessage());
+        }
+
+        return lista;
     }
 }

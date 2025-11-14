@@ -15,7 +15,7 @@
     <VBox prefHeight="700.0" prefWidth="1000.0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <!-- Header -->
         <HBox fx:id="header" alignment="CENTER_LEFT" spacing="10.0">
-            <Label text="📋 Forms" styleClass="logo-label" />
+            <Label text=" Forms" styleClass="logo-label" />
             <TextField promptText="Search" styleClass="search-field" />
             <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                 <StackPane>

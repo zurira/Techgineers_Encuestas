@@ -86,25 +86,27 @@ public class PrincipalDocenteController {
 
             tarjeta.getChildren().addAll(titulo, subtitulo, estado);
 
-            // 🔗 Acción al hacer clic en la tarjeta
             tarjeta.setOnMouseClicked(event -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/agregar_preguntas.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
                     Parent root = loader.load();
 
-                    AgregarPreguntasController controller = loader.getController();
-                    controller.setIdEncuesta(encuesta.getId());
+                    VistaEncuestaController controller = loader.getController();
+                    controller.setEncuesta(encuesta); // ← pasa el objeto Encuesta completo
 
-                    Stage modal = new Stage();
-                    modal.setScene(new Scene(root));
-                    modal.setTitle("Agregar preguntas");
-                    modal.initModality(Modality.APPLICATION_MODAL);
-                    modal.initOwner(((Node) event.getSource()).getScene().getWindow());
-                    modal.showAndWait();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Editor de encuesta");
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+                    stage.showAndWait();
+
+                    // Opcional: recargar encuestas si se modificaron
+                    cargarEncuestasComoTarjetas();
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    mostrarAlerta("Error al abrir la vista de preguntas.");
+                    mostrarAlerta("No se pudo abrir la vista de la encuesta.");
                 }
             });
 
