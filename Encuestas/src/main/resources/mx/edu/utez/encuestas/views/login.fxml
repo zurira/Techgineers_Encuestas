@@ -15,11 +15,9 @@
       styleClass="root">
 
     <!-- Ícono de usuario -->
-    <VBox alignment="CENTER">
         <VBox alignment="CENTER">
             <FontIcon iconLiteral="fas-user" iconSize="120" styleClass="user-icon" />
         </VBox>
-    </VBox>
 
     <!-- Formulario de inicio de sesión -->
     <VBox spacing="15" alignment="CENTER_LEFT">

@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/mx/edu/utez/encuestas/views/login.fxml"));
         Scene scene = new Scene(root);
-        stage.setTitle("BilioTech");
+        stage.setTitle("Encuestas");
         stage.setScene(scene);
         // Esta línea maximiza la ventana.
         stage.setMaximized(true);
