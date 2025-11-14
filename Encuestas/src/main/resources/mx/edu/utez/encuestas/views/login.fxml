@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="mx.edu.utez.encuestas.views.Login"
-            prefHeight="400.0" prefWidth="600.0">
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="mx.edu.utez.encuestas.controller.LoginController"
+      spacing="40"
+      alignment="CENTER"
+      stylesheets="@../css/login.css"
+      styleClass="root">
 
-</AnchorPane>
+    <!-- Ícono de usuario -->
+    <VBox alignment="CENTER">
+        <VBox alignment="CENTER">
+            <FontIcon iconLiteral="fas-user" iconSize="120" styleClass="user-icon" />
+        </VBox>
+    </VBox>
+
+    <!-- Formulario de inicio de sesión -->
+    <VBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Inicia sesión en tu cuenta" styleClass="title" />
+
+        <VBox spacing="10">
+            <Label text="Usuario" />
+            <TextField fx:id="usernameField" promptText="Ingresa tu usuario" />
+
+            <Label text="Contraseña" />
+            <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" />
+        </VBox>
+
+        <Button text="Entrar" fx:id="loginButton" onAction="#handleLogin" styleClass="login-button" />
+
+        <Hyperlink text="¿Olvidaste tu contraseña?" fx:id="forgotLink" />
+    </VBox>
+</HBox>
