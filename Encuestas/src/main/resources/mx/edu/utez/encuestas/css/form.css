@@ -1,0 +1,83 @@
+.background-pane {
+    -fx-background-color: #F4F5F6;
+}
+
+.header-bar {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.primary-button {
+    -fx-background-color: #4285F4;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+    -fx-background-radius: 4px;
+}
+
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.tab-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #606060;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
+}
+.tab-button-active {
+    -fx-background-color: transparent;
+    -fx-text-fill: #4285F4;
+    -fx-font-weight: bold;
+    -fx-border-color: #4285F4;
+    -fx-border-width: 0 0 3px 0;
+    -fx-padding: 10px 15px;
+}
+
+
+.editor-area {
+    -fx-spacing: 20px;
+}
+
+.question-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0.0, 0, 2);
+
+    -fx-border-color: #4285F4 transparent transparent transparent;
+    -fx-border-width: 5px 0 0 0;
+    -fx-max-width: 700px;
+}
+
+.question-title-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-size: 16px;
+}
+.question-title-field:focused {
+    -fx-border-color: #d0d0d0;
+}
+
+.floating-toolbar {
+    -fx-padding: 0 150px 0 0;
+}
+.floating-toolbar-content {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0.0, 0, 1);
+    -fx-spacing: 5px;
+    -fx-padding: 5px;
+}
+
+.toggle-button {
+    -fx-background-radius: 15;
+    -fx-background-color: #d0d0d0;
+    -fx-padding: 5 15;
+}
+.toggle-button:selected {
+    -fx-background-color: #4285F4;
+}
