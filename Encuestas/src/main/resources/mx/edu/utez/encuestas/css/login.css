@@ -1,0 +1,55 @@
+.root {
+    -fx-background-color: #f4f6f8;
+    -fx-padding: 60;
+    -fx-spacing: 40;
+    -fx-alignment: center;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.user-icon {
+    -fx-fill: #2c3e50;
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #34495e;
+}
+
+.text-field, .password-field {
+    -fx-pref-width: 250;
+    -fx-padding: 8 12;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d3d4;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #3498db;
+}
+
+.login-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-pref-width: 100;
+}
+
+.login-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.hyperlink {
+    -fx-text-fill: #2980b9;
+    -fx-font-size: 13px;
+}

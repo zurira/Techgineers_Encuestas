@@ -24,15 +24,13 @@
         <Label text="Inicia sesión en tu cuenta" styleClass="title" />
 
         <VBox spacing="10">
-            <Label text="Usuario" />
-            <TextField fx:id="usernameField" promptText="Ingresa tu usuario" />
-
-            <Label text="Contraseña" />
-            <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" />
+            <Label text="Usuario" styleClass="label" />
+            <TextField fx:id="usernameField" promptText="Ingresa tu usuario" styleClass="text-field" />
+            <Label text="Contraseña" styleClass="label" />
+            <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" styleClass="password-field" />
         </VBox>
 
         <Button text="Entrar" fx:id="loginButton" onAction="#onLogin" styleClass="login-button" />
-
-        <Hyperlink text="¿Olvidaste tu contraseña?" fx:id="forgotLink" />
+        <Hyperlink text="¿Aún no tienes cuenta?" fx:id="forgotLink" styleClass="hyperlink" onAction="onRegistrar" />
     </VBox>
 </HBox>
