@@ -11,12 +11,11 @@ import java.util.List;
 
     public class FormController {
 
-        @FXML private VBox editorContainer; // Contenedor central donde se apilan las tarjetas de preguntas
-        @FXML private VBox floatingToolbarContent; // Contenedor interno de los botones de la barra flotante
+        @FXML private VBox editorContainer;
+        @FXML private VBox floatingToolbarContent;
 
-        private List<VBox> questionCards = new ArrayList<>(); // Lista para llevar el seguimiento de las tarjetas
-
-        @
+        private List<VBox> questionCards = new ArrayList<>();
+        @FXML
         public void initialize() {
 
             if (!floatingToolbarContent.getChildren().isEmpty()) {
@@ -51,17 +50,84 @@ import java.util.List;
             grid.getChildren().addAll(questionTitle, typeSelector);
 
             VBox optionsContainer = createOptionsVBox(typeSelector.getValue());
-            GridPane.setConstraints(optionsContainer, 0, 1, 2, 1); // Span de 2 columnas
+            GridPane.setConstraints(optionsContainer, 0, 1, 2, 1);
 
             Separator separator = new Separator();
             separator.setStyle("-fx-padding: 10px 0;");
 
-            HBox bottomBar = createBottomBar(newCard); // Pasa la tarjeta para la lógica de eliminación
+            HBox bottomBar = createBottomBar(newCard);
 
             newCard.getChildren().addAll(grid, optionsContainer, separator, bottomBar);
 
             editorContainer.getChildren().add(newCard);
             questionCards.add(newCard);
+        }
+
+        private VBox createOptionsVBox(String type) {
+            VBox optionsVBox = new VBox(10);
+
+            addOptionRow(optionsVBox, type);
+
+            HBox addOptionRow = new HBox(10);
+            addOptionRow.getStyleClass().add("add-option-row");
+
+            Control placeholder = type.equals("Checkboxes") ? new CheckBox() : new RadioButton();
+            placeholder.setVisible(false);
+
+            Label addLabel = new Label("Agregar opción");
+            addLabel.setStyle("-fx-text-fill: #4285F4; -fx-font-weight: bold; -fx-cursor: hand;");
+
+            addOptionRow.getChildren().addAll(placeholder, addLabel);
+
+            addLabel.setOnMouseClicked(e -> addOptionRow(optionsVBox, type));
+
+            optionsVBox.getChildren().add(addOptionRow);
+            return optionsVBox;
+        }
+
+        private void addOptionRow(VBox optionsVBox, String type) {
+            HBox optionRow = new HBox(10);
+            optionRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+            Control inputControl = type.equals("Checkboxes") ? new CheckBox() : new RadioButton();
+            TextField optionText = new TextField();
+            optionText.setPromptText("Opción " + optionsVBox.getChildren().size());
+            HBox.setHgrow(optionText, Priority.ALWAYS);
+
+            Button deleteButton = new Button("x");
+            deleteButton.getStyleClass().add("icon-button");
+
+            deleteButton.setOnAction(e -> optionsVBox.getChildren().remove(optionRow));
+
+            optionRow.getChildren().addAll(inputControl, optionText, deleteButton);
+
+            optionsVBox.getChildren().add(optionsVBox.getChildren().size() - 1, optionRow);
+        }
+
+        private HBox createBottomBar(VBox cardToDelete) {
+            HBox bottomBar = new HBox(15);
+            bottomBar.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+            Button deleteButton = new Button("🗑️");
+            deleteButton.getStyleClass().add("icon-button");
+            deleteButton.setOnAction(e -> {
+                editorContainer.getChildren().remove(cardToDelete);
+                questionCards.remove(cardToDelete);
+            });
+
+            Button duplicateButton = new Button("📄");
+            duplicateButton.getStyleClass().add("icon-button");
+
+            Separator separator = new Separator(javafx.geometry.Orientation.VERTICAL);
+            separator.setPrefHeight(20.0);
+
+            Label requiredLabel = new Label("Required");
+            ToggleButton requiredToggle = new ToggleButton();
+            requiredToggle.getStyleClass().add("toggle-button");
+            // Lógica de requerido: podrías actualizar un modelo de datos aquí.
+
+            bottomBar.getChildren().addAll(deleteButton, duplicateButton, separator, requiredLabel, requiredToggle);
+            return bottomBar;
         }
 
 
