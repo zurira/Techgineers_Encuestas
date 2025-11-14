@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="mx.edu.utez.encuestas.controller."
+      alignment="CENTER"
+      spacing="20"
+      stylesheets="@../css"
+      styleClass="registro-root">
+
+    <Label text="Crear nueva cuenta" styleClass="titulo" />
+
+    <VBox spacing="10">
+        <Label text="Correo electrónico" />
+        <TextField fx:id="correoField" promptText="ejemplo@correo.com" />
+
+        <Label text="Nombre completo" />
+        <TextField fx:id="nombreField" promptText="Tu nombre" />
+
+        <Label text="Nombre de usuario" />
+        <TextField fx:id="usuarioField" promptText="Nombre de usuario único" />
+
+        <Label text="Contraseña" />
+        <PasswordField fx:id="claveField" promptText="Contraseña segura" />
+    </VBox>
+
+    <Button text="Registrarse" fx:id="registrarButton" " />
+</VBox>

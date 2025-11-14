@@ -31,6 +31,6 @@
         </VBox>
 
         <Button text="Entrar" fx:id="loginButton" onAction="#onLogin" styleClass="login-button" />
-        <Hyperlink text="¿Aún no tienes cuenta?" fx:id="forgotLink" styleClass="hyperlink" onAction="onRegistrar" />
+        <Hyperlink text="¿Aún no tienes cuenta?" fx:id="forgotLink" styleClass="hyperlink" onAction="#onRegistrar" />
     </VBox>
 </HBox>
