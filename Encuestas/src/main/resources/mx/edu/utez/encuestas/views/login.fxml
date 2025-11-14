@@ -33,7 +33,7 @@
             <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" />
         </VBox>
 
-        <Button text="Entrar" fx:id="loginButton" onAction="#handleLogin" styleClass="login-button" />
+        <Button text="Entrar" fx:id="loginButton" onAction="#onLogin" styleClass="login-button" />
 
         <Hyperlink text="¿Olvidaste tu contraseña?" fx:id="forgotLink" />
     </VBox>
