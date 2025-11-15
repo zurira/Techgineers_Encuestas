@@ -33,6 +33,15 @@ public class Encuesta {
     public Encuesta() {
     }
 
+    //metodos usados para cambiar y actualizar el switch
+    public boolean isActiva() {
+        return "ACTIVA".equalsIgnoreCase(estado);
+    }
+
+    public void setActiva(boolean activa) {
+        this.estado = activa ? "ACTIVA" : "INACTIVA";
+    }
+
     public long getId() { return id; }
     public void setId(int id) { this.id = id; }
 

@@ -8,6 +8,7 @@ module mx.edu.utez.encuestas {
 
     requires org.controlsfx.controls;
     requires com.oracle.database.jdbc;
+    requires java.desktop;
 
     opens mx.edu.utez.encuestas.model to javafx.base;
 

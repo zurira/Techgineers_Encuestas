@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <HBox xmlns="http://javafx.com/javafx"
@@ -16,7 +14,7 @@
 
     <!-- Ícono de usuario -->
         <VBox alignment="CENTER">
-            <FontIcon iconLiteral="fas-user" iconSize="120" styleClass="user-icon" />
+            <FontIcon iconLiteral="fa-user" iconSize="120" styleClass="user-icon" />
         </VBox>
 
     <!-- Formulario de inicio de sesión -->

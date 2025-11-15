@@ -148,4 +148,20 @@ public class EncuestaImpl implements IEncuesta {
         }
         return categories;
     }
+
+    @Override
+    public boolean actualizarEstado(int idEncuesta, String nuevoEstado) {
+        String sql = "UPDATE Encuestas SET estado = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nuevoEstado);
+            stmt.setInt(2, idEncuesta);
+            return stmt.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar estado: " + e.getMessage());
+            return false;
+        }
+    }
 }

@@ -2,13 +2,19 @@ package mx.edu.utez.encuestas.controller;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.io.IOException;
 import java.util.List;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -71,7 +77,6 @@ public class PrincipalDocenteController {
             tarjeta.getStyleClass().add("recent-form-box");
             tarjeta.setSpacing(5);
             tarjeta.setPadding(new Insets(10));
-            tarjeta.setCursor(Cursor.HAND);
 
             Label titulo = new Label(encuesta.getTitulo());
             titulo.getStyleClass().add("recent-form-title");
@@ -82,32 +87,64 @@ public class PrincipalDocenteController {
             Label estado = new Label("Estado: " + encuesta.getEstado());
             estado.getStyleClass().add("recent-form-time");
 
-            tarjeta.getChildren().addAll(titulo, subtitulo, estado);
+            // icono editar
+            FontIcon editIcon = new FontIcon("fa-pencil");
+            editIcon.setIconSize(18);
+            editIcon.getStyleClass().add("action-icon");
 
-            tarjeta.setOnMouseClicked(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
-                    Parent root = loader.load();
+            Button btnEditar = new Button();
+            btnEditar.setGraphic(editIcon);
+            btnEditar.getStyleClass().add("action-button");
+            btnEditar.setTooltip(new Tooltip("Editar encuesta"));
+            btnEditar.setOnAction(e -> abrirEditorEncuesta(encuesta));
 
-                    VistaEncuestaController controller = loader.getController();
-                    controller.setEncuesta(encuesta);
+            // cambio de estado
+            FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
+            switchIcon.setIconSize(24);
+            switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Editor de encuesta");
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.initOwner(((Node) event.getSource()).getScene().getWindow());
-                    stage.showAndWait();
 
-                    cargarEncuestasComoTarjetas();
+            Button btnSwitch = new Button();
+            btnSwitch.setGraphic(switchIcon);
+            btnSwitch.getStyleClass().add("action-button");
+            btnSwitch.setTooltip(new Tooltip("Activar/Desactivar encuesta"));
+            btnSwitch.setOnAction(e -> {
+                encuesta.setActiva(!encuesta.isActiva());
+                switchIcon.setIconLiteral(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
+                switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
+                String nuevoEstado = encuesta.isActiva() ? "activa" : "inactiva";
+                encuestaDao.actualizarEstado((int) encuesta.getId(), nuevoEstado);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mostrarAlerta("No se pudo abrir la vista de la encuesta.");
-                }
+                cargarEncuestasComoTarjetas();
             });
 
+            HBox acciones = new HBox(10, btnEditar, btnSwitch);
+            acciones.setAlignment(Pos.CENTER_RIGHT);
+
+            tarjeta.getChildren().addAll(titulo, subtitulo, estado, acciones);
             contenedorEncuestas.getChildren().add(tarjeta);
+        }
+    }
+
+    private void abrirEditorEncuesta(Encuesta encuesta) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
+            Parent root = loader.load();
+
+            VistaEncuestaController controller = loader.getController();
+            controller.setEncuesta(encuesta);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Editor de encuesta");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(contenedorEncuestas.getScene().getWindow());
+            stage.showAndWait();
+
+            cargarEncuestasComoTarjetas(); // Refrescar después de editar
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("No se pudo abrir la vista de la encuesta.");
         }
     }
 

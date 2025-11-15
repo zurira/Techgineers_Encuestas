@@ -12,5 +12,5 @@ public interface IEncuesta {
     List<Encuesta> findAllActive() throws SQLException;
     List<Encuesta> findActiveByCategory(String categoria) throws SQLException;
     List<String> findAllActiveCategories() throws SQLException;
-
+    boolean actualizarEstado(int idEncuesta, String nuevoEstado);
 }

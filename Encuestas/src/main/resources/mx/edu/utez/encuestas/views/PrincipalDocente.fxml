@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <AnchorPane prefHeight="700.0" prefWidth="1000.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -16,7 +17,7 @@
         <!-- Header -->
         <HBox fx:id="header" alignment="CENTER_LEFT" spacing="10.0">
             <Label text=" Forms" styleClass="logo-label" />
-            <TextField promptText="Search" styleClass="search-field" />
+            <TextField promptText="Buscar" styleClass="search-field" />
             <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                 <StackPane>
                     <Circle radius="15.0" styleClass="avatar-circle" />
@@ -33,7 +34,7 @@
                 </padding>
 
                 <!-- Crear nueva encuesta -->
-                <Label text="Create a new form" styleClass="section-title" />
+                <Label text="Crear nuevo formulario" styleClass="section-title" />
 
                 <GridPane hgap="20.0">
                     <columnConstraints>
@@ -54,7 +55,7 @@
                         <StackPane styleClass="form-box-border">
                             <Label text="+" styleClass="plus-icon" />
                         </StackPane>
-                        <Label text="Blank" />
+                        <Label text="Nuevo" />
                     </VBox>
 
                     <!-- Plantillas -->
@@ -86,7 +87,8 @@
 
                 <!-- Formularios recientes -->
                 <Label text="Recent forms" styleClass="section-title" />
-                <VBox fx:id="contenedorEncuestas" spacing="10.0" />
+                <VBox fx:id="contenedorEncuestas" spacing="10.0" >
+                </VBox>
             </VBox>
         </ScrollPane>
     </VBox>
