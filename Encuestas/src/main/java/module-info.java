@@ -7,6 +7,7 @@ module mx.edu.utez.encuestas {
     requires org.kordamp.bootstrapfx.core;
 
     requires org.controlsfx.controls;
+    requires com.oracle.database.jdbc;
 
     opens mx.edu.utez.encuestas.model to javafx.base;
 

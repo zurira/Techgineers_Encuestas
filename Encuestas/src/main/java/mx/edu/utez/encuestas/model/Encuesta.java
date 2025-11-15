@@ -3,16 +3,16 @@ package mx.edu.utez.encuestas.model;
 import javafx.scene.image.Image;
 
 public class Encuesta {
-    private long id;
+    private int id;
     private String titulo;
     private String categoria;
     private Image imagen;
     private String estado;
-    private long creadorId;
+    private int creadorId;
     private String descripcion;
 
     // Constructor completo
-    public Encuesta(long id, String titulo, String categoria, Image imagen, String estado, long creadorId, String descripcion) {
+    public Encuesta(int id, String titulo, String categoria, Image imagen, String estado, int creadorId, String descripcion) {
         this.id = id;
         this.titulo = titulo;
         this.categoria = categoria;
@@ -22,12 +22,19 @@ public class Encuesta {
         this.descripcion = descripcion;
     }
 
+    //constructor para mostrar las cards con info basica en el panel de docentes
+    public Encuesta(int id, String titulo, String categoria,  String estado) {
+        this.id = id;
+        this.titulo = titulo;
+        this.categoria = categoria;
+        this.estado = estado;
+    }
     // Constructor vacío (necesario para el DAO)
     public Encuesta() {
     }
 
     public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -42,7 +49,7 @@ public class Encuesta {
     public void setEstado(String estado) { this.estado = estado; }
 
     public long getCreadorId() { return creadorId; }
-    public void setCreadorId(long creadorId) { this.creadorId = creadorId; }
+    public void setCreadorId(int creadorId) { this.creadorId = creadorId; }
 
     public String getDescripcionCorta() { return descripcion; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcion = descripcionCorta; }

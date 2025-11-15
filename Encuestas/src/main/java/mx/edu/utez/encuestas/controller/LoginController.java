@@ -32,7 +32,7 @@ public class LoginController {
         Usuario usuarioValido = usuarioDao.validarLogin(usuario, clave);
 
         if (usuarioValido != null) {
-            System.out.println("Inicio de sesión exitoso. Redirigiendo al panel del docente...");
+            System.out.println("Inicio de sesión exitoso");
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalDocente.fxml"));
@@ -40,7 +40,7 @@ public class LoginController {
 
                 // Si quieres pasar el usuario al panel, puedes hacerlo así:
                 PrincipalDocenteController controller = loader.getController();
-                controller.setUsuarioActivo(usuarioValido); // ← método opcional
+                controller.setUsuarioActivo(usuarioValido);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root, 1000, 700));

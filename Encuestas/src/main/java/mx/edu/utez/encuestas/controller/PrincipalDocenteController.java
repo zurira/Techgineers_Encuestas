@@ -1,6 +1,5 @@
 package mx.edu.utez.encuestas.controller;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
@@ -9,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,8 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import mx.edu.utez.encuestas.DocenteApp;
-import mx.edu.utez.encuestas.dao.IEncuestaDao;
-import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
+import mx.edu.utez.encuestas.dao.IEncuesta;
+import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Usuario;
 
@@ -26,13 +24,13 @@ public class PrincipalDocenteController {
 
     @FXML private VBox contenedorEncuestas;
 
-    private final IEncuestaDao encuestaDao = new EncuestaDaoImpl();
+    private final IEncuesta encuestaDao = new EncuestaImpl();
     private Usuario usuarioActivo;
 
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
-        cargarEncuestasComoTarjetas(); // Cargar encuestas del docente al recibir el usuario
+        cargarEncuestasComoTarjetas(); // Cargar encuestas como cards
     }
 
     @FXML
@@ -54,7 +52,7 @@ public class PrincipalDocenteController {
             modalStage.initOwner(((Node) event.getSource()).getScene().getWindow());
             modalStage.showAndWait();
 
-            // 🔄 Refrescar tabla después de cerrar el modal
+            // Actualiza la interfaz con las nuevas cards
             cargarEncuestasComoTarjetas();
 
         } catch (IOException e) {
@@ -92,7 +90,7 @@ public class PrincipalDocenteController {
                     Parent root = loader.load();
 
                     VistaEncuestaController controller = loader.getController();
-                    controller.setEncuesta(encuesta); // ← pasa el objeto Encuesta completo
+                    controller.setEncuesta(encuesta);
 
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
@@ -101,7 +99,6 @@ public class PrincipalDocenteController {
                     stage.initOwner(((Node) event.getSource()).getScene().getWindow());
                     stage.showAndWait();
 
-                    // Opcional: recargar encuestas si se modificaron
                     cargarEncuestasComoTarjetas();
 
                 } catch (IOException e) {

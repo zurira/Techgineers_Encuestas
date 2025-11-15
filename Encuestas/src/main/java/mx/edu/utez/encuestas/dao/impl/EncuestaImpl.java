@@ -1,16 +1,18 @@
 package mx.edu.utez.encuestas.dao.impl;
 
+import javafx.scene.image.Image;
 import mx.edu.utez.encuestas.config.DBConnection;
-import mx.edu.utez.encuestas.dao.IEncuestaDao;
+import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
 
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EncuestaDaoImpl implements IEncuestaDao {
+public class EncuestaImpl implements IEncuesta {
 
     @Override
     public List<Encuesta> obtenerEncuestasPorDocente(int idDocente) {
@@ -39,38 +41,6 @@ public class EncuestaDaoImpl implements IEncuestaDao {
         return lista;
     }
 
-    public int insertarPregunta(String texto, int idEncuesta) {
-        String sql = "INSERT INTO Preguntas (texto, encuesta_id) VALUES (?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            stmt.setString(1, texto);
-            stmt.setInt(2, idEncuesta);
-            stmt.executeUpdate();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) return rs.getInt(1);
-
-        } catch (SQLException e) {
-            System.err.println("Error al insertar pregunta: " + e.getMessage());
-        }
-        return -1;
-    }
-
-    public boolean insertarOpcion(String texto, int idPregunta) {
-        String sql = "INSERT INTO Opciones (texto, pregunta_id) VALUES (?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, texto);
-            stmt.setInt(2, idPregunta);
-            return stmt.executeUpdate() == 1;
-
-        } catch (SQLException e) {
-            System.err.println("Error al insertar opción: " + e.getMessage());
-            return false;
-        }
-    }
 
     @Override
     public int obtenerUltimoIdEncuestaDelDocente(int idDocente) {
@@ -113,48 +83,6 @@ public class EncuestaDaoImpl implements IEncuestaDao {
         }
     }
 
-    public List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta) {
-        List<Pregunta> lista = new ArrayList<>();
-        String sql = "SELECT id, texto FROM Preguntas WHERE encuesta_id = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idEncuesta);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                lista.add(new Pregunta(rs.getInt("id"), rs.getString("texto")));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error al obtener preguntas: " + e.getMessage());
-        }
-
-        return lista;
-    }
-
-    public List<Opcion> obtenerOpcionesPorPregunta(int idPregunta) {
-        List<Opcion> lista = new ArrayList<>();
-        String sql = "SELECT id, texto FROM Opciones WHERE pregunta_id = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idPregunta);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                lista.add(new Opcion(rs.getInt("id"), rs.getString("texto")));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error al obtener opciones: " + e.getMessage());
-        }
-
-        return lista;
-    }
-
     private static final String BASE_SELECT_ACTIVE =
             "SELECT id, titulo, categoria, imagen, estado, creador_id FROM Encuestas WHERE estado = 'activa'";
 
@@ -162,11 +90,11 @@ public class EncuestaDaoImpl implements IEncuestaDao {
         List<Encuesta> encuestas = new ArrayList<>();
         while (rs.next()) {
             Encuesta encuesta = new Encuesta();
-            encuesta.setId(rs.getLong("id"));
+            encuesta.setId(rs.getInt("id"));
             encuesta.setTitulo(rs.getString("titulo"));
             encuesta.setCategoria(rs.getString("categoria"));
             encuesta.setEstado(rs.getString("estado"));
-            encuesta.setCreadorId(rs.getLong("creador_id"));
+            encuesta.setCreadorId(rs.getInt("creador_id"));
 
             byte[] imagenBlob = rs.getBytes("imagen");
             Image imagen = null;

@@ -11,10 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
+import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
+import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
+import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
+import oracle.jdbc.proxy.annotation.Pre;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,12 +27,13 @@ public class VistaEncuestaController {
     private Label lblTitulo;
     @FXML private VBox contenedorPreguntas;
 
-    private final EncuestaDaoImpl dao = new EncuestaDaoImpl();
+    private final PreguntaDaoImpl dao = new PreguntaDaoImpl();
+    private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
     private Encuesta encuesta;
 
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
-        lblTitulo.setText("📋 " + encuesta.getTitulo());
+        lblTitulo.setText(encuesta.getTitulo());
         cargarPreguntas();
     }
 
@@ -40,7 +44,7 @@ public class VistaEncuestaController {
             Parent root = loader.load();
 
             AgregarPreguntasController controller = loader.getController();
-            controller.setIdEncuesta(encuesta.getId());
+            controller.setIdEncuesta((int)encuesta.getId());
 
             Stage modal = new Stage();
             modal.setScene(new Scene(root));
@@ -59,7 +63,7 @@ public class VistaEncuestaController {
     private void cargarPreguntas() {
         contenedorPreguntas.getChildren().clear();
 
-        List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta(encuesta.getId());
+        List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta((int)encuesta.getId());
 
         for (Pregunta pregunta : preguntas) {
             VBox tarjeta = new VBox();
@@ -73,7 +77,7 @@ public class VistaEncuestaController {
             VBox opcionesBox = new VBox();
             opcionesBox.setSpacing(5);
 
-            List<Opcion> opciones = dao.obtenerOpcionesPorPregunta(pregunta.getId());
+            List<Opcion> opciones = daoOp.obtenerOpcionesPorPregunta(pregunta.getId());
             for (Opcion opcion : opciones) {
                 CheckBox check = new CheckBox(opcion.getTexto());
                 check.setDisable(true); // solo visual

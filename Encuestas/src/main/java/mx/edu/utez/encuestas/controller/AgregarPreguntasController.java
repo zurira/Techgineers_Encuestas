@@ -1,11 +1,13 @@
 package mx.edu.utez.encuestas.controller;
 
-import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
+import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.stage.Stage;
+import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
+import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,8 @@ public class AgregarPreguntasController {
     @FXML private TextArea preguntaField;
     @FXML private VBox opcionesBox;
 
-    private final EncuestaDaoImpl dao = new EncuestaDaoImpl();
+    private final PreguntaDaoImpl dao = new PreguntaDaoImpl();
+    private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
     private int idEncuesta;
 
     public void setIdEncuesta(int idEncuesta) {
@@ -24,7 +27,7 @@ public class AgregarPreguntasController {
 
     @FXML
     public void initialize() {
-        onAgregarOpcion(); // Agrega una opción por defecto
+        onAgregarOpcion();
         onAgregarOpcion();
     }
 
@@ -59,7 +62,7 @@ public class AgregarPreguntasController {
         int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
         if (idPregunta > 0) {
             for (String opcion : opciones) {
-                dao.insertarOpcion(opcion, idPregunta);
+                daoOp.insertarOpcion(opcion, idPregunta);
             }
             mostrarAlerta("Pregunta guardada.");
             limpiarCampos();

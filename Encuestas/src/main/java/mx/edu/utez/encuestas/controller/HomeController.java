@@ -11,8 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
-import mx.edu.utez.encuestas.dao.impl.dao.EncuestaDao;
+import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
+import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
 
 import java.net.URL;
@@ -25,7 +25,7 @@ public class HomeController implements Initializable {
     @FXML private ComboBox<String> categoryFilter;
     @FXML private TextField searchField;
 
-    private final EncuestaDao encuestaDao = new EncuestaDaoImpl();
+    private final IEncuesta encuestaDao = new EncuestaImpl();
     private static final String OPCION_TODAS = "Todas las Categorías";
 
     @Override

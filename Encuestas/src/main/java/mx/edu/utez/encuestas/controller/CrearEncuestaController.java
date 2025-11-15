@@ -4,12 +4,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import mx.edu.utez.encuestas.dao.IEncuestaDao;
+import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.dao.impl.UsuarioDaoImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
+import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.model.Usuario;
 
 import java.io.File;
@@ -26,11 +26,11 @@ public class CrearEncuestaController {
 
     private File imagenSeleccionada;
     private final UsuarioDaoImpl dao = new UsuarioDaoImpl();
-    IEncuestaDao encuestaDao = new EncuestaDaoImpl(); //
+    private final Usuario docen = new Usuario();
+    IEncuesta encuestaDao = new EncuestaImpl();
 
-    // Simulación de sesión activa
-    private final int idDocente = 1; // ← reemplaza con el ID real del usuario logueado
 
+    private final int idDocente = docen.getId();
     private String plantilla;
 
     public void setPlantilla(String plantilla) {
@@ -80,8 +80,7 @@ public class CrearEncuestaController {
         if (exito) {
             mostrarAlerta("Encuesta creada exitosamente.");
 
-            // 🔗 Aquí va la redirección a la vista de agregar preguntas
-            int idEncuesta = encuestaDao.obtenerUltimoIdEncuestaDelDocente(idDocente); // o usar RETURN_GENERATED_KEYS
+            int idEncuesta = encuestaDao.obtenerUltimoIdEncuestaDelDocente(idDocente);
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/agregarPreguntas.fxml"));
@@ -95,7 +94,6 @@ public class CrearEncuestaController {
                 stage.setTitle("Agregar preguntas");
                 stage.show();
 
-                // Opcional: cerrar la ventana actual
                 Stage actual = (Stage) crearButton.getScene().getWindow();
                 actual.close();
 
