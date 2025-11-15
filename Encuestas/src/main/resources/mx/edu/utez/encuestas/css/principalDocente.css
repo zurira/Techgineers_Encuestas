@@ -95,3 +95,14 @@
     -fx-font-size: 12px;
     -fx-text-fill: #999;
 }
+
+.action-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.action-icon {
+    -fx-fill: #555555;
+    -fx-font-size: 1.2em;
+}

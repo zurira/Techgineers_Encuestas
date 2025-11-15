@@ -141,7 +141,7 @@ public class PrincipalDocenteController {
             stage.initOwner(contenedorEncuestas.getScene().getWindow());
             stage.showAndWait();
 
-            cargarEncuestasComoTarjetas(); // Refrescar después de editar
+            cargarEncuestasComoTarjetas();
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("No se pudo abrir la vista de la encuesta.");
