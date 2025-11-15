@@ -1,28 +1,40 @@
 .form-title {
-    -fx-font-size: 20px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: #6200ea;
 }
 
-.add-question-button {
-    -fx-background-color: #4285f4;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 8 16;
-    -fx-background-radius: 5;
+.form-description {
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
 }
 
-.pregunta-card {
+.pregunta-box {
     -fx-background-color: #ffffff;
-    -fx-background-radius: 10;
-    -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.5, 0, 0);
     -fx-border-color: #ddd;
-    -fx-border-radius: 10;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
 }
 
 .pregunta-titulo {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+}
+
+.pregunta-opcion {
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #888;
+}
+
+.add-button, .save-button {
+    -fx-background-color: #6200ea;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
 }

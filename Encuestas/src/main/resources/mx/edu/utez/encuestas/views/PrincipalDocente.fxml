@@ -87,7 +87,7 @@
 
                 <!-- Formularios recientes -->
                 <Label text="Recent forms" styleClass="section-title" />
-                <VBox fx:id="contenedorEncuestas" spacing="10.0" >
+                <VBox fx:id="contenedorEncuestas" spacing="10.0">
                 </VBox>
             </VBox>
         </ScrollPane>

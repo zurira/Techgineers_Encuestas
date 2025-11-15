@@ -3,6 +3,7 @@ package mx.edu.utez.encuestas.controller;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -87,17 +88,6 @@ public class PrincipalDocenteController {
             Label estado = new Label("Estado: " + encuesta.getEstado());
             estado.getStyleClass().add("recent-form-time");
 
-            // icono editar
-            FontIcon editIcon = new FontIcon("fa-pencil");
-            editIcon.setIconSize(18);
-            editIcon.getStyleClass().add("action-icon");
-
-            Button btnEditar = new Button();
-            btnEditar.setGraphic(editIcon);
-            btnEditar.getStyleClass().add("action-button");
-            btnEditar.setTooltip(new Tooltip("Editar encuesta"));
-            btnEditar.setOnAction(e -> abrirEditorEncuesta(encuesta));
-
             // cambio de estado
             FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
             switchIcon.setIconSize(24);
@@ -118,11 +108,15 @@ public class PrincipalDocenteController {
                 cargarEncuestasComoTarjetas();
             });
 
-            HBox acciones = new HBox(10, btnEditar, btnSwitch);
+            HBox acciones = new HBox(10, btnSwitch);
             acciones.setAlignment(Pos.CENTER_RIGHT);
 
             tarjeta.getChildren().addAll(titulo, subtitulo, estado, acciones);
             contenedorEncuestas.getChildren().add(tarjeta);
+
+            tarjeta.setOnMouseClicked(e -> abrirEditorEncuesta(encuesta));
+            tarjeta.setCursor(Cursor.HAND);
+
         }
     }
 

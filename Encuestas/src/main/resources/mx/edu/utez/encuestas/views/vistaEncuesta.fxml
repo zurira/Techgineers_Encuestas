@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -10,14 +10,16 @@
             prefWidth="800" prefHeight="600"
             stylesheets="@../css/vistaEncuesta.css">
 
-    <VBox spacing="20.0" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
-        <!-- Título de la encuesta -->
-        <Label fx:id="lblTitulo" styleClass="form-title" />
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+        <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title" />
 
-        <!-- Botón agregar pregunta -->
-        <Button text="+ Agregar pregunta" onAction="#abrirModalAgregarPregunta" styleClass="add-question-button" />
+        <TextArea fx:id="txtDescripcion" promptText="Descripción del formulario" styleClass="form-description" wrapText="true" />
 
-        <!-- Contenedor de preguntas -->
-        <VBox fx:id="contenedorPreguntas" spacing="15.0" />
+        <VBox fx:id="contenedorPreguntas" spacing="15" />
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button" />
+            <Button text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button" />
+        </HBox>
     </VBox>
 </AnchorPane>
