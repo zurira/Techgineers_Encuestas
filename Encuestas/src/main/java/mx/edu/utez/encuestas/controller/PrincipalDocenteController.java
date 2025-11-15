@@ -42,29 +42,36 @@ public class PrincipalDocenteController {
 
     @FXML
     private void crearFormularioEnBlanco(MouseEvent event) {
-        System.out.println("Crear Formulario en Blanco presionado. Cargando vista del editor...");
+        System.out.println("Crear Formulario en Blanco presionado. Cargando vista de encuesta...");
 
         try {
-            FXMLLoader loader = new FXMLLoader(DocenteApp.class.getResource("views/crearEncuesta.fxml"));
+            // Crear encuesta en blanco
+            Encuesta nuevaEncuesta = new Encuesta();
+            nuevaEncuesta.setTitulo("Formulario sin título");
+            nuevaEncuesta.setDescripcionCorta("Descripción del formulario");
+            nuevaEncuesta.setEstado("borrador");
+            nuevaEncuesta.setId(usuarioActivo.getId());
+
+            // carga la vista de encuesta
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("views/vistaEncuesta.fxml"));
             Parent root = loader.load();
 
-            CrearEncuestaController controller = loader.getController();
-            controller.setPlantilla("Blank");
-            controller.setDocente(usuarioActivo); // Pasar el usuario activo
+            VistaEncuestaController controller = loader.getController();
+            controller.setEncuesta(nuevaEncuesta);
 
             Stage modalStage = new Stage();
             modalStage.setScene(new Scene(root));
-            modalStage.setTitle("Crear nueva encuesta");
+            modalStage.setTitle("Editor de encuesta");
             modalStage.initModality(Modality.APPLICATION_MODAL);
             modalStage.initOwner(((Node) event.getSource()).getScene().getWindow());
             modalStage.showAndWait();
 
-            // Actualiza la interfaz con las nuevas cards
+
             cargarEncuestasComoTarjetas();
 
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarAlerta("Error al cargar la vista del editor de formularios.");
+            mostrarAlerta("Error al cargar la vista de encuesta.");
         }
     }
 
