@@ -29,6 +29,25 @@ public class PreguntaDaoImpl implements IPregunta {
     }
 
     @Override
+    public boolean actualizarPregunta(String texto, int idEncuesta, int idPregunta) {
+        String sql = "UPDATE Preguntas SET texto = ?, encuesta_id = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, texto);
+            stmt.setInt(2, idEncuesta);
+            stmt.setInt(3, idPregunta);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar pregunta: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
     public List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta) {
         List<Pregunta> lista = new ArrayList<>();
         String sql = "SELECT id, texto FROM Preguntas WHERE encuesta_id = ?";

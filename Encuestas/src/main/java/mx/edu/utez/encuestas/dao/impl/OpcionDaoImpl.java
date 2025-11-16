@@ -30,6 +30,22 @@ public class OpcionDaoImpl implements IOpcion {
     }
 
     @Override
+    public boolean eliminarOpcionesPorPregunta(int idPregunta) {
+        String sql = "DELETE FROM Opciones WHERE pregunta_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPregunta);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar opciones: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
     public List<Opcion> obtenerOpcionesPorPregunta(int idPregunta) {
         List<Opcion> lista = new ArrayList<>();
         String sql = "SELECT id, texto FROM Opciones WHERE pregunta_id = ?";

@@ -5,6 +5,7 @@ import mx.edu.utez.encuestas.model.Opcion;
 import java.util.List;
 
 public interface IOpcion {
-    public boolean insertarOpcion(String texto, int idPregunta);
-    public List<Opcion> obtenerOpcionesPorPregunta(int idPregunta);
+    boolean insertarOpcion(String texto, int idPregunta);
+    List<Opcion> obtenerOpcionesPorPregunta(int idPregunta);
+    boolean eliminarOpcionesPorPregunta(int idPregunta);
 }

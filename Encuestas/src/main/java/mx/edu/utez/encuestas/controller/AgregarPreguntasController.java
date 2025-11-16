@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
+import mx.edu.utez.encuestas.model.Opcion;
+import mx.edu.utez.encuestas.model.Pregunta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,21 @@ public class AgregarPreguntasController {
     private final PreguntaDaoImpl dao = new PreguntaDaoImpl();
     private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
     private int idEncuesta;
+    private Pregunta preguntaExistente;
 
     public void setIdEncuesta(int idEncuesta) {
         this.idEncuesta = idEncuesta;
+    }
+
+    public void setPreguntaParaEditar(Pregunta pregunta) {
+        this.preguntaExistente = pregunta;
+        preguntaField.setText(pregunta.getTexto());
+
+        List<Opcion> opciones = daoOp.obtenerOpcionesPorPregunta(pregunta.getId());
+        for (Opcion opcion : opciones) {
+            TextField campo = new TextField(opcion.getTexto());
+            opcionesBox.getChildren().add(campo);
+        }
     }
 
     @FXML
@@ -59,15 +73,34 @@ public class AgregarPreguntasController {
             return;
         }
 
-        int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
-        if (idPregunta > 0) {
-            for (String opcion : opciones) {
-                daoOp.insertarOpcion(opcion, idPregunta);
+        if (preguntaExistente != null) {
+            // Mdetecta si se abrira la ventana para editar
+            preguntaExistente.setTexto(textoPregunta);
+            boolean actualizada = dao.actualizarPregunta(preguntaExistente.getTexto(), preguntaExistente.getEncuestaId(), preguntaExistente.getId());
+
+            if (actualizada) {
+                daoOp.eliminarOpcionesPorPregunta(preguntaExistente.getId());
+                for (String opcion : opciones) {
+                    daoOp.insertarOpcion(opcion, preguntaExistente.getId());
+                }
+                mostrarAlerta("Pregunta actualizada.");
+                //cerrarVentana();
+            } else {
+                mostrarAlerta("Error al actualizar la pregunta.");
             }
-            mostrarAlerta("Pregunta guardada.");
-            limpiarCampos();
+
         } else {
-            mostrarAlerta("Error al guardar la pregunta.");
+            // detecta si la ventana se abrira para crar una pregunta
+            int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
+            if (idPregunta > 0) {
+                for (String opcion : opciones) {
+                    daoOp.insertarOpcion(opcion, idPregunta);
+                }
+                mostrarAlerta("Pregunta guardada.");
+                limpiarCampos();
+            } else {
+                mostrarAlerta("Error al guardar la pregunta.");
+            }
         }
     }
 
