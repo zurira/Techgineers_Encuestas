@@ -37,7 +37,7 @@ public class PrincipalDocenteController {
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
-        cargarEncuestasComoTarjetas(); // Cargar encuestas como cards
+        cargarEncuestasComoTarjetas(); // Carga encuestas como cards
     }
 
     @FXML
@@ -53,7 +53,7 @@ public class PrincipalDocenteController {
             nuevaEncuesta.setId(usuarioActivo.getId());
 
             // carga la vista de encuesta
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("views/vistaEncuesta.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
             Parent root = loader.load();
 
             VistaEncuestaController controller = loader.getController();

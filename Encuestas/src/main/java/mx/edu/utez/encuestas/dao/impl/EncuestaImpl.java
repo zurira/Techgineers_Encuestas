@@ -4,8 +4,6 @@ import javafx.scene.image.Image;
 import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
-import mx.edu.utez.encuestas.model.Opcion;
-import mx.edu.utez.encuestas.model.Pregunta;
 
 import java.io.ByteArrayInputStream;
 import java.sql.*;
@@ -61,9 +59,50 @@ public class EncuestaImpl implements IEncuesta {
         return -1;
     }
 
+    public boolean guardarEncuesta(Encuesta encuesta) {
+        String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, encuesta.getTitulo());
+            stmt.setString(2, encuesta.getCategoria());
+            stmt.setBytes(3, null); // o encuesta.getImagenBytes() si ya lo manejas
+            stmt.setString(4, encuesta.getEstado());
+            stmt.setInt(5, (int) encuesta.getCreadorId());
+            stmt.setString(6, encuesta.getDescripcionCorta());
+
+            return stmt.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            System.err.println("Error al guardar encuesta: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualizarEncuesta(Encuesta encuesta) {
+        String sql = "UPDATE encuestas SET titulo = ?, categoria = ?, imagen = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, encuesta.getTitulo());
+            stmt.setString(2, encuesta.getCategoria());
+            stmt.setBytes(3, null);
+            stmt.setString(4, encuesta.getEstado());
+            stmt.setInt(5, (int) encuesta.getCreadorId());
+            stmt.setString(6, encuesta.getDescripcionCorta());
+            stmt.setInt(7, (int) encuesta.getId());
+
+            return stmt.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar encuesta: " + e.getMessage());
+            return false;
+        }
+    }
+
     @Override
-    public boolean crearEncuesta(String titulo, String categoria, byte[] imagen, String estado, int idDocente) {
-        String sql = "INSERT INTO Encuestas (titulo, categoria, imagen, estado, creador_id) VALUES (?, ?, ?, ?, ?)";
+    public boolean crearEncuesta(String titulo, String categoria, byte[] imagen, String estado, String descripcion, int idDocente) {
+        String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -72,10 +111,10 @@ public class EncuestaImpl implements IEncuesta {
             stmt.setString(2, categoria);
             stmt.setBytes(3, imagen);
             stmt.setString(4, estado);
-            stmt.setInt(5, idDocente); // ← aquí se guarda el docente
+            stmt.setInt(5, idDocente);
+            stmt.setString(6, descripcion);
 
-            int filas = stmt.executeUpdate();
-            return filas > 0;
+            return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.err.println("Error al crear encuesta: " + e.getMessage());

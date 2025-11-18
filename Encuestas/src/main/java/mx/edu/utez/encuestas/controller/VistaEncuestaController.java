@@ -88,6 +88,41 @@ public class VistaEncuestaController {
         }
     }
 
+    @FXML
+    public void guardarEncuesta() {
+        String titulo = txtTitulo.getText().trim();
+        String descripcion = txtDescripcion.getText().trim();
+
+        if (titulo.isEmpty()) {
+            mostrarAlerta("El título no puede estar vacío.");
+            return;
+        }
+
+        if (descripcion.isEmpty()) {
+            mostrarAlerta("La descripción no puede estar vacía.");
+            return;
+        }
+
+        encuesta.setTitulo(titulo);
+        encuesta.setDescripcionCorta(descripcion);
+        encuesta.setEstado("borrador"); //
+
+        EncuestaImpl encuestaDao = new EncuestaImpl();
+
+        boolean resultado;
+        if (encuesta.getId() > 0) {
+            resultado = encuestaDao.actualizarEncuesta(encuesta);
+        } else {
+            resultado = encuestaDao.guardarEncuesta(encuesta);
+        }
+
+        if (resultado) {
+            mostrarAlerta("Encuesta guardada correctamente.");
+        } else {
+            mostrarAlerta("Error al guardar la encuesta.");
+        }
+    }
+
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
