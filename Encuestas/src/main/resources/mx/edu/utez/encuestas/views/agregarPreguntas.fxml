@@ -16,15 +16,9 @@
     <TextArea fx:id="preguntaField" promptText="Escribe la pregunta aquí..." wrapText="true" prefRowCount="3" />
 
     <VBox fx:id="opcionesBox" spacing="10">
-        <!-- Aquí se agregan dinámicamente los TextField de opciones -->
+        <!-- se agregan dinámicamente los TextField de opciones -->
     </VBox>
 
-    <HBox spacing="10">
-        <Button text="+ Agregar opción" onAction="#onAgregarOpcion" />
-        <Button text="Guardar pregunta" onAction="#onGuardarPregunta" />
-    </HBox>
-
     <Separator />
-
-    <Button text="Finalizar encuesta" onAction="#onFinalizar" styleClass="boton-finalizar" />
+    <Button text="Guardar pregunta" onAction="#onGuardarPregunta" />
 </VBox>

@@ -1,5 +1,6 @@
 package mx.edu.utez.encuestas.controller;
 
+import javafx.scene.layout.HBox;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,6 +11,7 @@ import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +49,26 @@ public class AgregarPreguntasController {
 
     @FXML
     private void onAgregarOpcion() {
+        HBox fila = new HBox(10);
+
         TextField opcion = new TextField();
         opcion.setPromptText("Opción de respuesta");
-        opcion.setPrefWidth(400);
-        opcionesBox.getChildren().add(opcion);
+        opcion.setPrefWidth(300);
+
+        Button btnAgregar = new Button();
+        btnAgregar.setGraphic(new FontIcon("fa-plus"));
+        btnAgregar.setOnAction(e -> onAgregarOpcion());
+
+        Button btnEliminar = new Button();
+        btnEliminar.setGraphic(new FontIcon("fa-trash"));
+        btnEliminar.setOnAction(e -> opcionesBox.getChildren().remove(fila));
+
+        // añade todo a la fila
+        fila.getChildren().addAll(opcion, btnAgregar, btnEliminar);
+
+        opcionesBox.getChildren().add(fila);
     }
+
 
     @FXML
     private void onGuardarPregunta() {
@@ -90,7 +107,7 @@ public class AgregarPreguntasController {
             }
 
         } else {
-            // detecta si la ventana se abrira para crar una pregunta
+            // detecta si la ventana se abrira para crear una pregunta
             int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
             if (idPregunta > 0) {
                 for (String opcion : opciones) {
@@ -104,11 +121,6 @@ public class AgregarPreguntasController {
         }
     }
 
-    @FXML
-    private void onFinalizar() {
-        Stage stage = (Stage) preguntaField.getScene().getWindow();
-        stage.close();
-    }
 
     private void limpiarCampos() {
         preguntaField.clear();
