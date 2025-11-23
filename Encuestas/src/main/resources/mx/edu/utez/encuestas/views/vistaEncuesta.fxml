@@ -14,7 +14,11 @@
     <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
           AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="Publicar" onAction="#publicarEncuesta"/>
+        </HBox>
         <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title" />
+        <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="form-category" />
 
         <!-- Sección portada + descripción -->
         <GridPane hgap="20" vgap="10">

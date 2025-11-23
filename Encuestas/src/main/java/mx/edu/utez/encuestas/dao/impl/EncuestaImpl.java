@@ -143,7 +143,7 @@ public class EncuestaImpl implements IEncuesta {
             } else {
                 imagen = new Image("/images/default-survey.png"); // Placeholder
             }
-            encuesta.setImagen(imagen);
+            encuesta.setImagen(imagenBlob);
 
             // Creando texto de detalle simulado
             encuesta.setDescripcionCorta("Participa y opina sobre el tema de " + encuesta.getCategoria() + ".");

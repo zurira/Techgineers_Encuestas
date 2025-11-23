@@ -20,10 +20,8 @@ import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
 import oracle.jdbc.proxy.annotation.Pre;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 public class VistaEncuestaController {
@@ -32,19 +30,31 @@ public class VistaEncuestaController {
     @FXML private VBox contenedorPreguntas;
     @FXML private Button btnSeleccionarImagen;
     @FXML private ImageView imgPortada;
+    @FXML private TextField txtCategoria;
 
-    private File imagenSeleccionada;
+    private byte[] imagenSeleccionada;
 
     private final PreguntaDaoImpl dao = new PreguntaDaoImpl();
     private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
     private Encuesta encuesta;
 
+
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
         txtTitulo.setText(encuesta.getTitulo());
+        txtCategoria.setText(encuesta.getCategoria());
         txtDescripcion.setText(encuesta.getDescripcionCorta());
+        // Convertir byte[] a Image
+        if (encuesta.getImagen() != null) {
+            Image image = new Image(new ByteArrayInputStream(encuesta.getImagen()));
+            imgPortada.setImage(image);
+        } else {
+            imgPortada.setImage(null);
+        }
+
         cargarPreguntas();
     }
+
 
     @FXML
     public void agregarPregunta() {
@@ -101,36 +111,64 @@ public class VistaEncuestaController {
     @FXML
     public void guardarEncuesta() {
         String titulo = txtTitulo.getText().trim();
+        String categoria = txtCategoria.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
-        if (titulo.isEmpty()) {
-            mostrarAlerta("El título no puede estar vacío.");
-            return;
-        }
-
-        if (descripcion.isEmpty()) {
-            mostrarAlerta("La descripción no puede estar vacía.");
+        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()){
+            mostrarAlerta("Todos los campos deben estar completos.");
             return;
         }
 
         encuesta.setTitulo(titulo);
+        encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
-        encuesta.setEstado("borrador"); //
+        encuesta.setEstado("borrador");
+
+
+        if (imagenSeleccionada == null) {
+            mostrarAlerta("Debes seleccionar una imagen");
+        } else {
+            encuesta.setImagen(imagenSeleccionada);
+        }
 
         EncuestaImpl encuestaDao = new EncuestaImpl();
+        boolean resultado = (encuesta.getId() > 0)
+                ? encuestaDao.actualizarEncuesta(encuesta)
+                : encuestaDao.guardarEncuesta(encuesta);
 
-        boolean resultado;
-        if (encuesta.getId() > 0) {
-            resultado = encuestaDao.actualizarEncuesta(encuesta);
-        } else {
-            resultado = encuestaDao.guardarEncuesta(encuesta);
+        mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
+    }
+
+
+    @FXML
+    public void publicarEncuesta() {
+        String titulo = txtTitulo.getText().trim();
+        String categoria = txtCategoria.getText().trim();
+        String descripcion = txtDescripcion.getText().trim();
+
+        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()){
+            mostrarAlerta("Todos los campos deben estar completos.");
+            return;
         }
 
-        if (resultado) {
-            mostrarAlerta("Encuesta guardada correctamente.");
+        encuesta.setTitulo(titulo);
+        encuesta.setCategoria(categoria);
+        encuesta.setDescripcionCorta(descripcion);
+        encuesta.setEstado("activa");
+
+
+        if (imagenSeleccionada == null) {
+            mostrarAlerta("Debes seleccionar una imagen");
         } else {
-            mostrarAlerta("Error al guardar la encuesta.");
+            encuesta.setImagen(imagenSeleccionada);
         }
+
+        EncuestaImpl encuestaDao = new EncuestaImpl();
+        boolean resultado = (encuesta.getId() > 0)
+                ? encuestaDao.actualizarEncuesta(encuesta)
+                : encuestaDao.guardarEncuesta(encuesta);
+
+        mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
     }
 
     @FXML
@@ -145,17 +183,20 @@ public class VistaEncuestaController {
 
         if (selectedFile != null) {
             try {
-                this.imagenSeleccionada = selectedFile;
-                Image image = new Image(new FileInputStream(this.imagenSeleccionada));
-                this.imgPortada.setImage(image);
+                byte[] bytes = Files.readAllBytes(selectedFile.toPath());
+                encuesta.setImagen(bytes);
+
+                Image image = new Image(new ByteArrayInputStream(bytes));
+                imgPortada.setImage(image);
+
+
                 System.out.println("Imagen seleccionada: " + selectedFile.getName());
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo cargar la imagen", "El archivo de imagen no se encontró.");
             }
         }
     }
-
     private void mostrarAlerta(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

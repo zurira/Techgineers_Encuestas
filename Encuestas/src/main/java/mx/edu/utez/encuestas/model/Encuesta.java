@@ -6,13 +6,13 @@ public class Encuesta {
     private int id;
     private String titulo;
     private String categoria;
-    private Image imagen;
+    private byte[] imagen;
     private String estado;
     private int creadorId;
     private String descripcion;
 
     // Constructor completo
-    public Encuesta(int id, String titulo, String categoria, Image imagen, String estado, int creadorId, String descripcion) {
+    public Encuesta(int id, String titulo, String categoria, byte[] imagen, String estado, int creadorId, String descripcion) {
         this.id = id;
         this.titulo = titulo;
         this.categoria = categoria;
@@ -51,8 +51,13 @@ public class Encuesta {
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
 
-    public Image getImagen() { return imagen; }
-    public void setImagen(Image imagen) { this.imagen = imagen; }
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
 
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }

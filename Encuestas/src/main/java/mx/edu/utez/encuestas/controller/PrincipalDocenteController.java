@@ -95,28 +95,32 @@ public class PrincipalDocenteController {
             Label estado = new Label("Estado: " + encuesta.getEstado());
             estado.getStyleClass().add("recent-form-time");
 
-            // cambio de estado
-            FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
-            switchIcon.setIconSize(24);
-            switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
-
-
-            Button btnSwitch = new Button();
-            btnSwitch.setGraphic(switchIcon);
-            btnSwitch.getStyleClass().add("action-button");
-            btnSwitch.setTooltip(new Tooltip("Activar/Desactivar encuesta"));
-            btnSwitch.setOnAction(e -> {
-                encuesta.setActiva(!encuesta.isActiva());
-                switchIcon.setIconLiteral(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
-                switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
-                String nuevoEstado = encuesta.isActiva() ? "activa" : "inactiva";
-                encuestaDao.actualizarEstado((int) encuesta.getId(), nuevoEstado);
-
-                cargarEncuestasComoTarjetas();
-            });
-
-            HBox acciones = new HBox(10, btnSwitch);
+            HBox acciones = new HBox(10);
             acciones.setAlignment(Pos.CENTER_RIGHT);
+
+
+            // Solo mostrar switch si la encuesta NO está en borrador
+            if (!"borrador".equalsIgnoreCase(encuesta.getEstado())) {
+                FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
+                switchIcon.setIconSize(24);
+                switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
+
+                Button btnSwitch = new Button();
+                btnSwitch.setGraphic(switchIcon);
+                btnSwitch.getStyleClass().add("action-button");
+                btnSwitch.setTooltip(new Tooltip("Activar/Desactivar encuesta"));
+                btnSwitch.setOnAction(e -> {
+                    encuesta.setActiva(!encuesta.isActiva());
+                    switchIcon.setIconLiteral(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
+                    switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
+                    String nuevoEstado = encuesta.isActiva() ? "activa" : "inactiva";
+                    encuestaDao.actualizarEstado((int) encuesta.getId(), nuevoEstado);
+
+                    cargarEncuestasComoTarjetas();
+                });
+
+                acciones.getChildren().add(btnSwitch);
+            }
 
             tarjeta.getChildren().addAll(titulo, subtitulo, estado, acciones);
             contenedorEncuestas.getChildren().add(tarjeta);

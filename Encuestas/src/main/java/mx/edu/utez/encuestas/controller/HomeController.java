@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -15,6 +16,7 @@ import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -106,13 +108,14 @@ public class HomeController implements Initializable {
         imageWrapper.setPrefSize(200, 150);
         imageWrapper.setAlignment(Pos.CENTER);
 
-        ImageView imageView = new ImageView(encuesta.getImagen());
-        imageView.setFitWidth(180);
-        imageView.setFitHeight(130);
-        imageView.setPreserveRatio(true);
-        imageView.getStyleClass().add("survey-image");
-
-        imageWrapper.getChildren().add(imageView);
+        if (encuesta.getImagen() != null) {
+            Image image = new Image(new ByteArrayInputStream(encuesta.getImagen()));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(250);
+            imageView.setFitHeight(250);
+            imageView.setPreserveRatio(true);
+            imageWrapper.getChildren().add(imageView);
+        }
 
         // Título
         Label titleLabel = new Label(encuesta.getTitulo());
