@@ -6,7 +6,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
@@ -17,6 +20,9 @@ import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
 import oracle.jdbc.proxy.annotation.Pre;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,6 +30,10 @@ public class VistaEncuestaController {
     @FXML private TextField txtTitulo;
     @FXML private TextArea txtDescripcion;
     @FXML private VBox contenedorPreguntas;
+    @FXML private Button btnSeleccionarImagen;
+    @FXML private ImageView imgPortada;
+
+    private File imagenSeleccionada;
 
     private final PreguntaDaoImpl dao = new PreguntaDaoImpl();
     private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
@@ -121,6 +131,37 @@ public class VistaEncuestaController {
         } else {
             mostrarAlerta("Error al guardar la encuesta.");
         }
+    }
+
+    @FXML
+    private void seleccionarFoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Archivos de Imagen", "*.png", "*.jpg", "*.jpeg")
+        );
+        Stage stage = (Stage) btnSeleccionarImagen.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            try {
+                this.imagenSeleccionada = selectedFile;
+                Image image = new Image(new FileInputStream(this.imagenSeleccionada));
+                this.imgPortada.setImage(image);
+                System.out.println("Imagen seleccionada: " + selectedFile.getName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo cargar la imagen", "El archivo de imagen no se encontró.");
+            }
+        }
+    }
+
+    private void mostrarAlerta(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private void mostrarAlerta(String mensaje) {

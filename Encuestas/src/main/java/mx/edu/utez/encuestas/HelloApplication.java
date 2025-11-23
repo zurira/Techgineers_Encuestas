@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 
 import java.io.IOException;
@@ -13,7 +12,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/mx/edu/utez/encuestas/views/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
         Scene scene = new Scene(root);
         stage.setTitle("Encuestas");
         stage.setScene(scene);
