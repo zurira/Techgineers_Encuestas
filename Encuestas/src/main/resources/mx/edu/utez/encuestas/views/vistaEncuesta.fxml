@@ -11,17 +11,10 @@
             prefWidth="800" prefHeight="600"
             stylesheets="@../css/vistaEncuesta.css">
 
-    <!-- Contenedor principal -->
-    <VBox spacing="20"
-          AnchorPane.topAnchor="20"
-          AnchorPane.leftAnchor="20"
-          AnchorPane.rightAnchor="20"
-          AnchorPane.bottomAnchor="20">
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
-        <!-- Título -->
-        <TextField fx:id="txtTitulo"
-                   promptText="Formulario sin título"
-                   styleClass="form-title" />
+        <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title" />
 
         <!-- Sección portada + descripción -->
         <GridPane hgap="20" vgap="10">
@@ -30,7 +23,7 @@
                 <ColumnConstraints percentWidth="60"/>
             </columnConstraints>
 
-            <!-- Columna izquierda: imagen + botón -->
+            <!-- Subir imagen -->
             <VBox spacing="10" GridPane.columnIndex="0">
                 <ImageView fx:id="imgPortada"
                            fitWidth="250" fitHeight="250"
@@ -38,32 +31,20 @@
                 <padding>
                     <Insets top="20" right="20" bottom="20" left="20"/>
                 </padding>
-                <Button fx:id="btnSeleccionarImagen"
-                        text="Subir portada"
-                        onAction="#seleccionarFoto"
-                        prefWidth="150"
-                        alignment="CENTER"/>
+                <Button fx:id="btnSeleccionarImagen" text="Subir portada" onAction="#seleccionarFoto"
+                        prefWidth="150" alignment="CENTER"/>
             </VBox>
 
-            <!-- Columna derecha: descripción -->
-            <TextArea fx:id="txtDescripcion"
-                      GridPane.columnIndex="1"
-                      promptText="Descripción del formulario"
-                      styleClass="form-description"
-                      wrapText="true"/>
+            <TextArea fx:id="txtDescripcion" GridPane.columnIndex="1" promptText="Descripción del formulario"
+                      styleClass="form-description" wrapText="true"/>
         </GridPane>
 
-        <!-- Contenedor dinámico de preguntas -->
+        <!-- Contenedor de preguntas -->
         <VBox fx:id="contenedorPreguntas" spacing="15" />
 
-        <!-- Botones de acción -->
         <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button text="+ Añadir pregunta"
-                    onAction="#agregarPregunta"
-                    styleClass="add-button"/>
-            <Button text="Guardar encuesta"
-                    onAction="#guardarEncuesta"
-                    styleClass="save-button"/>
+            <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button"/>
+            <Button text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button"/>
         </HBox>
     </VBox>
 </AnchorPane>
