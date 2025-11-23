@@ -39,12 +39,19 @@
                       styleClass="form-description" wrapText="true"/>
         </GridPane>
 
-        <!-- Contenedor de preguntas -->
-        <VBox fx:id="contenedorPreguntas" spacing="15" />
+        <ScrollPane xmlns="http://javafx.com/javafx/21"
+                    xmlns:fx="http://javafx.com/fxml/1"
+                    fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+            <!-- Contenedor de preguntas -->
+            <VBox fx:id="contenedorPreguntas" spacing="15" />
 
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button"/>
-            <Button text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button"/>
-        </HBox>
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button"/>
+                <Button text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button"/>
+            </HBox>
+        </ScrollPane>
+
     </VBox>
 </AnchorPane>
