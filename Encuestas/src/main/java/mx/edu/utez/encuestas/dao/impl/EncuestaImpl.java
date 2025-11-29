@@ -139,16 +139,14 @@ public class EncuestaImpl implements IEncuesta {
 
     @Override
     public boolean actualizarEncuesta(Encuesta encuesta) {
-        // 📌 1. Revisamos si la imagen del objeto es null o es un array vacío (el controlador lo podría enviar así)
+        // se revisa si la imgen es null
         boolean actualizarImagen = (encuesta.getImagen() != null && encuesta.getImagen().length > 0);
 
-        // 📌 2. Se define el SQL según si hay que actualizar la imagen o no
+        // se hace un query diferente para ver si se cambio la imagen
         String sql;
         if (actualizarImagen) {
-            // Incluye 'imagen = ?'
             sql = "UPDATE encuestas SET titulo = ?, categoria = ?, imagen = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
         } else {
-            // Excluye 'imagen = ?'
             sql = "UPDATE encuestas SET titulo = ?, categoria = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
         }
 
@@ -158,7 +156,7 @@ public class EncuestaImpl implements IEncuesta {
             stmt.setString(1, encuesta.getTitulo());
             stmt.setString(2, encuesta.getCategoria());
 
-            // El índice de los parámetros cambia si actualizamos la imagen
+            // el índice de los parámetros cambia si actualizamos la imagen
             int idx = 3;
             if (actualizarImagen) {
                 stmt.setBytes(idx++, encuesta.getImagen());
@@ -167,7 +165,7 @@ public class EncuestaImpl implements IEncuesta {
             stmt.setString(idx++, encuesta.getEstado().name());
             stmt.setInt(idx++, encuesta.getCreadorId());
             stmt.setString(idx++, encuesta.getDescripcionCorta());
-            stmt.setInt(idx, encuesta.getId()); // ID siempre es el último
+            stmt.setInt(idx, encuesta.getId());
 
             return stmt.executeUpdate() == 1;
 

@@ -183,39 +183,56 @@ public class VistaEncuestaController {
         mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
     }
 
+
     @FXML
     public void publicarEncuesta() {
         String titulo = txtTitulo.getText().trim();
         String categoria = txtCategoria.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
+        // validación de campos
         if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()) {
-            mostrarAlerta("Todos los campos deben estar completos.");
+            mostrarAlerta("Debes llenas todos los campos");
             return;
         }
 
+        // se valida si la encuesta ya esta guardada para poder publicarla
+        if (encuesta.getId() <= 0) {
+            mostrarAlerta("Error al publicar la encuesta");
+            return;
+        }
+
+        // se valida que por lo menos haya 10preguntas
+        int numPreguntas = dao.contarPreguntasPorEncuesta(encuesta.getId());
+
+        if (numPreguntas < 10) {
+            mostrarAlerta("La encuesta debe tener al menos 10 preguntas para ser publicada");
+            return; // se termina el proceso
+        }
+
+        // se actualiza la encuesta y el estado cambia a activo
         encuesta.setTitulo(titulo);
         encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
-        encuesta.setEstado(Encuesta.EstadoEncuesta.activa);
-
-        //encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]); // evita nulos
+        encuesta.setEstado(Encuesta.EstadoEncuesta.activa); // Intención: publicarla
+        //no se setea la imagen, ya que puede que haya cambiado o no
 
         EncuestaImpl encuestaDao = new EncuestaImpl();
         boolean resultado;
-        if (encuesta.getId() > 0) {
-            resultado = encuestaDao.actualizarEncuesta(encuesta);
-        } else {
-            int idGenerado = encuestaDao.guardarEncuesta(encuesta);
-            if (idGenerado > 0) {
-                encuesta.setId(idGenerado); // asigna el id de la encuesta, esto se ocupa para cragra las preguntas
-                resultado = true;
-            } else {
-                resultado = false;
-            }
-        }
 
-        mostrarAlerta(resultado ? "Encuesta publicada correctamente." : "Error al publicar la encuesta.");
+        // actualiza en la base de datos y detecta si se cambio la imagen
+        resultado = encuestaDao.actualizarEncuesta(encuesta);
+
+        if (resultado) {
+            // si se hizo la actualización correcta
+            mostrarAlerta("Encuesta publicada correctamente.");
+            // se cierra modal
+            Stage stage = (Stage) txtTitulo.getScene().getWindow();
+            stage.close();
+        } else {
+            // si no se actualiza
+            mostrarAlerta("Error al publicar la encuesta");
+        }
     }
 
     private void eliminarPregunta(Pregunta pregunta) {
@@ -236,7 +253,7 @@ public class VistaEncuestaController {
                     mostrarAlerta("Pregunta eliminada correctamente.");
                     cargarPreguntas();
                 } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo eliminar la pregunta", "Ocurrió un error al intentar eliminar la pregunta.");
+                    mostrarAlerta("Error al eliminar la pregunta");
                 }
             }
         });
@@ -264,18 +281,12 @@ public class VistaEncuestaController {
                 System.out.println("Imagen seleccionada: " + selectedFile.getName());
             } catch (IOException e) {
                 e.printStackTrace();
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo cargar la imagen", "El archivo de imagen no se encontró.");
+                mostrarAlerta("Error al cargar la imagen");
             }
         }
     }
 
-    private void mostrarAlerta(Alert.AlertType type, String title, String header, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+
 
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
