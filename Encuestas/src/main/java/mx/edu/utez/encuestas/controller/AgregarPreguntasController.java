@@ -56,6 +56,7 @@ public class AgregarPreguntasController {
         TextField opcion = new TextField();
         opcion.setPromptText("Opción de respuesta");
         opcion.setPrefWidth(300);
+        camposOpciones.add(opcion);
 
         Button btnAgregar = new Button();
         btnAgregar.setGraphic(new FontIcon("fa-plus"));
@@ -63,7 +64,11 @@ public class AgregarPreguntasController {
 
         Button btnEliminar = new Button();
         btnEliminar.setGraphic(new FontIcon("fa-trash"));
-        btnEliminar.setOnAction(e -> opcionesBox.getChildren().remove(fila));
+        btnEliminar.setOnAction(e -> {
+            opcionesBox.getChildren().remove(fila);
+            camposOpciones.remove(opcion);
+        });
+
 
         // añade todo a la fila
         fila.getChildren().addAll(opcion, btnAgregar, btnEliminar);

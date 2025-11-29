@@ -1,7 +1,5 @@
 package mx.edu.utez.encuestas.model;
 
-import javafx.scene.image.Image;
-
 public class Encuesta {
     private int id;
     private String titulo;
@@ -45,7 +43,7 @@ public class Encuesta {
     }
 
 
-    public long getId() { return id; }
+    public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
     public String getTitulo() { return titulo; }

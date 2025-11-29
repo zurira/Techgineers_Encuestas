@@ -50,7 +50,8 @@ public class PrincipalDocenteController {
             nuevaEncuesta.setTitulo("Formulario sin título");
             nuevaEncuesta.setDescripcionCorta("Descripción del formulario");
             nuevaEncuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
-            nuevaEncuesta.setId(usuarioActivo.getId());
+            nuevaEncuesta.setCreadorId(usuarioActivo.getId());
+            nuevaEncuesta.setId(0);
 
             // carga la vista de encuesta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
@@ -133,11 +134,20 @@ public class PrincipalDocenteController {
 
     private void abrirEditorEncuesta(Encuesta encuesta) {
         try {
+            // se verifica si la encuesta existe, si si se carga la info
+            Encuesta encuestaCompleta = encuesta;
+            if (encuesta.getId() > 0) {
+                Encuesta dbEncuesta = encuestaDao.obtenerEncuestaCompletaPorId(encuesta.getId());
+                if (dbEncuesta != null) {
+                    encuestaCompleta = dbEncuesta;
+                }
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
             Parent root = loader.load();
 
             VistaEncuestaController controller = loader.getController();
-            controller.setEncuesta(encuesta);
+            controller.setEncuesta(encuestaCompleta);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

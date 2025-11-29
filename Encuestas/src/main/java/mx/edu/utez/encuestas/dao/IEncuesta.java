@@ -8,6 +8,7 @@ import java.util.List;
 public interface IEncuesta {
     List<Encuesta> obtenerEncuestasPorDocente(int idDocente);
     int obtenerUltimoIdEncuestaDelDocente(int idDocente);
+    public Encuesta obtenerEncuestaCompletaPorId(int idEncuesta);
     boolean crearEncuesta(String titulo, String categoria, byte[] imagen, String estado, String descripcion, int idDocente);
     List<Encuesta> findAllActive() throws SQLException;
     List<Encuesta> findActiveByCategory(String categoria) throws SQLException;

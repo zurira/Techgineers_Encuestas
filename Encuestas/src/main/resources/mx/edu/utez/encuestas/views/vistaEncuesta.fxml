@@ -35,7 +35,7 @@
                 <padding>
                     <Insets top="20" right="20" bottom="20" left="20"/>
                 </padding>
-                <Button fx:id="btnSeleccionarImagen" text="Subir portada" onAction="#seleccionarFoto"
+                <Button fx:id="btnSeleccionarImagen" text="Subir portada" onAction="#seleccionarPortada"
                         prefWidth="150" alignment="CENTER"/>
             </VBox>
 

@@ -24,22 +24,16 @@ public class EncuestaImpl implements IEncuesta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String estadoBD = rs.getString("estado").trim().toUpperCase();
                 Encuesta.EstadoEncuesta estado;
 
+                String estadoBD = rs.getString("estado").trim().toLowerCase();
                 switch (estadoBD) {
-                    case "ACTIVA":
-                        estado = Encuesta.EstadoEncuesta.activa;
-                        break;
-                    case "INACTIVA":
-                        estado = Encuesta.EstadoEncuesta.inactiva;
-                        break;
-                    case "BORRADOR":
-                        estado = Encuesta.EstadoEncuesta.borrador;
-                        break;
-                    default:
-                        estado = Encuesta.EstadoEncuesta.borrador;
+                    case "activa": estado = Encuesta.EstadoEncuesta.activa; break;
+                    case "inactiva": estado = Encuesta.EstadoEncuesta.inactiva; break;
+                    case "borrador": estado = Encuesta.EstadoEncuesta.borrador; break;
+                    default: estado = Encuesta.EstadoEncuesta.borrador;
                 }
+
 
                 lista.add(new Encuesta(
                         rs.getInt("id"),
@@ -57,6 +51,42 @@ public class EncuestaImpl implements IEncuesta {
         return lista;
     }
 
+    @Override
+    public Encuesta obtenerEncuestaCompletaPorId(int idEncuesta) {
+        String sql = "SELECT id, titulo, categoria, imagen, estado, creador_id, descripcion " +
+                "FROM Encuestas WHERE id = ?";
+        Encuesta encuesta = null;
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idEncuesta);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Encuesta.EstadoEncuesta estado;
+                    String estadoBD = rs.getString("estado").trim().toLowerCase();
+                    switch (estadoBD) {
+                        case "activa": estado = Encuesta.EstadoEncuesta.activa; break;
+                        case "inactiva": estado = Encuesta.EstadoEncuesta.inactiva; break;
+                        case "borrador": estado = Encuesta.EstadoEncuesta.borrador; break;
+                        default: estado = Encuesta.EstadoEncuesta.borrador;
+                    }
+
+                    encuesta = new Encuesta(
+                            rs.getInt("id"),
+                            rs.getString("titulo"),
+                            rs.getString("categoria"),
+                            rs.getBytes("imagen"),
+                            estado,
+                            rs.getInt("creador_id"),
+                            rs.getString("descripcion")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener encuesta completa: " + e.getMessage());
+        }
+        return encuesta;
+    }
 
     @Override
     public int obtenerUltimoIdEncuestaDelDocente(int idDocente) {
@@ -77,10 +107,10 @@ public class EncuestaImpl implements IEncuesta {
         return -1;
     }
 
-    public boolean guardarEncuesta(Encuesta encuesta) {
+    public int guardarEncuesta(Encuesta encuesta) {
         String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, encuesta.getTitulo());
             stmt.setString(2, encuesta.getCategoria());
@@ -89,12 +119,17 @@ public class EncuestaImpl implements IEncuesta {
             stmt.setInt(5, encuesta.getCreadorId());
             stmt.setString(6, encuesta.getDescripcionCorta());
 
-            return stmt.executeUpdate() == 1;
-
+            int rows = stmt.executeUpdate();
+            if (rows == 1) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
         } catch (SQLException e) {
             System.err.println("Error al guardar encuesta: " + e.getMessage());
-            return false;
         }
+        return -1;
     }
 
     public boolean actualizarEncuesta(Encuesta encuesta) {
@@ -106,9 +141,9 @@ public class EncuestaImpl implements IEncuesta {
             stmt.setString(2, encuesta.getCategoria());
             stmt.setBytes(3, encuesta.getImagen());
             stmt.setString(4, encuesta.getEstado().name());
-            stmt.setInt(5, (int) encuesta.getCreadorId());
+            stmt.setInt(5, encuesta.getCreadorId());
             stmt.setString(6, encuesta.getDescripcionCorta());
-            stmt.setInt(7, (int) encuesta.getId());
+            stmt.setInt(7, encuesta.getId());
 
             return stmt.executeUpdate() == 1;
 

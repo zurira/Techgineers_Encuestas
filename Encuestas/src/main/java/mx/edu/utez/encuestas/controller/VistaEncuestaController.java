@@ -18,9 +18,10 @@ import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
-import oracle.jdbc.proxy.annotation.Pre;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -38,26 +39,37 @@ public class VistaEncuestaController {
     private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
     private Encuesta encuesta;
 
-
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
-        txtTitulo.setText(encuesta.getTitulo());
-        txtCategoria.setText(encuesta.getCategoria());
-        txtDescripcion.setText(encuesta.getDescripcionCorta());
+        inicializarDatos();
+    }
 
-        if (encuesta.getImagen() != null) {
-            Image image = new Image(new ByteArrayInputStream(encuesta.getImagen()));
+    private void inicializarDatos() {
+        if (encuesta != null) {
+            txtTitulo.setText(encuesta.getTitulo());
+            txtCategoria.setText(encuesta.getCategoria());
+            txtDescripcion.setText(encuesta.getDescripcionCorta() != null ? encuesta.getDescripcionCorta() : "");
+
+            cargarImagenPortada(encuesta.getImagen());
+            cargarPreguntas();
+        }
+    }
+
+    private void cargarImagenPortada(byte[] imagenBytes) {
+        if (imagenBytes != null && imagenBytes.length > 0) {
+            Image image = new Image(new ByteArrayInputStream(imagenBytes));
             imgPortada.setImage(image);
         } else {
             imgPortada.setImage(null);
         }
-
-        cargarPreguntas();
     }
-
 
     @FXML
     public void agregarPregunta() {
+        abrirEditorPregunta(null);
+    }
+
+    private void abrirEditorPregunta(Pregunta pregunta) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/agregarPreguntas.fxml"));
             Parent root = loader.load();
@@ -65,9 +77,13 @@ public class VistaEncuestaController {
             AgregarPreguntasController controller = loader.getController();
             controller.setIdEncuesta((int)encuesta.getId());
 
+            if (pregunta != null) {
+                controller.setPreguntaParaEditar(pregunta);
+            }
+
             Stage modal = new Stage();
             modal.setScene(new Scene(root));
-            modal.setTitle("Agregar pregunta");
+            modal.setTitle(pregunta != null ? "Editar pregunta" : "Agregar pregunta");
             modal.initModality(Modality.APPLICATION_MODAL);
             modal.initOwner(txtTitulo.getScene().getWindow());
             modal.showAndWait();
@@ -82,7 +98,7 @@ public class VistaEncuestaController {
     private void cargarPreguntas() {
         contenedorPreguntas.getChildren().clear();
 
-        List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta((int)encuesta.getId());
+        List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta((int) encuesta.getId());
 
         for (Pregunta pregunta : preguntas) {
             VBox tarjeta = new VBox();
@@ -99,7 +115,7 @@ public class VistaEncuestaController {
             List<Opcion> opciones = daoOp.obtenerOpcionesPorPregunta(pregunta.getId());
             for (Opcion opcion : opciones) {
                 CheckBox check = new CheckBox(opcion.getTexto());
-                check.setDisable(true); // solo visual
+                check.setDisable(true);
                 opcionesBox.getChildren().add(check);
             }
 
@@ -114,7 +130,7 @@ public class VistaEncuestaController {
         String categoria = txtCategoria.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
-        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()){
+        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()) {
             mostrarAlerta("Todos los campos deben estar completos.");
             return;
         }
@@ -124,22 +140,24 @@ public class VistaEncuestaController {
         encuesta.setDescripcionCorta(descripcion);
         encuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
 
-
-        if (imagenSeleccionada == null) {
-           mostrarAlerta("Debes seleccionar una imagen");
-        } else {
-            encuesta.setImagen(imagenSeleccionada);
-        }
+        encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]);
 
         EncuestaImpl encuestaDao = new EncuestaImpl();
-        boolean resultado = (encuesta.getId() > 0)
-                ? encuestaDao.actualizarEncuesta(encuesta)
-                : encuestaDao.guardarEncuesta(encuesta);
+        boolean resultado;
+        if (encuesta.getId() > 0) {
+            resultado = encuestaDao.actualizarEncuesta(encuesta);
+        } else {
+            int idGenerado = encuestaDao.guardarEncuesta(encuesta);
+            if (idGenerado > 0) {
+                encuesta.setId(idGenerado); // asigna el id de la encuesta, esto se ocupa para cragra las preguntas
+                resultado = true;
+            } else {
+                resultado = false;
+            }
+        }
 
         mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
     }
-
-
 
     @FXML
     public void publicarEncuesta() {
@@ -147,7 +165,7 @@ public class VistaEncuestaController {
         String categoria = txtCategoria.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
-        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()){
+        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()) {
             mostrarAlerta("Todos los campos deben estar completos.");
             return;
         }
@@ -157,23 +175,27 @@ public class VistaEncuestaController {
         encuesta.setDescripcionCorta(descripcion);
         encuesta.setEstado(Encuesta.EstadoEncuesta.activa);
 
-
-        if (imagenSeleccionada == null) {
-            mostrarAlerta("Debes seleccionar una imagen");
-        } else {
-            encuesta.setImagen(imagenSeleccionada);
-        }
+        encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]); // evita nulos
 
         EncuestaImpl encuestaDao = new EncuestaImpl();
-        boolean resultado = (encuesta.getId() > 0)
-                ? encuestaDao.actualizarEncuesta(encuesta)
-                : encuestaDao.guardarEncuesta(encuesta);
+        boolean resultado;
+        if (encuesta.getId() > 0) {
+            resultado = encuestaDao.actualizarEncuesta(encuesta);
+        } else {
+            int idGenerado = encuestaDao.guardarEncuesta(encuesta);
+            if (idGenerado > 0) {
+                encuesta.setId(idGenerado); // asigna el id de la encuesta, esto se ocupa para cragra las preguntas
+                resultado = true;
+            } else {
+                resultado = false;
+            }
+        }
 
-        mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
+        mostrarAlerta(resultado ? "Encuesta publicada correctamente." : "Error al publicar la encuesta.");
     }
 
     @FXML
-    private void seleccionarFoto() {
+    private void seleccionarPortada() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Imagen");
         fileChooser.getExtensionFilters().add(
@@ -186,10 +208,10 @@ public class VistaEncuestaController {
             try {
                 byte[] bytes = Files.readAllBytes(selectedFile.toPath());
                 encuesta.setImagen(bytes);
+                imagenSeleccionada = bytes;
 
                 Image image = new Image(new ByteArrayInputStream(bytes));
                 imgPortada.setImage(image);
-
 
                 System.out.println("Imagen seleccionada: " + selectedFile.getName());
             } catch (IOException e) {
@@ -198,6 +220,7 @@ public class VistaEncuestaController {
             }
         }
     }
+
     private void mostrarAlerta(Alert.AlertType type, String title, String header, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -207,8 +230,8 @@ public class VistaEncuestaController {
     }
 
     private void mostrarAlerta(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Encuesta");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
