@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="mx.edu.utez.encuestas.controller.modalcerrarsController"
+           stylesheets="@../css/modalcerrars.css"
+           prefWidth="300" prefHeight="150">
+
+    <VBox spacing="20" alignment="CENTER" padding="20">
+        <Label text="¿Deseas cerrar sesión?" styleClass="label"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Cancelar" styleClass="button cancelar" onAction="#onCancel"/>
+            <Button text="Aceptar" styleClass="button aceptar" onAction="#onAccept"/>
+        </HBox>
+    </VBox>
+</StackPane>
