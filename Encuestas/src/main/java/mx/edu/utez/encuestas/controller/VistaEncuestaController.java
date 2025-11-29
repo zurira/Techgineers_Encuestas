@@ -54,6 +54,7 @@ public class VistaEncuestaController {
             txtDescripcion.setText(encuesta.getDescripcionCorta() != null ? encuesta.getDescripcionCorta() : "");
 
             cargarImagenPortada(encuesta.getImagen());
+            System.out.println("ID de la encuesta cargada: " + encuesta.getId());
             cargarPreguntas();
         }
     }
@@ -78,7 +79,7 @@ public class VistaEncuestaController {
             Parent root = loader.load();
 
             AgregarPreguntasController controller = loader.getController();
-            controller.setIdEncuesta((int)encuesta.getId());
+            controller.setIdEncuesta(encuesta.getId());
 
             if (pregunta != null) {
                 controller.setPreguntaParaEditar(pregunta);
@@ -98,10 +99,11 @@ public class VistaEncuestaController {
         }
     }
 
+
     private void cargarPreguntas() {
         contenedorPreguntas.getChildren().clear();
 
-        List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta((int) encuesta.getId());
+        List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta(encuesta.getId());
 
         for (Pregunta pregunta : preguntas) {
             VBox tarjeta = new VBox();
@@ -109,9 +111,9 @@ public class VistaEncuestaController {
             tarjeta.setSpacing(8);
             tarjeta.setPadding(new Insets(10));
 
-            //boton de eliminar
+            //boton de eliminar y editar
             HBox accionesBox = new HBox(10);
-            accionesBox.setAlignment(Pos.CENTER);
+            accionesBox.setAlignment(Pos.CENTER_RIGHT);
 
             Button btnEliminar = new Button();
             btnEliminar.setGraphic(new FontIcon("fa-trash"));
@@ -119,7 +121,11 @@ public class VistaEncuestaController {
                 eliminarPregunta(pregunta);
             });
 
-            accionesBox.getChildren().addAll(btnEliminar);
+            Button btnEditar = new Button();
+            btnEditar.setGraphic(new FontIcon("fa-pencil"));
+            btnEditar.setOnAction(e -> abrirEditorPregunta(pregunta));
+
+            accionesBox.getChildren().addAll(btnEditar, btnEliminar);
 
             Label lblPregunta = new Label(pregunta.getTexto());
             lblPregunta.getStyleClass().add("pregunta-titulo");
@@ -135,7 +141,9 @@ public class VistaEncuestaController {
             }
 
             tarjeta.setOnMouseClicked(e -> abrirEditorPregunta(pregunta));
-            tarjeta.getChildren().addAll(lblPregunta, opcionesBox);
+
+            tarjeta.getChildren().addAll(accionesBox, lblPregunta, opcionesBox);
+
             contenedorPreguntas.getChildren().add(tarjeta);
         }
     }
@@ -156,7 +164,7 @@ public class VistaEncuestaController {
         encuesta.setDescripcionCorta(descripcion);
         encuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
 
-        encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]);
+        //encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]);
 
         EncuestaImpl encuestaDao = new EncuestaImpl();
         boolean resultado;
@@ -191,7 +199,7 @@ public class VistaEncuestaController {
         encuesta.setDescripcionCorta(descripcion);
         encuesta.setEstado(Encuesta.EstadoEncuesta.activa);
 
-        encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]); // evita nulos
+        //encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]); // evita nulos
 
         EncuestaImpl encuestaDao = new EncuestaImpl();
         boolean resultado;

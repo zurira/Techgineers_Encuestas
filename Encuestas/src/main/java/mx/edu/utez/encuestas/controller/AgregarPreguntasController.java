@@ -36,13 +36,41 @@ public class AgregarPreguntasController {
         this.preguntaExistente = pregunta;
         preguntaField.setText(pregunta.getTexto());
 
+        // limpia la interfaz
+        opcionesBox.getChildren().clear();
+        camposOpciones.clear();
+
         List<Opcion> opciones = daoOp.obtenerOpcionesPorPregunta(pregunta.getId());
         for (Opcion opcion : opciones) {
+            HBox fila = new HBox(10);
+
             TextField campo = new TextField(opcion.getTexto());
-            opcionesBox.getChildren().add(campo);
+            campo.setPromptText("Opción de respuesta");
+            campo.setPrefWidth(300);
+
+            camposOpciones.add(campo);
+
+            Button btnAgregar = new Button();
+            btnAgregar.setGraphic(new FontIcon("fa-plus"));
+            btnAgregar.setOnAction(e -> onAgregarOpcion());
+
+            Button btnEliminar = new Button();
+            btnEliminar.setGraphic(new FontIcon("fa-trash"));
+            btnEliminar.setOnAction(e -> {
+                opcionesBox.getChildren().remove(fila);
+                camposOpciones.remove(campo);
+            });
+
+            // añade todo a la fila y al VBox
+            fila.getChildren().addAll(campo, btnAgregar, btnEliminar);
+            opcionesBox.getChildren().add(fila);
+        }
+
+        // se añaden 2 opciones por default
+        while (camposOpciones.size() < 2) {
+            onAgregarOpcion();
         }
     }
-
     @FXML
     public void initialize() {
         onAgregarOpcion();
@@ -102,7 +130,7 @@ public class AgregarPreguntasController {
             preguntaExistente.setTexto(textoPregunta);
             boolean actualizada = dao.actualizarPregunta(
                     preguntaExistente.getTexto(),
-                    preguntaExistente.getEncuestaId(),
+                    this.idEncuesta, // se usa el ID ya establecido
                     preguntaExistente.getId()
             );
 
@@ -112,6 +140,7 @@ public class AgregarPreguntasController {
                     daoOp.insertarOpcion(opcion, preguntaExistente.getId());
                 }
                 mostrarAlerta("Pregunta actualizada.");
+                cerrarVentana();
             } else {
                 mostrarAlerta("Error al actualizar la pregunta.");
             }
@@ -124,7 +153,7 @@ public class AgregarPreguntasController {
                     daoOp.insertarOpcion(opcion, idPregunta);
                 }
                 mostrarAlerta("Pregunta guardada.");
-                limpiarCampos();
+                cerrarVentana();
             } else {
                 mostrarAlerta("Error al guardar la pregunta.");
             }
@@ -145,6 +174,11 @@ public class AgregarPreguntasController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    private void cerrarVentana() {
+        Stage stage = (Stage) preguntaField.getScene().getWindow();
+        stage.close();
     }
 }
 

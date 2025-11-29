@@ -6,6 +6,7 @@ import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
 
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +125,8 @@ public class EncuestaImpl implements IEncuesta {
             if (rows == 1) {
                 ResultSet rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
-                    return rs.getInt(1);
+                    //evita error de conversión
+                    return (int) rs.getLong(1);
                 }
             }
         } catch (SQLException e) {
@@ -133,19 +135,39 @@ public class EncuestaImpl implements IEncuesta {
         return -1;
     }
 
+// EncuestaImpl.java
+
     @Override
     public boolean actualizarEncuesta(Encuesta encuesta) {
-        String sql = "UPDATE encuestas SET titulo = ?, categoria = ?, imagen = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
+        // 📌 1. Revisamos si la imagen del objeto es null o es un array vacío (el controlador lo podría enviar así)
+        boolean actualizarImagen = (encuesta.getImagen() != null && encuesta.getImagen().length > 0);
+
+        // 📌 2. Se define el SQL según si hay que actualizar la imagen o no
+        String sql;
+        if (actualizarImagen) {
+            // Incluye 'imagen = ?'
+            sql = "UPDATE encuestas SET titulo = ?, categoria = ?, imagen = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
+        } else {
+            // Excluye 'imagen = ?'
+            sql = "UPDATE encuestas SET titulo = ?, categoria = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
+        }
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, encuesta.getTitulo());
             stmt.setString(2, encuesta.getCategoria());
-            stmt.setBytes(3, encuesta.getImagen());
-            stmt.setString(4, encuesta.getEstado().name());
-            stmt.setInt(5, encuesta.getCreadorId());
-            stmt.setString(6, encuesta.getDescripcionCorta());
-            stmt.setInt(7, encuesta.getId());
+
+            // El índice de los parámetros cambia si actualizamos la imagen
+            int idx = 3;
+            if (actualizarImagen) {
+                stmt.setBytes(idx++, encuesta.getImagen());
+            }
+
+            stmt.setString(idx++, encuesta.getEstado().name());
+            stmt.setInt(idx++, encuesta.getCreadorId());
+            stmt.setString(idx++, encuesta.getDescripcionCorta());
+            stmt.setInt(idx, encuesta.getId()); // ID siempre es el último
 
             return stmt.executeUpdate() == 1;
 

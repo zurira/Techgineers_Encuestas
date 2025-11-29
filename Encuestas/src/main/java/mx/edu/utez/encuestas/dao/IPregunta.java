@@ -9,4 +9,5 @@ public interface IPregunta {
     boolean actualizarPregunta(String texto, int idEncuesta, int idPregunta);
     boolean eliminarPregunta(int idPregunta);
     List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta);
+    int contarPreguntasPorEncuesta(int idEncuesta);
 }

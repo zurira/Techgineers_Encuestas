@@ -4,6 +4,7 @@ import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IPregunta;
 import mx.edu.utez.encuestas.model.Pregunta;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,13 @@ public class PreguntaDaoImpl implements IPregunta {
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                //evita error de conversion
+                BigDecimal idBigDecimal = rs.getBigDecimal(1);
+                if (idBigDecimal != null) {
+                    return idBigDecimal.intValue();
+                }
+            }
 
         } catch (SQLException e) {
             System.err.println("Error al insertar pregunta: " + e.getMessage());
@@ -63,6 +70,7 @@ public class PreguntaDaoImpl implements IPregunta {
         }
     }
 
+
     @Override
     public List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta) {
         List<Pregunta> lista = new ArrayList<>();
@@ -83,5 +91,24 @@ public class PreguntaDaoImpl implements IPregunta {
         }
 
         return lista;
+    }
+
+    @Override
+    public int contarPreguntasPorEncuesta(int idEncuesta) {
+        String sql = "SELECT COUNT(id) FROM Preguntas WHERE encuesta_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idEncuesta);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al contar preguntas: " + e.getMessage());
+        }
+        return 0;
     }
 }
