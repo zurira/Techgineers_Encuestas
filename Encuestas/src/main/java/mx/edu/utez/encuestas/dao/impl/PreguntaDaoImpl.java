@@ -48,6 +48,22 @@ public class PreguntaDaoImpl implements IPregunta {
     }
 
     @Override
+    public boolean eliminarPregunta(int idPregunta){
+        String sql = "DELETE FROM Preguntas WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPregunta);
+            //si se elimina correctamente
+            return stmt.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar pregunta: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
     public List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta) {
         List<Pregunta> lista = new ArrayList<>();
         String sql = "SELECT id, texto FROM Preguntas WHERE encuesta_id = ?";

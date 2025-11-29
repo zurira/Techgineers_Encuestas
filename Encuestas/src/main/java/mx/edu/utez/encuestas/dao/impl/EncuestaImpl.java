@@ -107,6 +107,7 @@ public class EncuestaImpl implements IEncuesta {
         return -1;
     }
 
+    @Override
     public int guardarEncuesta(Encuesta encuesta) {
         String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -132,6 +133,7 @@ public class EncuestaImpl implements IEncuesta {
         return -1;
     }
 
+    @Override
     public boolean actualizarEncuesta(Encuesta encuesta) {
         String sql = "UPDATE encuestas SET titulo = ?, categoria = ?, imagen = ?, estado = ?, creador_id = ?, descripcion = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
