@@ -26,6 +26,8 @@ public class AgregarPreguntasController {
     private int idEncuesta;
     private Pregunta preguntaExistente;
 
+    private List<TextField> camposOpciones = new ArrayList<>();
+
     public void setIdEncuesta(int idEncuesta) {
         this.idEncuesta = idEncuesta;
     }
@@ -72,16 +74,16 @@ public class AgregarPreguntasController {
 
     @FXML
     private void onGuardarPregunta() {
-        String textoPregunta = preguntaField.getText();
+        String textoPregunta = preguntaField.getText().trim();
         if (textoPregunta.isEmpty()) {
             mostrarAlerta("La pregunta no puede estar vacía.");
             return;
         }
 
         List<String> opciones = new ArrayList<>();
-        for (Node node : opcionesBox.getChildren()) {
-            if (node instanceof TextField tf && !tf.getText().isEmpty()) {
-                opciones.add(tf.getText());
+        for (TextField tf : camposOpciones) {
+            if (!tf.getText().trim().isEmpty()) {
+                opciones.add(tf.getText().trim());
             }
         }
 
@@ -91,9 +93,13 @@ public class AgregarPreguntasController {
         }
 
         if (preguntaExistente != null) {
-            // Mdetecta si se abrira la ventana para editar
+            // Editar pregunta existente
             preguntaExistente.setTexto(textoPregunta);
-            boolean actualizada = dao.actualizarPregunta(preguntaExistente.getTexto(), preguntaExistente.getEncuestaId(), preguntaExistente.getId());
+            boolean actualizada = dao.actualizarPregunta(
+                    preguntaExistente.getTexto(),
+                    preguntaExistente.getEncuestaId(),
+                    preguntaExistente.getId()
+            );
 
             if (actualizada) {
                 daoOp.eliminarOpcionesPorPregunta(preguntaExistente.getId());
@@ -101,13 +107,12 @@ public class AgregarPreguntasController {
                     daoOp.insertarOpcion(opcion, preguntaExistente.getId());
                 }
                 mostrarAlerta("Pregunta actualizada.");
-                //cerrarVentana();
             } else {
                 mostrarAlerta("Error al actualizar la pregunta.");
             }
 
         } else {
-            // detecta si la ventana se abrira para crear una pregunta
+            // Crear nueva pregunta
             int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
             if (idPregunta > 0) {
                 for (String opcion : opciones) {
@@ -137,3 +142,4 @@ public class AgregarPreguntasController {
         alert.showAndWait();
     }
 }
+

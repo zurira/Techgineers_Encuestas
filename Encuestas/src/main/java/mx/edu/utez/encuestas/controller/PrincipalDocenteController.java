@@ -49,7 +49,7 @@ public class PrincipalDocenteController {
             Encuesta nuevaEncuesta = new Encuesta();
             nuevaEncuesta.setTitulo("Formulario sin título");
             nuevaEncuesta.setDescripcionCorta("Descripción del formulario");
-            nuevaEncuesta.setEstado("borrador");
+            nuevaEncuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
             nuevaEncuesta.setId(usuarioActivo.getId());
 
             // carga la vista de encuesta
@@ -100,7 +100,7 @@ public class PrincipalDocenteController {
 
 
             // Solo mostrar switch si la encuesta NO está en borrador
-            if (!"borrador".equalsIgnoreCase(encuesta.getEstado())) {
+            if (encuesta.getEstado() != Encuesta.EstadoEncuesta.borrador) {
                 FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
                 switchIcon.setIconSize(24);
                 switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);

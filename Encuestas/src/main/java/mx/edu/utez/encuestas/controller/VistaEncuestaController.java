@@ -44,7 +44,7 @@ public class VistaEncuestaController {
         txtTitulo.setText(encuesta.getTitulo());
         txtCategoria.setText(encuesta.getCategoria());
         txtDescripcion.setText(encuesta.getDescripcionCorta());
-        // Convertir byte[] a Image
+
         if (encuesta.getImagen() != null) {
             Image image = new Image(new ByteArrayInputStream(encuesta.getImagen()));
             imgPortada.setImage(image);
@@ -122,11 +122,11 @@ public class VistaEncuestaController {
         encuesta.setTitulo(titulo);
         encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
-        encuesta.setEstado("borrador");
+        encuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
 
 
         if (imagenSeleccionada == null) {
-            mostrarAlerta("Debes seleccionar una imagen");
+           mostrarAlerta("Debes seleccionar una imagen");
         } else {
             encuesta.setImagen(imagenSeleccionada);
         }
@@ -138,6 +138,7 @@ public class VistaEncuestaController {
 
         mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
     }
+
 
 
     @FXML
@@ -154,7 +155,7 @@ public class VistaEncuestaController {
         encuesta.setTitulo(titulo);
         encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
-        encuesta.setEstado("activa");
+        encuesta.setEstado(Encuesta.EstadoEncuesta.activa);
 
 
         if (imagenSeleccionada == null) {

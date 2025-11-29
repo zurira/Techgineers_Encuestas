@@ -24,13 +24,31 @@ public class EncuestaImpl implements IEncuesta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                String estadoBD = rs.getString("estado").trim().toUpperCase();
+                Encuesta.EstadoEncuesta estado;
+
+                switch (estadoBD) {
+                    case "ACTIVA":
+                        estado = Encuesta.EstadoEncuesta.activa;
+                        break;
+                    case "INACTIVA":
+                        estado = Encuesta.EstadoEncuesta.inactiva;
+                        break;
+                    case "BORRADOR":
+                        estado = Encuesta.EstadoEncuesta.borrador;
+                        break;
+                    default:
+                        estado = Encuesta.EstadoEncuesta.borrador;
+                }
+
                 lista.add(new Encuesta(
                         rs.getInt("id"),
                         rs.getString("titulo"),
                         rs.getString("categoria"),
-                        rs.getString("estado")
+                        estado
                 ));
             }
+
 
         } catch (SQLException e) {
             System.err.println("Error al obtener encuestas: " + e.getMessage());
@@ -66,9 +84,9 @@ public class EncuestaImpl implements IEncuesta {
 
             stmt.setString(1, encuesta.getTitulo());
             stmt.setString(2, encuesta.getCategoria());
-            stmt.setBytes(3, null); // o encuesta.getImagenBytes() si ya lo manejas
-            stmt.setString(4, encuesta.getEstado());
-            stmt.setInt(5, (int) encuesta.getCreadorId());
+            stmt.setBytes(3, encuesta.getImagen() != null ? encuesta.getImagen() : new byte[0]);
+            stmt.setString(4, encuesta.getEstado().name());
+            stmt.setInt(5, encuesta.getCreadorId());
             stmt.setString(6, encuesta.getDescripcionCorta());
 
             return stmt.executeUpdate() == 1;
@@ -86,8 +104,8 @@ public class EncuestaImpl implements IEncuesta {
 
             stmt.setString(1, encuesta.getTitulo());
             stmt.setString(2, encuesta.getCategoria());
-            stmt.setBytes(3, null);
-            stmt.setString(4, encuesta.getEstado());
+            stmt.setBytes(3, encuesta.getImagen());
+            stmt.setString(4, encuesta.getEstado().name());
             stmt.setInt(5, (int) encuesta.getCreadorId());
             stmt.setString(6, encuesta.getDescripcionCorta());
             stmt.setInt(7, (int) encuesta.getId());
@@ -132,7 +150,7 @@ public class EncuestaImpl implements IEncuesta {
             encuesta.setId(rs.getInt("id"));
             encuesta.setTitulo(rs.getString("titulo"));
             encuesta.setCategoria(rs.getString("categoria"));
-            encuesta.setEstado(rs.getString("estado"));
+            encuesta.setEstado(Encuesta.EstadoEncuesta.valueOf(rs.getString("estado").toUpperCase()));
             encuesta.setCreadorId(rs.getInt("creador_id"));
 
             byte[] imagenBlob = rs.getBytes("imagen");
