@@ -17,4 +17,9 @@ module mx.edu.utez.encuestas {
     exports mx.edu.utez.encuestas;
 
 
+
+    // Abre el paquete de controladores para que FXMLLoader pueda acceder
+    opens mx.edu.utez.encuestas.controller to javafx.fxml;
+
+
 }
