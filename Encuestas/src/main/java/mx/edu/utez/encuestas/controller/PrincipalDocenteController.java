@@ -115,7 +115,7 @@ public class PrincipalDocenteController {
                     switchIcon.setIconLiteral(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
                     switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
                     String nuevoEstado = encuesta.isActiva() ? "activa" : "inactiva";
-                    encuestaDao.actualizarEstado((int) encuesta.getId(), nuevoEstado);
+                    encuestaDao.actualizarEstado(encuesta.getId(), nuevoEstado);
 
                     cargarEncuestasComoTarjetas();
                 });

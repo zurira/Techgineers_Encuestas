@@ -109,6 +109,7 @@ public class VistaEncuestaController {
             tarjeta.setSpacing(8);
             tarjeta.setPadding(new Insets(10));
 
+            //boton de eliminar
             HBox accionesBox = new HBox(10);
             accionesBox.setAlignment(Pos.CENTER);
 
@@ -133,6 +134,7 @@ public class VistaEncuestaController {
                 opcionesBox.getChildren().add(check);
             }
 
+            tarjeta.setOnMouseClicked(e -> abrirEditorPregunta(pregunta));
             tarjeta.getChildren().addAll(lblPregunta, opcionesBox);
             contenedorPreguntas.getChildren().add(tarjeta);
         }
