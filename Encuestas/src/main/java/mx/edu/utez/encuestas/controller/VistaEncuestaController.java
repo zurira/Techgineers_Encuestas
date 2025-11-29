@@ -3,11 +3,13 @@ package mx.edu.utez.encuestas.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -18,6 +20,7 @@ import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Opcion;
 import mx.edu.utez.encuestas.model.Pregunta;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -106,6 +109,17 @@ public class VistaEncuestaController {
             tarjeta.setSpacing(8);
             tarjeta.setPadding(new Insets(10));
 
+            HBox accionesBox = new HBox(10);
+            accionesBox.setAlignment(Pos.CENTER);
+
+            Button btnEliminar = new Button();
+            btnEliminar.setGraphic(new FontIcon("fa-trash"));
+            btnEliminar.setOnAction(e -> {
+                eliminarPregunta(pregunta);
+            });
+
+            accionesBox.getChildren().addAll(btnEliminar);
+
             Label lblPregunta = new Label(pregunta.getTexto());
             lblPregunta.getStyleClass().add("pregunta-titulo");
 
@@ -192,6 +206,30 @@ public class VistaEncuestaController {
         }
 
         mostrarAlerta(resultado ? "Encuesta publicada correctamente." : "Error al publicar la encuesta.");
+    }
+
+    private void eliminarPregunta(Pregunta pregunta) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar la pregunta: '" + pregunta.getTexto() + "'? Se eliminarán todas sus opciones asociadas.", ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.setHeaderText("Eliminar pregunta");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                int idPregunta = pregunta.getId();
+                //se eliminan todas las opciones asociadas a las preguntas
+                daoOp.eliminarOpcionesPorPregunta(idPregunta);
+
+                //se elimina la pregunta
+                boolean preguntaEliminada = dao.eliminarPregunta(idPregunta);
+
+                if (preguntaEliminada) {
+                    mostrarAlerta("Pregunta eliminada correctamente.");
+                    cargarPreguntas();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo eliminar la pregunta", "Ocurrió un error al intentar eliminar la pregunta.");
+                }
+            }
+        });
     }
 
     @FXML
