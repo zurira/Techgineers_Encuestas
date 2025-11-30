@@ -41,11 +41,14 @@
                     <Label text="Encuestas" styleClass="header-title"/>
                     <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field"/>
                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
-                    <StackPane>
-                        <Circle radius="16.0" styleClass="avatar-circle"/>
-                        <FontIcon iconLiteral="fa-user" iconSize="18" />
-                        <Label fx:id="nombreDocente" text="Nombre docente" />
-                    </StackPane>
+                    <VBox alignment="CENTER" spacing="6">
+                        <StackPane>
+                            <Circle radius="20.0" styleClass="avatar-circle"/>
+                            <FontIcon iconLiteral="fa-user" iconSize="18" styleClass="avatar-icon"/>
+                        </StackPane>
+                        <Label fx:id="nombreDocente" text="Nombre Docente" styleClass="avatar-name"/>
+                    </VBox>
+
                 </HBox>
 
                 <!-- Contenido scrollable -->
@@ -59,9 +62,6 @@
                         <Label text="Crear nuevo formulario" styleClass="section-title"/>
                             <!-- Card: Nuevo -->
                             <VBox styleClass="survey-card crear-card" onMouseClicked="#crearFormularioEnBlanco">
-                                <StackPane styleClass="image-wrapper">
-                                    <Label text="+" styleClass="plus-icon"/>
-                                </StackPane>
                                 <Label text="Nuevo" styleClass="card-title"/>
                                 <Label text="Crear desde cero" styleClass="card-description"/>
                             </VBox>

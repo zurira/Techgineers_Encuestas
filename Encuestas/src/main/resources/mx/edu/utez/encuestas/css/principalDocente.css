@@ -75,6 +75,16 @@
     -fx-fill: #4b5563;
 }
 
+.avatar-icon {
+    -fx-icon-color: #ffffff;
+}
+
+.avatar-name {
+    -fx-font-size: 12px;
+    -fx-text-fill: #e5e7eb;
+    -fx-font-weight: bold;
+}
+
 /* Sections */
 .section-title {
     -fx-font-size: 20px;

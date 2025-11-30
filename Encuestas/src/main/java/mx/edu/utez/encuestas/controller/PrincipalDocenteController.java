@@ -38,7 +38,7 @@ public class PrincipalDocenteController {
 
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
-        System.out.println("Usuario activo: " + usuario.getNombreUsuario());
+        System.out.println("Usuario activo: " + usuario.getNombre());
         nombreDocente.setText(usuario.getNombreUsuario());
         cargarEncuestasComoTarjetas(); // Carga encuestas como cards
     }
