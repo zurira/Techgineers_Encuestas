@@ -31,6 +31,7 @@ public class PrincipalDocenteController {
 
     @FXML private FlowPane contenedorEncuestas;
     @FXML private TextField buscarField;
+    @FXML private Label nombreDocente;
 
     private final IEncuesta encuestaDao = new EncuestaImpl();
     private Usuario usuarioActivo;
@@ -38,6 +39,7 @@ public class PrincipalDocenteController {
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
+        nombreDocente.setText(usuario.getNombreUsuario());
         cargarEncuestasComoTarjetas(); // Carga encuestas como cards
     }
 
