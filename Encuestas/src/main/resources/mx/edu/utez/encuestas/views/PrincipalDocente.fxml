@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane
+        xmlns="http://javafx.com/javafx/21"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="mx.edu.utez.encuestas.controller.PrincipalDocenteController"
+        stylesheets="@../css/principalDocente.css">
+
+    <BorderPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- Menú lateral izquierdo -->
+        <left>
+            <VBox fx:id="sidebar" prefWidth="240.0" styleClass="sidebar">
+                <Label text="Panel Docente" styleClass="sidebar-brand"/>
+                <Separator styleClass="sidebar-separator"/>
+                <Button text="Dashboard" styleClass="sidebar-button" prefWidth="200.0">
+                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                </Button>
+                <Button text="Encuestas" styleClass="sidebar-button-selected" prefWidth="200.0">
+                    <graphic><FontIcon iconLiteral="fa-list"/></graphic>
+                </Button>
+                <Button text="Reportes" styleClass="sidebar-button" prefWidth="200.0">
+                    <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
+                </Button>
+            </VBox>
+        </left>
+
+        <!-- Contenido principal -->
+        <center>
+            <VBox spacing="0">
+                <!-- Header -->
+                <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
+                    <Label text="Encuestas" styleClass="header-title"/>
+                    <TextField promptText="Buscar" styleClass="search-field"/>
+                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
+                    <StackPane>
+                        <Circle radius="16.0" styleClass="avatar-circle"/>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true"/>
+                    </StackPane>
+                </HBox>
+
+                <!-- Contenido scrollable -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-background">
+                    <VBox spacing="24.0">
+                        <padding>
+                            <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
+                        </padding>
+
+                        <!-- Crear nueva encuesta y plantillas como grid (opcional) -->
+                        <Label text="Crear nuevo formulario" styleClass="section-title"/>
+                        <FlowPane fx:id="contenedorPlantillas" hgap="16" vgap="16" prefWrapLength="980">
+                            <!-- Card: Nuevo -->
+                            <VBox styleClass="survey-card crear-card" onMouseClicked="#crearFormularioEnBlanco">
+                                <StackPane styleClass="image-wrapper">
+                                    <Label text="+" styleClass="plus-icon"/>
+                                </StackPane>
+                                <Label text="Nuevo" styleClass="card-title"/>
+                                <Label text="Crear desde cero" styleClass="card-description"/>
+                            </VBox>
+                        </FlowPane>
+
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label text="Tus encuestas" styleClass="section-title"/>
+                        </HBox>
+
+                        <!-- Encuestas cargadas dinamicamente -->
+                        <FlowPane fx:id="contenedorEncuestas" hgap="16" vgap="16" prefWrapLength="980"/>
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </center>
+    </BorderPane>
+</AnchorPane>

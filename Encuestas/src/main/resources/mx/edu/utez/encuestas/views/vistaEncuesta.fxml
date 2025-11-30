@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.edu.utez.encuestas.controller.VistaEncuestaController"
+            prefWidth="800" prefHeight="600"
+            stylesheets="@../css/vistaEncuesta.css">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="Publicar" onAction="#publicarEncuesta"/>
+        </HBox>
+        <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title" />
+        <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="form-category" />
+
+        <!-- Sección portada + descripción -->
+        <GridPane hgap="20" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="60"/>
+            </columnConstraints>
+
+            <!-- Subir imagen -->
+            <VBox spacing="10" GridPane.columnIndex="0">
+                <ImageView fx:id="imgPortada"
+                           fitWidth="250" fitHeight="250"
+                           preserveRatio="true"/>
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Button fx:id="btnSeleccionarImagen" text="Subir portada" onAction="#seleccionarPortada"
+                        prefWidth="150" alignment="CENTER"/>
+            </VBox>
+
+            <TextArea fx:id="txtDescripcion" GridPane.columnIndex="1" promptText="Descripción del formulario"
+                      styleClass="form-description" wrapText="true"/>
+        </GridPane>
+
+        <ScrollPane xmlns="http://javafx.com/javafx/21"
+                    xmlns:fx="http://javafx.com/fxml/1"
+                    VBox.vgrow="ALWAYS"                 fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+            <VBox fx:id="contenedorPreguntas" spacing="15" />
+        </ScrollPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button"/>
+            <Button text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

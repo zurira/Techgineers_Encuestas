@@ -2,32 +2,25 @@ package mx.edu.utez.encuestas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class DocenteApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        // ¡IMPORTANTE! Nombre del FXML actualizado
+        FXMLLoader fxmlLoader = new FXMLLoader(DocenteApp.class.getResource("view/PrincipalDocente.fxml"));
 
-        Parent root = FXMLLoader.load(getClass().getResource("/mx/edu/utez/encuestas/views/login.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("Encuestas");
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+
+        stage.setTitle("Docente | Administración de Formularios");
         stage.setScene(scene);
-        // Esta línea maximiza la ventana.
-        stage.setMaximized(true);
         stage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
-
-
-
-
 }

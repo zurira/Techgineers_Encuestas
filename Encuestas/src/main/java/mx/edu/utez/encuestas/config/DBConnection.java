@@ -6,14 +6,14 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL      = "";
-    private static final String USER     = "";
-    private static final String PASSWORD = "";
+    private static final String URL      = "jdbc:oracle:thin:@ol6bfa1py4boy5d0_low";
+    private static final String USER     = "ADMIN";
+    private static final String PASSWORD = "Encuesta$2025";
 
     // Obtiene una conexión nueva
     public static Connection getConnection() throws SQLException {
         // 1. Apunta al directorio donde descomprimiste el wallet
-        System.setProperty("oracle.net.tns_admin", "F:\\Wallet_VYG59TE11JX0QYGS");
+        System.setProperty("oracle.net.tns_admin", "F:\\Downloads\\Wallet_OL6BFA1PY4BOY5D0");
         // 2. (Opcional) fuerza la validación de nombre de servidor en el certificado
         System.setProperty("oracle.net.ssl_server_dn_match", "true");
         // 3. Obtiene la conexión usando alias, user y pass

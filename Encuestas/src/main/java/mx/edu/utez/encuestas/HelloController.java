@@ -19,8 +19,6 @@ public class HelloController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-
-
     @FXML
     private void abrirModalCerrarSesion() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
@@ -34,9 +32,4 @@ public class HelloController {
         stage.initModality(Modality.APPLICATION_MODAL); // bloquea la ventana principal
         stage.showAndWait();
     }
-
-
-
-
-
 }

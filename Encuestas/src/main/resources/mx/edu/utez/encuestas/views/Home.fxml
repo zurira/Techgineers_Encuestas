@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.layout.Region?>
+
+<BorderPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.encuestas.controller.HomeController">
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar" prefHeight="60.0">
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+            <Label styleClass="header-title" text="Encuestas" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="loginButton" text="Iniciar sesión" styleClass="login-button">
+                <graphic>
+                    <FontIcon iconLiteral="fa-user" iconSize="24" styleClass="user-icon"/>
+                </graphic>
+                <HBox.margin>
+                    <Insets left="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </top>
+    <center>
+        <VBox styleClass="main-content-area" spacing="20.0">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <TextField fx:id="searchField" promptText="Buscar encuesta" prefWidth="350.0" styleClass="search-field"/>
+                <Label text="Filtrar por:" styleClass="filter-label" />
+                <ComboBox fx:id="categoryFilter" promptText="Categoría" prefWidth="200.0" styleClass="category-filter-dropdown"/>
+            </HBox>
+            <Label styleClass="section-title" text="Encuestas Activas" />
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane-background" BorderPane.alignment="CENTER">
+                <content>
+                    <TilePane fx:id="encuestasContainer" />
+                </content>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>
