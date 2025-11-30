@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.UsuarioDaoImpl;
 import javafx.fxml.FXML;
@@ -36,15 +37,17 @@ public class LoginController {
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalDocente.fxml"));
-                Parent root = loader.load();
+                Region root = loader.load();
 
-                // Si quieres pasar el usuario al panel, puedes hacerlo así:
                 PrincipalDocenteController controller = loader.getController();
                 controller.setUsuarioActivo(usuarioValido);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root, 1000, 700));
-                stage.setTitle("Panel Docente");
+                root.prefWidthProperty().bind(stage.widthProperty());
+                root.prefHeightProperty().bind(stage.heightProperty());
+                Scene scene = new Scene(root);
+                stage.setMaximized(true);
+                stage.setScene(scene);
                 stage.show();
 
             } catch (IOException e) {

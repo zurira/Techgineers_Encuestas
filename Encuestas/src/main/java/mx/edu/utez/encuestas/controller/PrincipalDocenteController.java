@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
@@ -21,7 +22,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import mx.edu.utez.encuestas.DocenteApp;
 import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
@@ -29,7 +29,7 @@ import mx.edu.utez.encuestas.model.Usuario;
 
 public class PrincipalDocenteController {
 
-    @FXML private VBox contenedorEncuestas;
+    @FXML private FlowPane contenedorEncuestas;
 
     private final IEncuesta encuestaDao = new EncuestaImpl();
     private Usuario usuarioActivo;
