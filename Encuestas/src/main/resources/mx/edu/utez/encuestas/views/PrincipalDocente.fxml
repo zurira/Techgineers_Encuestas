@@ -43,7 +43,8 @@
                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
                     <StackPane>
                         <Circle radius="16.0" styleClass="avatar-circle"/>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true"/>
+                        <FontIcon iconLiteral="fa-user" iconSize="18" />
+                        <Label fx:id="nombreDocente" text="Nombre docente" />
                     </StackPane>
                 </HBox>
 
