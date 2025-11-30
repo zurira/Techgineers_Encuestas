@@ -30,6 +30,7 @@ import mx.edu.utez.encuestas.model.Usuario;
 public class PrincipalDocenteController {
 
     @FXML private FlowPane contenedorEncuestas;
+    @FXML private TextField buscarField;
 
     private final IEncuesta encuestaDao = new EncuestaImpl();
     private Usuario usuarioActivo;
@@ -38,6 +39,13 @@ public class PrincipalDocenteController {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
         cargarEncuestasComoTarjetas(); // Carga encuestas como cards
+    }
+
+    @FXML
+    public void initialize(){
+        buscarField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarEncuestas(newValue);
+        });
     }
 
     @FXML
@@ -160,6 +168,40 @@ public class PrincipalDocenteController {
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("No se pudo abrir la vista de la encuesta.");
+        }
+    }
+
+    private void filtrarEncuestas(String filtro) {
+        contenedorEncuestas.getChildren().clear();
+
+        List<Encuesta> encuestas = encuestaDao.obtenerEncuestasPorDocente(usuarioActivo.getId());
+
+        for (Encuesta encuesta : encuestas) {
+            // si el título o categoría contiene el texto buscado sin importar mayusculas y minusculas
+            if (filtro == null || filtro.isEmpty() ||
+                    encuesta.getTitulo().toLowerCase().contains(filtro.toLowerCase()) ||
+                    encuesta.getCategoria().toLowerCase().contains(filtro.toLowerCase())) {
+
+                VBox tarjeta = new VBox();
+                tarjeta.getStyleClass().add("recent-form-box");
+                tarjeta.setSpacing(5);
+                tarjeta.setPadding(new Insets(10));
+
+                Label titulo = new Label(encuesta.getTitulo());
+                titulo.getStyleClass().add("recent-form-title");
+
+                Label subtitulo = new Label(encuesta.getCategoria());
+                subtitulo.getStyleClass().add("recent-form-subtitle");
+
+                Label estado = new Label("Estado: " + encuesta.getEstado());
+                estado.getStyleClass().add("recent-form-time");
+
+                tarjeta.getChildren().addAll(titulo, subtitulo, estado);
+                contenedorEncuestas.getChildren().add(tarjeta);
+
+                tarjeta.setOnMouseClicked(e -> abrirEditorEncuesta(encuesta));
+                tarjeta.setCursor(Cursor.HAND);
+            }
         }
     }
 

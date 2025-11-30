@@ -39,7 +39,7 @@
                 <!-- Header -->
                 <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
                     <Label text="Encuestas" styleClass="header-title"/>
-                    <TextField promptText="Buscar" styleClass="search-field"/>
+                    <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field"/>
                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
                     <StackPane>
                         <Circle radius="16.0" styleClass="avatar-circle"/>
@@ -56,7 +56,6 @@
 
                         <!-- Crear nueva encuesta y plantillas como grid (opcional) -->
                         <Label text="Crear nuevo formulario" styleClass="section-title"/>
-                        <FlowPane fx:id="contenedorPlantillas" hgap="16" vgap="16" prefWrapLength="980">
                             <!-- Card: Nuevo -->
                             <VBox styleClass="survey-card crear-card" onMouseClicked="#crearFormularioEnBlanco">
                                 <StackPane styleClass="image-wrapper">
@@ -65,7 +64,6 @@
                                 <Label text="Nuevo" styleClass="card-title"/>
                                 <Label text="Crear desde cero" styleClass="card-description"/>
                             </VBox>
-                        </FlowPane>
 
                         <HBox alignment="CENTER_LEFT" spacing="8">
                             <Label text="Tus encuestas" styleClass="section-title"/>

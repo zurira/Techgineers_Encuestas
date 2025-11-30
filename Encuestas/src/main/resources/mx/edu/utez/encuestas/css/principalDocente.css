@@ -149,7 +149,7 @@
     -fx-text-fill: #334155;
 }
 
-/* Toggle switch transparente (ControlsFX) */
+/* Toggle switch transparente */
 .transparent-switch .thumb {
     -fx-background-color: #3b82f6;
 }

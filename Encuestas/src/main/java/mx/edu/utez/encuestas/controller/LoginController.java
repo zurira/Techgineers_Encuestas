@@ -2,10 +2,12 @@ package mx.edu.utez.encuestas.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.UsuarioDaoImpl;
 import javafx.fxml.FXML;
@@ -43,12 +45,15 @@ public class LoginController {
                 controller.setUsuarioActivo(usuarioValido);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                root.prefWidthProperty().bind(stage.widthProperty());
-                root.prefHeightProperty().bind(stage.heightProperty());
                 Scene scene = new Scene(root);
                 stage.setMaximized(true);
                 stage.setScene(scene);
                 stage.show();
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                stage.setX(screenBounds.getMinX());
+                stage.setY(screenBounds.getMinY());
+                stage.setWidth(screenBounds.getWidth());
+                stage.setHeight(screenBounds.getHeight());
 
             } catch (IOException e) {
                 e.printStackTrace();
