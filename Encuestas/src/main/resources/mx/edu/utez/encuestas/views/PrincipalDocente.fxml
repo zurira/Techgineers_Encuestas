@@ -33,7 +33,6 @@
             </VBox>
         </left>
 
-        <!-- Contenido principal -->
         <center>
             <VBox spacing="0">
                 <!-- Header -->
@@ -41,33 +40,41 @@
                     <Label text="Encuestas" styleClass="header-title"/>
                     <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field"/>
                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
-                    <VBox alignment="CENTER" spacing="6">
-                        <StackPane>
-                            <Circle radius="20.0" styleClass="avatar-circle"/>
-                            <FontIcon iconLiteral="fa-user" iconSize="18" styleClass="avatar-icon"/>
-                        </StackPane>
-                        <Label fx:id="nombreDocente" text="Nombre Docente" styleClass="avatar-name"/>
+                    <VBox alignment="CENTER_RIGHT" styleClass="user-info-box">
+                        <children>
+                            <HBox alignment="CENTER_RIGHT" spacing="10">
+                                <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
+                                <Label fx:id="nombreDocente" styleClass="avatar-name" text="Docente"/>
+                                <Button fx:id="logoutButton" styleClass="logout-button">
+                                    <graphic>
+                                        <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                        </children>
                     </VBox>
 
                 </HBox>
 
-                <!-- Contenido scrollable -->
                 <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-background">
                     <VBox spacing="24.0">
                         <padding>
                             <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
                         </padding>
 
-                        <!-- Crear nueva encuesta y plantillas como grid (opcional) -->
                         <Label text="Crear nuevo formulario" styleClass="section-title"/>
-                            <!-- Card: Nuevo -->
-                            <VBox styleClass="survey-card crear-card" onMouseClicked="#crearFormularioEnBlanco">
-                                <Label text="Nuevo" styleClass="card-title"/>
-                                <Label text="Crear desde cero" styleClass="card-description"/>
-                            </VBox>
+                        <VBox styleClass="survey-card crear-card" alignment="CENTER" spacing="8" onMouseClicked="#crearFormularioEnBlanco" prefWidth="140"
+                              prefHeight="160">
+                            <StackPane styleClass="image-wrapper">
+                                <Label text="+" styleClass="plus-icon"/>
+                            </StackPane>
+                            <Label text="Nuevo" styleClass="card-title"/>
+                            <Label text="Crear desde cero" styleClass="card-description"/>
+                        </VBox>
+
 
                         <HBox alignment="CENTER_LEFT" spacing="8">
-                            <Label text="Tus encuestas" styleClass="section-title"/>
+                            <Label text="Encuestas recientes" styleClass="section-title"/>
                         </HBox>
 
                         <!-- Encuestas cargadas dinamicamente -->

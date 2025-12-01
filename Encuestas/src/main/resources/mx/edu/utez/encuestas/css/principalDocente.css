@@ -71,18 +71,37 @@
 .search-field:focused {
     -fx-background-color: #4b5563;
 }
-.avatar-circle {
-    -fx-fill: #4b5563;
+
+.user-info-box {
+    -fx-background-color: #4b5563;
+    -fx-background-radius: 12px;
+    -fx-padding: 12px 20px;
+    -fx-spacing: 10px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 34px;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.user-info-box:hover {
+    -fx-background-color: #38404a;
 }
 
 .avatar-icon {
     -fx-icon-color: #ffffff;
+    -fx-icon-size: 24px;
 }
 
 .avatar-name {
-    -fx-font-size: 12px;
+    -fx-font-size: 13px;
     -fx-text-fill: #e5e7eb;
     -fx-font-weight: bold;
+    -fx-alignment: center-right;
+}
+
+.logout-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
 }
 
 /* Sections */
@@ -107,7 +126,7 @@
     -fx-border-color: #e5e7eb;
     -fx-border-width: 1;
     -fx-cursor: hand;
-    -fx-pref-width: 320;
+    -fx-pref-width: 338;
 }
 .survey-card:hover, .recent-form-box:hover {
     -fx-background-color: #f9fafb;
@@ -138,6 +157,11 @@
 }
 
 /* Crear card */
+.crear-card .plus-icon {
+    -fx-font-size: 40px;
+    -fx-text-fill: #6366f1;
+}
+
 .crear-card .plus-icon {
     -fx-font-size: 40px;
     -fx-text-fill: #6366f1;

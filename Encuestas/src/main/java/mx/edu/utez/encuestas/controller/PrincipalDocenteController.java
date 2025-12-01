@@ -39,7 +39,7 @@ public class PrincipalDocenteController {
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombre());
-        nombreDocente.setText(usuario.getNombreUsuario());
+        nombreDocente.setText(usuario.getNombre());
         cargarEncuestasComoTarjetas(); // Carga encuestas como cards
     }
 
@@ -79,6 +79,8 @@ public class PrincipalDocenteController {
 
 
             cargarEncuestasComoTarjetas();
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
