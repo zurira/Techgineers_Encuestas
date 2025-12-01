@@ -63,7 +63,7 @@
                         </padding>
 
                         <Label text="Crear nuevo formulario" styleClass="section-title"/>
-                        <VBox styleClass="survey-card crear-card" alignment="CENTER" spacing="8" onMouseClicked="#crearFormularioEnBlanco" prefWidth="140"
+                        <VBox styleClass="survey-card" alignment="CENTER" spacing="8" onMouseClicked="#crearFormularioEnBlanco" prefWidth="140"
                               prefHeight="160">
                             <StackPane styleClass="image-wrapper">
                                 <Label text="+" styleClass="plus-icon"/>

@@ -15,40 +15,44 @@
           AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
         <HBox alignment="CENTER_RIGHT">
-            <Button text="Publicar" onAction="#publicarEncuesta"/>
+            <Button text="Publicar" onAction="#publicarEncuesta" styleClass="save-button"/>
         </HBox>
-        <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title" />
-        <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="form-category" />
 
-        <!-- Sección portada + descripción -->
-        <GridPane hgap="20" vgap="10">
+        <VBox spacing="10" styleClass="survey-card">
+            <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title"/>
+            <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="form-category"/>
+        </VBox>
+
+        <GridPane hgap="20" vgap="10" styleClass="survey-card">
             <columnConstraints>
                 <ColumnConstraints percentWidth="40"/>
                 <ColumnConstraints percentWidth="60"/>
             </columnConstraints>
 
-            <!-- Subir imagen -->
             <VBox spacing="10" GridPane.columnIndex="0">
                 <ImageView fx:id="imgPortada"
                            fitWidth="250" fitHeight="250"
-                           preserveRatio="true"/>
-                <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
-                </padding>
-                <Button fx:id="btnSeleccionarImagen" text="Subir portada" onAction="#seleccionarPortada"
-                        prefWidth="150" alignment="CENTER"/>
+                           preserveRatio="true" styleClass="image-wrapper"/>
+                <Button fx:id="btnSeleccionarImagen" text="Subir portada"
+                        onAction="#seleccionarPortada"
+                        prefWidth="150" alignment="CENTER" styleClass="add-button"/>
             </VBox>
 
-            <TextArea fx:id="txtDescripcion" GridPane.columnIndex="1" promptText="Descripción del formulario"
-                      styleClass="form-description" wrapText="true"/>
+            <VBox spacing="5" GridPane.columnIndex="1">
+                <Label text="Descripción" styleClass="section-title"/>
+                <TextArea fx:id="txtDescripcion"
+                          promptText="Descripción del formulario"
+                          styleClass="form-description"
+                          wrapText="true"/>
+            </VBox>
         </GridPane>
 
-        <ScrollPane xmlns="http://javafx.com/javafx/21"
-                    xmlns:fx="http://javafx.com/fxml/1"
-                    VBox.vgrow="ALWAYS"                 fitToWidth="true"
+        <ScrollPane VBox.vgrow="ALWAYS"
+                    fitToWidth="true"
                     hbarPolicy="NEVER"
-                    vbarPolicy="AS_NEEDED">
-            <VBox fx:id="contenedorPreguntas" spacing="15" />
+                    vbarPolicy="AS_NEEDED"
+                    styleClass="scroll-pane-background">
+            <VBox fx:id="contenedorPreguntas" spacing="15"/>
         </ScrollPane>
 
         <HBox spacing="10" alignment="CENTER_RIGHT">

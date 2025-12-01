@@ -1,40 +1,122 @@
-.form-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-background-color: transparent;
-    -fx-border-width: 0 0 2px 0;
-    -fx-border-color: #6200ea;
+.root {
+    -fx-background-color: #f7f8fa;
+    -fx-font-smoothing-type: lcd;
 }
+
+.form-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.form-category {
+    -fx-font-size: 16px;
+    -fx-text-fill: #374151;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 6 10 6 10;
+}
+
 
 .form-description {
     -fx-font-size: 14px;
-    -fx-background-color: transparent;
-    -fx-border-color: #ccc;
-    -fx-border-radius: 5;
+    -fx-text-fill: #374151;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12 8 12;
 }
 
-.pregunta-box {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #ddd;
-    -fx-border-radius: 8;
+.scroll-pane-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+
+.add-button {
+    -fx-background-color: #0f3004;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
     -fx-background-radius: 8;
-    -fx-padding: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+.add-button:hover {
+    -fx-background-color: #071702;
+}
+
+.save-button {
+    -fx-background-color: #111827;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+.save-button:hover {
+    -fx-background-color: #0f172a;
+}
+
+.button {
+    -fx-background-radius: 8;
+    -fx-padding: 6 14 6 14;
+    -fx-font-size: 14px;
+}
+/* Card de cada pregunta */
+.pregunta-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 16;
+    -fx-spacing: 12;
+    -fx-effect: dropshadow(gaussian, rgba(17,24,39,0.08), 8, 0.3, 0, 2);
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 1;
+}
+
+.pregunta-card:hover {
+    -fx-background-color: #f9fafb;
+    -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.25), 12, 0.3, 0, 3);
 }
 
 .pregunta-titulo {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
 }
 
-.pregunta-opcion {
+.question-description {
     -fx-font-size: 14px;
-    -fx-prompt-text-fill: #888;
+    -fx-text-fill: #6b7280;
 }
 
-.add-button, .save-button {
-    -fx-background-color: #6200ea;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 5;
+.question-input {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 14px;
+    -fx-text-fill: #374151;
+}
+.question-input:focused {
+    -fx-border-color: #6366f1;
+    -fx-background-color: #f9fafb;
+}
+
+.pregunta-action {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.pregunta-action .ikonli-font-icon {
+    -fx-icon-color: #475569;
+}
+.pregunta-action:hover .ikonli-font-icon {
+    -fx-icon-color: #0f172a;
 }

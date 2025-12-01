@@ -117,12 +117,14 @@ public class VistaEncuestaController {
 
             Button btnEliminar = new Button();
             btnEliminar.setGraphic(new FontIcon("fa-trash"));
+            btnEliminar.getStyleClass().add("pregunta-action");
             btnEliminar.setOnAction(e -> {
                 eliminarPregunta(pregunta);
             });
 
             Button btnEditar = new Button();
             btnEditar.setGraphic(new FontIcon("fa-pencil"));
+            btnEditar.getStyleClass().add("pregunta-action");
             btnEditar.setOnAction(e -> abrirEditorPregunta(pregunta));
 
             accionesBox.getChildren().addAll(btnEditar, btnEliminar);
@@ -142,7 +144,7 @@ public class VistaEncuestaController {
 
             tarjeta.setOnMouseClicked(e -> abrirEditorPregunta(pregunta));
 
-            tarjeta.getChildren().addAll(accionesBox, lblPregunta, opcionesBox);
+            tarjeta.getChildren().addAll(lblPregunta, opcionesBox, accionesBox);
 
             contenedorPreguntas.getChildren().add(tarjeta);
         }
