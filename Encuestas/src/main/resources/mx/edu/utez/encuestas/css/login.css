@@ -1,55 +1,63 @@
 .root {
-    -fx-background-color: #f4f6f8;
-    -fx-padding: 60;
+    -fx-background-color: #f7f8fa;
+    -fx-padding: 40;
     -fx-spacing: 40;
     -fx-alignment: center;
-    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.login-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 12;
+    -fx-pref-width: 450;
+    -fx-pref-height: 400;
+    -fx-max-height: 400;
+    -fx-padding: 30;
+    -fx-spacing: 30;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(17,24,39,0.08), 8, 0.3, 0, 2);
 }
 
 .user-icon {
-    -fx-fill: #2c3e50;
+    -fx-icon-color: #374151;
 }
-
 .title {
-    -fx-font-size: 20px;
+    -fx-font-size: 75px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #111827;
 }
 
 .label {
     -fx-font-size: 14px;
-    -fx-text-fill: #34495e;
+    -fx-text-fill: #374151;
+    -fx-font-weight: 600;
 }
 
 .text-field, .password-field {
-    -fx-pref-width: 250;
-    -fx-padding: 8 12;
-    -fx-background-color: #ffffff;
-    -fx-border-color: #d0d3d4;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
     -fx-font-size: 14px;
+    -fx-text-fill: #111827;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12;
+    -fx-pref-width: 250;
 }
-
 .text-field:focused, .password-field:focused {
-    -fx-border-color: #3498db;
+    -fx-border-color: #111827;
+    -fx-background-color: #f9fafb;
 }
 
 .login-button {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
+    -fx-background-color: #111827;
+    -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
+    -fx-background-radius: 8;
     -fx-padding: 10 20;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-pref-width: 100;
+    -fx-cursor: hand;
+    -fx-pref-width: 250;
 }
-
 .login-button:hover {
-    -fx-background-color: #2980b9;
-}
-
-.hyperlink {
-    -fx-text-fill: #2980b9;
-    -fx-font-size: 13px;
+    -fx-background-color: #080b15;
 }
