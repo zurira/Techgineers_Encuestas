@@ -31,11 +31,11 @@
 
             <VBox spacing="10" GridPane.columnIndex="0">
                 <ImageView fx:id="imgPortada"
-                           fitWidth="250" fitHeight="250"
+                           fitWidth="180" fitHeight="180"
                            preserveRatio="true" styleClass="image-wrapper"/>
                 <Button fx:id="btnSeleccionarImagen" text="Subir portada"
                         onAction="#seleccionarPortada"
-                        prefWidth="150" alignment="CENTER" styleClass="add-button"/>
+                        prefWidth="140" alignment="CENTER" styleClass="add-button"/>
             </VBox>
 
             <VBox spacing="5" GridPane.columnIndex="1">
