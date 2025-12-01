@@ -9,12 +9,12 @@
       fx:controller="mx.edu.utez.encuestas.controller.AgregarPreguntasController"
       spacing="15" alignment="TOP_CENTER"
       stylesheets="@../css/agregarPreguntas.css"
-      styleClass="preguntas-root"
+      styleClass="root"
       prefWidth="400" prefHeight="400">
 
-    <Label text="Agregar preguntas a la encuesta" styleClass="titulo" />
+    <Label text="Preguntas" styleClass="titulo" />
 
-    <TextArea fx:id="preguntaField" promptText="Escribe la pregunta aquí..." wrapText="true" prefRowCount="3" />
+    <TextArea fx:id="preguntaField" promptText="Escribe la pregunta aquí..." wrapText="true" prefRowCount="3" styleClass="text-field" />
 
     <ScrollPane xmlns="http://javafx.com/javafx/21"
                 xmlns:fx="http://javafx.com/fxml/1"
@@ -22,10 +22,10 @@
                 hbarPolicy="NEVER"
                 vbarPolicy="AS_NEEDED">
         <VBox fx:id="opcionesBox" spacing="10">
-            <!-- se agregan dinámicamente los TextField de opciones -->
+            <!-- se agregan dinámicamente las opciones -->
         </VBox>
     </ScrollPane>
 
     <Separator />
-    <Button text="Guardar pregunta" onAction="#onGuardarPregunta" />
+    <Button text="Guardar pregunta" onAction="#onGuardarPregunta" styleClass="save-button" />
 </VBox>

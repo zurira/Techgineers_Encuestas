@@ -1,5 +1,6 @@
 package mx.edu.utez.encuestas.controller;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import javafx.fxml.FXML;
@@ -43,26 +44,31 @@ public class AgregarPreguntasController {
         List<Opcion> opciones = daoOp.obtenerOpcionesPorPregunta(pregunta.getId());
         for (Opcion opcion : opciones) {
             HBox fila = new HBox(10);
+            fila.getStyleClass().add("opcion-row");
 
             TextField campo = new TextField(opcion.getTexto());
             campo.setPromptText("Opción de respuesta");
             campo.setPrefWidth(300);
-
+            campo.getStyleClass().add("text-field");
             camposOpciones.add(campo);
 
             Button btnAgregar = new Button();
             btnAgregar.setGraphic(new FontIcon("fa-plus"));
+            btnAgregar.getStyleClass().add("opcion-action");
             btnAgregar.setOnAction(e -> onAgregarOpcion());
 
             Button btnEliminar = new Button();
             btnEliminar.setGraphic(new FontIcon("fa-trash"));
+            btnEliminar.getStyleClass().add("opcion-action");
             btnEliminar.setOnAction(e -> {
                 opcionesBox.getChildren().remove(fila);
                 camposOpciones.remove(campo);
             });
 
-            // añade todo a la fila y al VBox
-            fila.getChildren().addAll(campo, btnAgregar, btnEliminar);
+            HBox accionesBox = new HBox(6, btnAgregar, btnEliminar);
+            accionesBox.setAlignment(Pos.CENTER_RIGHT);
+
+            fila.getChildren().addAll(campo, accionesBox);
             opcionesBox.getChildren().add(fila);
         }
 
@@ -71,6 +77,7 @@ public class AgregarPreguntasController {
             onAgregarOpcion();
         }
     }
+
     @FXML
     public void initialize() {
         onAgregarOpcion();
@@ -80,27 +87,31 @@ public class AgregarPreguntasController {
     @FXML
     private void onAgregarOpcion() {
         HBox fila = new HBox(10);
+        fila.getStyleClass().add("opcion-row");
 
         TextField opcion = new TextField();
         opcion.setPromptText("Opción de respuesta");
         opcion.setPrefWidth(300);
+        opcion.getStyleClass().add("text-field");
         camposOpciones.add(opcion);
 
         Button btnAgregar = new Button();
         btnAgregar.setGraphic(new FontIcon("fa-plus"));
+        btnAgregar.getStyleClass().add("opcion-action");
         btnAgregar.setOnAction(e -> onAgregarOpcion());
 
         Button btnEliminar = new Button();
         btnEliminar.setGraphic(new FontIcon("fa-trash"));
+        btnEliminar.getStyleClass().add("opcion-action");
         btnEliminar.setOnAction(e -> {
             opcionesBox.getChildren().remove(fila);
             camposOpciones.remove(opcion);
         });
 
+        HBox accionesBox = new HBox(6, btnAgregar, btnEliminar);
+        accionesBox.setAlignment(Pos.CENTER_RIGHT);
 
-        // añade todo a la fila
-        fila.getChildren().addAll(opcion, btnAgregar, btnEliminar);
-
+        fila.getChildren().addAll(opcion, accionesBox);
         opcionesBox.getChildren().add(fila);
     }
 

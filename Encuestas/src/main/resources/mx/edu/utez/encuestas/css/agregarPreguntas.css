@@ -1,7 +1,7 @@
-.preguntas-root {
-    -fx-padding: 30;
-    -fx-background-color: #f9f9f9;
-    -fx-font-family: "Segoe UI", sans-serif;
+.root {
+    -fx-background-color: #f7f8fa;
+    -fx-font-smoothing-type: lcd;
+    -fx-padding: 20 30 20 30;
 }
 
 .titulo {
@@ -10,17 +10,55 @@
     -fx-text-fill: #2c3e50;
 }
 
-.text-field, .text-area {
-    -fx-pref-width: 400px;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-color: #ccc;
+.opcion-row {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-margin: 6 0 6 0;
 }
 
-.boton-finalizar {
-    -fx-background-color: #4caf50;
-    -fx-text-fill: white;
+.text-field {
+    -fx-font-size: 16px;
+    -fx-text-fill: #374151;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 6 10 6 10;
+}
+.text-field:focused {
+    -fx-text-fill: #2c3e50;
+    -fx-background-color: #f9fafb;
+}
+
+.opcion-action {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 4;
+}
+.opcion-action .ikonli-font-icon,
+.opcion-action .font-icon {
+    -fx-icon-color: #475569;
+    -fx-icon-size: 16px;
+}
+.opcion-action:hover .ikonli-font-icon,
+.opcion-action:hover .font-icon {
+    -fx-icon-color: #0f172a;
+}
+
+.save-button {
+    -fx-background-color: #111827;
+    -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
-    -fx-padding: 10 20;
-    -fx-background-radius: 5;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+.save-button:hover {
+    -fx-background-color: #080b15;
 }
