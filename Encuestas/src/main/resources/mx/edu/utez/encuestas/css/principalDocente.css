@@ -57,6 +57,7 @@
     -fx-text-fill: #e5e7eb;
     -fx-font-weight: bold;
 }
+
 .search-field {
     -fx-pref-height: 34px;
     -fx-pref-width: 310px;

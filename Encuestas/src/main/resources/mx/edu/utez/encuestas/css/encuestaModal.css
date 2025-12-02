@@ -39,7 +39,7 @@
 
 .radio-button {
     -fx-font-size: 14px;
-    -fx-text-fill: #374151;
+    -fx-text-fill: #034191;
 }
 
 .survey-card {
@@ -60,7 +60,7 @@
 
 .text-field, .search-field {
     -fx-pref-height: 36px;
-    -fx-background-color: #374151;
+    -fx-background-color: transparent;
     -fx-text-fill: #e5e7eb;
     -fx-prompt-text-fill: #9ca3af;
     -fx-background-radius: 8;
@@ -70,12 +70,12 @@
 }
 
 .text-field:focused {
-    -fx-background-color: #4b5563;
+    -fx-border-color: #4b5563;
 }
 
-/* Botón de enviar */
-.submit-button, .sidebar-button-selected {
-    -fx-background-color: #1a73e8;
+
+.submit-button {
+    -fx-background-color: #111827;
     -fx-text-fill: #ffffff;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -85,5 +85,5 @@
 }
 
 .submit-button:hover {
-    -fx-background-color: #166534;
+    -fx-background-color: #070b10;
 }

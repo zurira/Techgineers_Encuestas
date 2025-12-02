@@ -23,7 +23,17 @@
                 <Label text="Usuario" styleClass="label" />
                 <TextField fx:id="usernameField" promptText="Ingresa tu usuario" styleClass="text-field" />
                 <Label text="Contraseña" styleClass="label" />
-                <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" styleClass="password-field" />
+                <StackPane alignment="CENTER_LEFT" >
+                    <PasswordField fx:id="txtPassword" promptText="Ingresa contraseña" styleClass="password-field" />
+                    <TextField fx:id="txtPasswordVisible" promptText="Ingresa contraseña" styleClass="login-input"
+                               visible="false" managed="false" />
+                    <Button fx:id="togglePasswordBtn" onAction="#togglePasswordVisibility"
+                            styleClass="user-icon" StackPane.alignment="CENTER_RIGHT">
+                        <graphic>
+                            <FontIcon iconLiteral="fa-eye" />
+                        </graphic>
+                    </Button>
+                </StackPane>
             </VBox>
 
             <Button text="Entrar" fx:id="loginButton" onAction="#onLogin" styleClass="login-button"  alignment="CENTER"/>

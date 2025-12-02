@@ -6,8 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -23,6 +25,7 @@ import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Pregunta;
+import org.controlsfx.control.action.Action;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,7 +37,7 @@ public class HomeController implements Initializable {
 
     @FXML private TilePane encuestasContainer;
     @FXML private ComboBox<String> categoryFilter;
-    @FXML private TextField searchField;
+    @FXML private Button loginButton;
 
     private final IEncuesta encuestaDao = new EncuestaImpl();
     private static final String OPCION_TODAS = "Todas las Categorías";
@@ -153,6 +156,11 @@ public class HomeController implements Initializable {
             stage.setTitle("Inicio de sesión");
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setMaximized(true);
+
+            Stage currentStage = (Stage) loginButton.getScene().getWindow();
+            currentStage.close();
+
         } catch (IOException e) {
             System.err.println("Error al cargar la vista de registro: " + e.getMessage());
         }
@@ -190,4 +198,5 @@ public class HomeController implements Initializable {
             System.err.println("Error al abrir modal de encuesta: " + ex.getMessage());
         }
     }
+
 }

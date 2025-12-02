@@ -39,7 +39,6 @@
             </VBox>
 
             <VBox spacing="5" GridPane.columnIndex="1">
-                <Label text="Descripción" styleClass="section-title"/>
                 <TextArea fx:id="txtDescripcion"
                           promptText="Descripción del formulario"
                           styleClass="form-description"

@@ -8,10 +8,10 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="mx.edu.utez.encuestas.controller.EncuestaModalController"
             prefHeight="650.0" prefWidth="900.0"
-            stylesheets="@../css/Home.css">
+            stylesheets="@../css/encuestaModal.css">
     <top>
         <VBox alignment="CENTER" spacing="10" styleClass="modal-header">
-            <Label fx:id="lblTituloEncuesta" styleClass="section-title" text="Título de la Encuesta"/>
+            <Label fx:id="lblTituloEncuesta" styleClass="modal-title" text="Título de la Encuesta"/>
         </VBox>
     </top>
 

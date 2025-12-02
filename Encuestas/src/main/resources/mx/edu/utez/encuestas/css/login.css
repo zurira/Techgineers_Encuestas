@@ -21,6 +21,7 @@
 
 .user-icon {
     -fx-icon-color: #374151;
+    -fx-background-color: transparent ;
 }
 .title {
     -fx-font-size: 75px;

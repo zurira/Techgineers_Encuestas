@@ -56,9 +56,12 @@ public class EncuestaModalController implements Initializable {
 
             preguntaToggleGroups.put(pregunta, group);
 
-            VBox preguntaBox = new VBox(10, lblPregunta, opcionesBox);
-            preguntaBox.getStyleClass().add("pregunta-box");
-            preguntasContainer.getChildren().add(preguntaBox);
+            VBox preguntaCard = new VBox(10, lblPregunta, opcionesBox);
+            preguntaCard.getStyleClass().add("survey-card");
+            preguntaCard.setPrefWidth(400);
+            preguntaCard.setSpacing(12);
+
+            preguntasContainer.getChildren().add(preguntaCard);
         }
     }
 
@@ -77,8 +80,16 @@ public class EncuestaModalController implements Initializable {
         }
 
         try {
+            //relaciona cada pregunta con el toggle o el radio
             for (Map.Entry<Pregunta, ToggleGroup> entry : preguntaToggleGroups.entrySet()) {
                 ToggleGroup group = entry.getValue();
+
+                //verifica preguntas sin contestar
+                if(group.getSelectedToggle() == null){
+                    mostrarAlerta("Debes contestar todas las preguntas");
+                    return;
+                }
+                //verifica si el usuario selecciono una respuesta
                 if (group.getSelectedToggle() != null) {
                     Opcion opcionSeleccionada = (Opcion) group.getSelectedToggle().getUserData();
                     Respuesta respuesta = new Respuesta(nombre, grupo, opcionSeleccionada.getId());
