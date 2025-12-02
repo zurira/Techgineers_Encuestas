@@ -6,7 +6,9 @@ import mx.edu.utez.encuestas.model.Respuesta;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RespuestaDaoImpl implements IRespuesta {
@@ -25,14 +27,49 @@ public class RespuestaDaoImpl implements IRespuesta {
     }
 
 
-
     @Override
-    public List<Respuesta> findOpcionId(int opcionId) throws SQLException {
-        return List.of();
+    public List<Respuesta> findByOpcionId(int opcionId) throws SQLException {
+        final String SQL_SELECT = "SELECT * FROM Respuestas WHERE opcion_id = ?";
+        List<Respuesta> respuestas = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT)) {
+
+            stmt.setInt(1, opcionId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    respuestas.add(mapResultSet(rs));
+                }
+            }
+        }
+        return respuestas;
     }
+
 
     @Override
     public List<Respuesta> findAll() throws SQLException {
-        return List.of();
+        final String SQL_SELECT_ALL = "SELECT * FROM Respuestas";
+        List<Respuesta> respuestas = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                respuestas.add(mapResultSet(rs));
+            }
+        }
+        return respuestas;
     }
+
+    private Respuesta mapResultSet(ResultSet rs) throws SQLException {
+        Respuesta respuesta = new Respuesta();
+        respuesta.setId(rs.getInt("id"));
+        respuesta.setNombreAlumno(rs.getString("nombre_alumno"));
+        respuesta.setGrupo(rs.getString("grupo"));
+        respuesta.setOpcionId(rs.getInt("opcion_id"));
+        respuesta.setFechaRespuesta(rs.getString("fecha_respuesta"));
+        return respuesta;
+    }
+
 }
