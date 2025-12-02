@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.dao.IEncuesta;
@@ -134,7 +135,7 @@ public class HomeController implements Initializable {
 
         card.getChildren().addAll(imageWrapper, titleLabel, descriptionLabel);
 
-        card.setOnMouseClicked(e -> System.out.println("Navegar a encuesta: " + encuesta.getTitulo()));
+        card.setOnMouseClicked(e -> abrirModalEncuesta(encuesta));
 
         encuestasContainer.getChildren().add(card);
     }
@@ -153,5 +154,24 @@ public class HomeController implements Initializable {
             System.err.println("Error al cargar la vista de registro: " + e.getMessage());
         }
 
+    }
+
+    private void abrirModalEncuesta(Encuesta encuesta) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/encuestaModal.fxml"));
+            Parent root = loader.load();
+
+            // Obtener el controlador del modal
+            EncuestaModalController controller = loader.getController();
+            controller.setEncuesta(encuesta); // Pasamos la encuesta seleccionada
+
+            Stage stage = new Stage();
+            stage.setTitle("Responder Encuesta");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // Bloquea la ventana principal
+            stage.showAndWait();
+        } catch (IOException ex) {
+            System.err.println("Error al abrir modal de encuesta: " + ex.getMessage());
+        }
     }
 }

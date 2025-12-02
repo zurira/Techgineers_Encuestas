@@ -15,6 +15,12 @@ public class Respuesta {
         this.fechaRespuesta = fechaRespuesta;
     }
 
+    public Respuesta(String nombreAlumno, String grupo, int opcionId) {
+        this.nombreAlumno = nombreAlumno;
+        this.grupo = grupo;
+        this.opcionId = opcionId;
+    }
+
     public Respuesta(){
 
     }
