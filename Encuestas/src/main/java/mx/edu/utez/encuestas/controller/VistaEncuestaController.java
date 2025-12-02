@@ -204,11 +204,17 @@ public class VistaEncuestaController {
             return;
         }
 
-        // se valida que por lo menos haya 10preguntas
+        // se valida que por lo menos haya 3 preguntas
         int numPreguntas = dao.contarPreguntasPorEncuesta(encuesta.getId());
 
-        if (numPreguntas < 10) {
-            mostrarAlerta("La encuesta debe tener al menos 10 preguntas para ser publicada");
+        if (numPreguntas < 3) {
+            mostrarAlerta("La encuesta debe tener al menos 3 preguntas para ser publicada");
+            return; // se termina el proceso
+        }
+
+        //valida un máximo de preguntas de 10
+        if (numPreguntas > 10) {
+            mostrarAlerta("La encuesta solo puede tener un máximo de 10 preguntas");
             return; // se termina el proceso
         }
 
