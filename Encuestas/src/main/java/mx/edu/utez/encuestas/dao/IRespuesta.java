@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IRespuesta {
-    boolean guardarRespuesta(Respuesta respuesta);
+    boolean guardarRespuesta(Respuesta respuesta) throws SQLException;
     List<Respuesta> findOpcionId(int opcionId) throws SQLException;
     List<Respuesta> findAll() throws SQLException;
 }
