@@ -9,7 +9,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="mx.edu.utez.encuestas.controller.PrincipalAdmin"
             prefHeight="600.0" prefWidth="900.0"
-            stylesheets="@../css/principalDocente.css">
+            stylesheets="@../css/principalAdmin.css">
 
     <BorderPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
                 AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
@@ -54,7 +54,7 @@
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field" HBox.hgrow="ALWAYS"/>
                     <Button fx:id="btnAgregarDocente" text="Agregar" styleClass="add-button">
-                        <graphic><FontIcon iconLiteral="fa-plus"/></graphic>
+                        <graphic><FontIcon iconLiteral="fa-plus" styleClass="add-icon"/></graphic>
                     </Button>
                 </HBox>
 
