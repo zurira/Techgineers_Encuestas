@@ -48,7 +48,7 @@ public class LoginController {
                 switch (usuarioValido.getRol().getNombre().trim().toLowerCase()) {
                     case "administrador":
                         System.out.println("Cargando vista admin");
-                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/.fxml"));
+                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalAdmin.fxml"));
                         break;
                     case "docente":
                         System.out.println("Cargando vista de docente");
