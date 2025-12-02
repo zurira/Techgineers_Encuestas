@@ -1,5 +1,7 @@
 package mx.edu.utez.encuestas.model;
 
+import java.util.List;
+
 public class Encuesta {
     private int id;
     private String titulo;
@@ -36,6 +38,17 @@ public class Encuesta {
     public static EstadoEncuesta fromStringEstado(String texto) {
         if (texto == null) return null;
         return EstadoEncuesta.valueOf(texto.trim().toLowerCase());
+    }
+
+    //relacion con preguntas
+    private List<Pregunta> preguntas;
+
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
+    }
+
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
     }
 
 

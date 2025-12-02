@@ -1,5 +1,7 @@
 package mx.edu.utez.encuestas.model;
 
+import java.util.List;
+
 public class Pregunta {
     private int id;
     private String texto;
@@ -19,6 +21,18 @@ public class Pregunta {
     public Pregunta(){
 
     }
+
+    //relacion con opciones
+    private List<Opcion> opciones;
+
+    public List<Opcion> getOpciones() {
+        return opciones;
+    }
+
+    public void setOpciones(List<Opcion> opciones) {
+        this.opciones = opciones;
+    }
+
 
     public String getTexto() {
         return texto;
