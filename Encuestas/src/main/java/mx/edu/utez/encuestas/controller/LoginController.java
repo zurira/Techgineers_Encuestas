@@ -31,24 +31,42 @@ public class LoginController {
         String usuario = usernameField.getText();
         String clave = passwordField.getText();
 
-        // Validar usuario en la base de datos
+        //valida usuario en la base de datos
         Usuario usuarioValido = usuarioDao.validarLogin(usuario, clave);
 
         if (usuarioValido != null) {
             System.out.println("Inicio de sesión exitoso");
 
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalDocente.fxml"));
-                Region root = loader.load();
+                FXMLLoader loader = null;
 
-                PrincipalDocenteController controller = loader.getController();
-                controller.setUsuarioActivo(usuarioValido);
+                switch (usuarioValido.getRol().getNombre().trim().toLowerCase()) {
+                    case "administrador":
+                        System.out.println("Cargando vista admin");
+                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/.fxml"));
+                        break;
+                    case "docente":
+                        System.out.println("Cargando vista de docente");
+                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalDocente.fxml"));
+                        break;
+                    default:
+                        mostrarAlerta("Rol no reconocido");
+                        return;
+                }
+
+                Region root = loader.load();
+                //pasa el usuario al controllador
+                Object controller = loader.getController();
+                if (controller instanceof PrincipalDocenteController docenteController) {
+                    docenteController.setUsuarioActivo(usuarioValido);
+                }
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setMaximized(true);
                 stage.setScene(scene);
                 stage.show();
+
                 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                 stage.setX(screenBounds.getMinX());
                 stage.setY(screenBounds.getMinY());
@@ -57,7 +75,7 @@ public class LoginController {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                mostrarAlerta("Error al cargar el panel del docente.");
+                mostrarAlerta("Error al cargar el panel.");
             }
 
         } else {

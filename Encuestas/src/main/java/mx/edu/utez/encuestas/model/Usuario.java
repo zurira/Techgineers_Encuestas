@@ -6,6 +6,7 @@ public class Usuario {
     private String nombre;
     private String nombreUsuario;
     private String contraseña;
+    private Rol rol;
 
     // Constructor
     public Usuario(int id, String correo, String nombre, String nombreUsuario, String contraseña) {
@@ -14,6 +15,15 @@ public class Usuario {
         this.nombre = nombre;
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
+    }
+
+    public Usuario(int id, String correo, String nombre, String nombreUsuario, String contraseña, Rol rol) {
+        this.id = id;
+        this.correo = correo;
+        this.nombre = nombre;
+        this.nombreUsuario = nombreUsuario;
+        this.contraseña = contraseña;
+        this.rol = rol;
     }
 
     public Usuario(String correo, String nombre, String nombreUsuario, String contraseña) {
@@ -65,5 +75,13 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 }
