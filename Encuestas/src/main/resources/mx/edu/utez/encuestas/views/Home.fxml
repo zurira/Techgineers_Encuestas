@@ -15,7 +15,7 @@
 
 <BorderPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.encuestas.controller.HomeController">
     <top>
-        <HBox alignment="CENTER_LEFT" styleClass="header-bar" prefHeight="60.0">
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar" prefHeight="100.0">
             <padding>
                 <Insets left="20.0" right="20.0" />
             </padding>

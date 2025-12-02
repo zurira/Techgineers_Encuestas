@@ -4,14 +4,17 @@
 }
 
 .login-button {
-    -fx-background-color: transparent;
+    -fx-background-color: #4b5563;
+    -fx-background-radius: 12px;
     -fx-border-color: transparent;
     -fx-padding: 0;
     -fx-text-fill: white;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 45px;
 }
 
 .login-button:hover {
-    -fx-background-color: transparent;
+    -fx-background-color: #38404a;
     -fx-text-fill: lightgray;
     -fx-cursor: hand;
 }
