@@ -19,7 +19,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.dao.IEncuesta;
+import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
+import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
+import mx.edu.utez.encuestas.model.Pregunta;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -158,18 +161,31 @@ public class HomeController implements Initializable {
 
     private void abrirModalEncuesta(Encuesta encuesta) {
         try {
+            PreguntaDaoImpl preguntaDao = new PreguntaDaoImpl();
+            OpcionDaoImpl opcionDao = new OpcionDaoImpl();
+
+            // carga preguntas
+            List<Pregunta> preguntas = preguntaDao.obtenerPreguntasPorEncuesta(encuesta.getId());
+
+            // carg opciones
+            for (Pregunta pregunta : preguntas) {
+                pregunta.setOpciones(opcionDao.obtenerOpcionesPorPregunta(pregunta.getId()));
+            }
+
+            encuesta.setPreguntas(preguntas);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/encuestaModal.fxml"));
             Parent root = loader.load();
 
-            // Obtener el controlador del modal
             EncuestaModalController controller = loader.getController();
-            controller.setEncuesta(encuesta); // Pasamos la encuesta seleccionada
+            controller.setEncuesta(encuesta);
 
             Stage stage = new Stage();
             stage.setTitle("Responder Encuesta");
             stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL); // Bloquea la ventana principal
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+
         } catch (IOException ex) {
             System.err.println("Error al abrir modal de encuesta: " + ex.getMessage());
         }

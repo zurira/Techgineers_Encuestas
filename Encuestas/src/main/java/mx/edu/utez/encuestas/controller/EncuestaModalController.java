@@ -26,8 +26,9 @@ public class EncuestaModalController implements Initializable {
     private Encuesta encuestaSeleccionada;
     private final RespuestaDaoImpl respuestaDao = new RespuestaDaoImpl();
 
-    // Mapa para guardar las opciones seleccionadas por pregunta
+    // guarda las opciones seleccionadas
     private final Map<Pregunta, ToggleGroup> preguntaToggleGroups = new HashMap<>();
+
 
     public void setEncuesta(Encuesta encuesta) {
         this.encuestaSeleccionada = encuesta;
@@ -35,40 +36,35 @@ public class EncuestaModalController implements Initializable {
         cargarPreguntas();
     }
 
+    private void cargarPreguntas() {
+        preguntasContainer.getChildren().clear();
+
+        for (Pregunta pregunta : encuestaSeleccionada.getPreguntas()) {
+            Label lblPregunta = new Label(pregunta.getTexto());
+            lblPregunta.getStyleClass().add("pregunta-label");
+
+            VBox opcionesBox = new VBox(8);
+            ToggleGroup group = new ToggleGroup();
+
+            for (Opcion opcion : pregunta.getOpciones()) {
+                RadioButton rb = new RadioButton(opcion.getTexto());
+                rb.setUserData(opcion);
+                rb.setToggleGroup(group);
+                rb.getStyleClass().add("radio-button");
+                opcionesBox.getChildren().add(rb);
+            }
+
+            preguntaToggleGroups.put(pregunta, group);
+
+            VBox preguntaBox = new VBox(10, lblPregunta, opcionesBox);
+            preguntaBox.getStyleClass().add("pregunta-box");
+            preguntasContainer.getChildren().add(preguntaBox);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnEnviarRespuestas.setOnAction(e -> registrarRespuestas());
-    }
-
-    private void cargarPreguntas() {
-        try {
-            List<Pregunta> preguntas = encuestaSeleccionada.getPreguntas();
-            preguntasContainer.getChildren().clear();
-
-            for (Pregunta pregunta : preguntas) {
-                Label lblPregunta = new Label(pregunta.getTexto());
-                lblPregunta.getStyleClass().add("pregunta-label");
-
-                VBox opcionesBox = new VBox(8);
-                ToggleGroup group = new ToggleGroup();
-
-                for (Opcion opcion : pregunta.getOpciones()) {
-                    RadioButton rb = new RadioButton(opcion.getTexto());
-                    rb.setUserData(opcion);
-                    rb.setToggleGroup(group);
-                    rb.getStyleClass().add("radio-button");
-                    opcionesBox.getChildren().add(rb);
-                }
-
-                preguntaToggleGroups.put(pregunta, group);
-
-                VBox preguntaBox = new VBox(10, lblPregunta, opcionesBox);
-                preguntaBox.getStyleClass().add("pregunta-box");
-                preguntasContainer.getChildren().add(preguntaBox);
-            }
-        } catch (Exception e) {
-            preguntasContainer.getChildren().add(new Label("Error al cargar preguntas: " + e.getMessage()));
-        }
     }
 
     private void registrarRespuestas() {
