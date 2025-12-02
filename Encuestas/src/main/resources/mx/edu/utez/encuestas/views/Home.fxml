@@ -23,7 +23,7 @@
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <Button fx:id="loginButton" text="Iniciar sesión" styleClass="login-button">
+            <Button fx:id="loginButton" text="Iniciar sesión" styleClass="login-button" onAction="#onLogin">
                 <graphic>
                     <FontIcon iconLiteral="fa-user" iconSize="24" styleClass="user-icon"/>
                 </graphic>

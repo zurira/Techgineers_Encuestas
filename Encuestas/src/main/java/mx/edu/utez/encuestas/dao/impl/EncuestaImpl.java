@@ -198,7 +198,7 @@ public class EncuestaImpl implements IEncuesta {
     }
 
     private static final String BASE_SELECT_ACTIVE =
-            "SELECT id, titulo, categoria, imagen, estado, creador_id FROM Encuestas WHERE estado = 'activa'";
+            "SELECT id, titulo, categoria, imagen, estado, creador_id FROM Encuestas WHERE LOWER(estado) = 'activa'";
 
     private List<Encuesta> mapResultSetToEncuestas(ResultSet rs) throws SQLException {
         List<Encuesta> encuestas = new ArrayList<>();
@@ -207,18 +207,23 @@ public class EncuestaImpl implements IEncuesta {
             encuesta.setId(rs.getInt("id"));
             encuesta.setTitulo(rs.getString("titulo"));
             encuesta.setCategoria(rs.getString("categoria"));
-            encuesta.setEstado(Encuesta.EstadoEncuesta.valueOf(rs.getString("estado").toUpperCase()));
+
+            //normaliza el enum
+            String estadoTexto = rs.getString("estado");
+            if (estadoTexto != null) {
+                encuesta.setEstado(Encuesta.EstadoEncuesta.valueOf(estadoTexto.trim().toLowerCase()));
+            }
+
             encuesta.setCreadorId(rs.getInt("creador_id"));
 
             byte[] imagenBlob = rs.getBytes("imagen");
-            Image imagen = null;
             if (imagenBlob != null) {
                 // Convertir BLOB a Image de JavaFX
-                imagen = new Image(new ByteArrayInputStream(imagenBlob));
+                Image imagen = new Image(new ByteArrayInputStream(imagenBlob));
+                encuesta.setImagen(imagenBlob);
             } else {
-                imagen = new Image("/images/default-survey.png"); // Placeholder
+                encuesta.setImagen(null);
             }
-            encuesta.setImagen(imagenBlob);
 
             // Creando texto de detalle simulado
             encuesta.setDescripcionCorta("Participa y opina sobre el tema de " + encuesta.getCategoria() + ".");
@@ -251,7 +256,8 @@ public class EncuestaImpl implements IEncuesta {
 
     @Override
     public List<String> findAllActiveCategories() throws SQLException {
-        final String SQL_CATEGORIES = "SELECT DISTINCT categoria FROM Encuestas WHERE estado = 'activa' ORDER BY categoria";
+        final String SQL_CATEGORIES =
+                "SELECT DISTINCT categoria FROM Encuestas WHERE LOWER(estado) = 'activa' ORDER BY categoria";
         List<String> categories = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_CATEGORIES);

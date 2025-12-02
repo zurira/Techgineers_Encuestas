@@ -33,6 +33,12 @@ public class Encuesta {
     public Encuesta() {
     }
 
+    public static EstadoEncuesta fromStringEstado(String texto) {
+        if (texto == null) return null;
+        return EstadoEncuesta.valueOf(texto.trim().toLowerCase());
+    }
+
+
     //metodos usados para cambiar y actualizar el switch
     public boolean isActiva() {
         return estado == EstadoEncuesta.activa;
