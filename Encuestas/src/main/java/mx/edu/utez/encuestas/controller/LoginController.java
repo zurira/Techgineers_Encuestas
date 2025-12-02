@@ -31,6 +31,11 @@ public class LoginController {
         String usuario = usernameField.getText();
         String clave = passwordField.getText();
 
+        if(usuario.isEmpty() || clave.isEmpty()){
+            mostrarAlerta("Los campos de usurio y contraseña no pueden estar vacíos");
+            return;
+        }
+
         //valida usuario en la base de datos
         Usuario usuarioValido = usuarioDao.validarLogin(usuario, clave);
 
