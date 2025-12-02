@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.edu.utez.encuestas.controller.EncuestaModalController"
+            prefHeight="650.0" prefWidth="900.0"
+            stylesheets="@../css/Home.css">
+    <top>
+        <VBox alignment="CENTER" spacing="10" styleClass="modal-header">
+            <Label fx:id="lblTituloEncuesta" styleClass="section-title" text="Título de la Encuesta"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane-background">
+            <content>
+                <VBox spacing="25">
+                    <padding>
+                        <Insets top="20" right="40" bottom="20" left="40"/>
+                    </padding>
+
+                    <VBox styleClass="survey-card" spacing="8">
+                        <Label text="Nombre del alumno" styleClass="card-title"/>
+                        <TextField fx:id="txtNombreAlumno" promptText="Ingresa tu nombre" styleClass="search-field"/>
+                    </VBox>
+
+                    <VBox styleClass="survey-card" spacing="8">
+                        <Label text="Grupo" styleClass="card-title"/>
+                        <TextField fx:id="txtGrupoAlumno" promptText="Ingresa tu grupo" styleClass="search-field"/>
+                    </VBox>
+
+                    <VBox fx:id="preguntasContainer" spacing="20">
+                        <!-- se cargan las preguntas como card dinamicamente -->
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+            <Button fx:id="btnEnviarRespuestas" text="Enviar respuestas" styleClass="submit-button"/>
+        </VBox>
+    </bottom>
+</BorderPane>
