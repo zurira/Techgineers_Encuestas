@@ -2,6 +2,7 @@ package mx.edu.utez.encuestas.dao.impl;
 
 import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IUsuario;
+import mx.edu.utez.encuestas.model.Rol;
 import mx.edu.utez.encuestas.model.Usuario;
 
 import java.sql.*;
@@ -10,7 +11,12 @@ public class UsuarioDaoImpl implements IUsuario {
 
     @Override
     public Usuario validarLogin(String nombreUsuario, String contraseña) {
-        String query = "SELECT * FROM Usuarios WHERE nombre_usuario = ? AND contraseña = ?";
+        String query = "SELECT u.id, u.correo, u.nombre, u.nombre_usuario, u.contraseña, " +
+                "r.id AS rol_id, r.nombre AS rol_nombre " +
+                "FROM Usuarios u " +
+                "JOIN Roles r ON u.rol_id = r.id " +
+                "WHERE u.nombre_usuario = ? AND u.contraseña = ?";
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -19,13 +25,21 @@ public class UsuarioDaoImpl implements IUsuario {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Usuario(
+                Rol rol = new Rol(
+                        rs.getInt("rol_id"),
+                        rs.getString("rol_nombre")
+                );
+
+                Usuario usuario = new Usuario(
                         rs.getInt("id"),
                         rs.getString("correo"),
                         rs.getString("nombre"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contraseña")
                 );
+                usuario.setRol(rol);
+
+                return usuario;
             }
         } catch (SQLException e) {
             System.err.println("Error al validar login: " + e.getMessage());
