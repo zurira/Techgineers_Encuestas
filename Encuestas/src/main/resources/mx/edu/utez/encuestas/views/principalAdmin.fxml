@@ -7,7 +7,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="mx.edu.utez.encuestas.controller.PrincipalAdmin"
+            fx:controller="mx.edu.utez.encuestas.controller.PrincipalAdminController"
             prefHeight="600.0" prefWidth="900.0"
             stylesheets="@../css/principalAdmin.css">
 

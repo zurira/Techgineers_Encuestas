@@ -2,10 +2,13 @@ package mx.edu.utez.encuestas.dao.impl;
 
 import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IUsuario;
+import mx.edu.utez.encuestas.model.Respuesta;
 import mx.edu.utez.encuestas.model.Rol;
 import mx.edu.utez.encuestas.model.Usuario;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDaoImpl implements IUsuario {
 
@@ -61,6 +64,35 @@ public class UsuarioDaoImpl implements IUsuario {
             System.err.println("Error al verificar usuario: " + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public List<Usuario> findAll() throws SQLException {
+        final String sql = "SELECT * FROM Usuarios WHERE rol_id = 2 ";
+        List<Usuario> docentes = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                docentes.add(mapResultSet(rs));
+            }
+        }
+        return docentes;
+    }
+
+    private Usuario mapResultSet(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setId(rs.getInt("id"));
+        usuario.setCorreo(rs.getString("correo"));
+        usuario.setNombre(rs.getString("nombre"));
+        usuario.setNombreUsuario(rs.getString("nombre_usuario"));
+        usuario.setContraseña(rs.getString("contraseña"));
+        Rol rol = new Rol();
+        rol.setId(rs.getInt("rol_id"));
+        usuario.setRol(rol);
+        return usuario;
     }
 
     @Override

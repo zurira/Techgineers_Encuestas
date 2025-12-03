@@ -38,6 +38,7 @@ public class HomeController implements Initializable {
     @FXML private TilePane encuestasContainer;
     @FXML private ComboBox<String> categoryFilter;
     @FXML private Button loginButton;
+    @FXML private TextField searchField;
 
     private final IEncuesta encuestaDao = new EncuestaImpl();
     private static final String OPCION_TODAS = "Todas las Categorías";
@@ -51,6 +52,11 @@ public class HomeController implements Initializable {
 
         loadCategories();
         loadEncuestas(null);
+
+        //listener para buscador
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            filterBySearch(newVal);
+        });
     }
 
     private void loadCategories() {
@@ -79,6 +85,33 @@ public class HomeController implements Initializable {
         } else {
             loadEncuestas(categoria);
         }
+    }
+
+    private void filterBySearch(String texto) {
+        new Thread(() -> {
+            try {
+                List<Encuesta> encuestas = encuestaDao.findAllActive();
+
+                List<Encuesta> filtradas = encuestas.stream()
+                        .filter(e -> e.getTitulo().toLowerCase().contains(texto.toLowerCase())
+                                || e.getDescripcionCorta().toLowerCase().contains(texto.toLowerCase()))
+                        .toList();
+
+                Platform.runLater(() -> {
+                    encuestasContainer.getChildren().clear();
+                    if (filtradas.isEmpty()) {
+                        encuestasContainer.getChildren().add(new Label("No hay encuestas que coincidan con la búsqueda."));
+                    } else {
+                        filtradas.forEach(this::createSurveyCard);
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    Label error = new Label("Error al filtrar encuestas: " + e.getMessage());
+                    encuestasContainer.getChildren().add(error);
+                });
+            }
+        }).start();
     }
 
     private void loadEncuestas(String categoria) {

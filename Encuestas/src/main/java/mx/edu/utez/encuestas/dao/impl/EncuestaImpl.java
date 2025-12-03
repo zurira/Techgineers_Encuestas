@@ -135,7 +135,6 @@ public class EncuestaImpl implements IEncuesta {
         return -1;
     }
 
-// EncuestaImpl.java
 
     @Override
     public boolean actualizarEncuesta(Encuesta encuesta) {
@@ -226,7 +225,7 @@ public class EncuestaImpl implements IEncuesta {
             }
 
             // Creando texto de detalle simulado
-            encuesta.setDescripcionCorta("Participa y opina sobre el tema de " + encuesta.getCategoria() + ".");
+            encuesta.setDescripcionCorta("Participa y opina sobre el tema de " + encuesta.getTitulo() + ".");
 
             encuestas.add(encuesta);
         }

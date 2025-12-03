@@ -61,7 +61,7 @@
 .text-field, .search-field {
     -fx-pref-height: 36px;
     -fx-background-color: transparent;
-    -fx-text-fill: #e5e7eb;
+    -fx-text-fill: #000000;
     -fx-prompt-text-fill: #9ca3af;
     -fx-background-radius: 8;
     -fx-border-radius: 8;

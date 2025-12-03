@@ -1,4 +1,4 @@
 package mx.edu.utez.encuestas.controller;
 
-public class PrincipalAdmin {
+public class PrincipalAdminController {
 }
