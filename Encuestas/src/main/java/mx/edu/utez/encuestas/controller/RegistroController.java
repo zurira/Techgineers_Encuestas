@@ -35,7 +35,7 @@ public class RegistroController {
 
         Usuario nuevo = new Usuario(correo, nombre, usuario, clave);
         if (usuarioDao.registrarUsuario(nuevo)) {
-            mostrarAlerta("Registro exitoso. Ya puedes iniciar sesión.");
+            mostrarAlerta("Registro exitoso.");
             limpiarCampos();
         } else {
             mostrarAlerta("Error al registrar. Intenta más tarde.");

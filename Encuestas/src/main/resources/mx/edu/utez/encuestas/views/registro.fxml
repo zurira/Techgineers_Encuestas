@@ -16,16 +16,16 @@
 
     <VBox spacing="10">
         <Label text="Correo electrónico" />
-        <TextField fx:id="correoField" promptText="ejemplo@correo.com" />
+        <TextField fx:id="correoField" promptText="ejemplo@correo.com" styleClass="text-field" />
 
         <Label text="Nombre completo" />
-        <TextField fx:id="nombreField" promptText="Tu nombre" />
+        <TextField fx:id="nombreField" promptText="Nombre" styleClass="text-field"  />
 
         <Label text="Nombre de usuario" />
-        <TextField fx:id="usuarioField" promptText="Nombre de usuario único" />
+        <TextField fx:id="usuarioField" promptText="Nombre de usuario único" styleClass="text-field"  />
 
         <Label text="Contraseña" />
-        <PasswordField fx:id="claveField" promptText="Contraseña segura" />
+        <PasswordField fx:id="claveField" promptText="Contraseña segura" styleClass="text-field" />
     </VBox>
 
     <Button text="Registrarse" fx:id="registrarButton" onAction="#onRegistrar" styleClass="boton" />

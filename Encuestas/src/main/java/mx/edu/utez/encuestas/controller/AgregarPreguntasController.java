@@ -27,7 +27,17 @@ public class AgregarPreguntasController {
     private int idEncuesta;
     private Pregunta preguntaExistente;
 
-    private List<TextField> camposOpciones = new ArrayList<>();
+    private static class OpcionUI {
+        final TextField campo;
+        Integer id;
+
+        OpcionUI(TextField campo, Integer id) {
+            this.campo = campo;
+            this.id = id;
+        }
+    }
+
+    private final List<OpcionUI> camposOpciones = new ArrayList<>();
 
     public void setIdEncuesta(int idEncuesta) {
         this.idEncuesta = idEncuesta;
@@ -37,7 +47,7 @@ public class AgregarPreguntasController {
         this.preguntaExistente = pregunta;
         preguntaField.setText(pregunta.getTexto());
 
-        // limpia la interfaz
+        //limpia la interfaz
         opcionesBox.getChildren().clear();
         camposOpciones.clear();
 
@@ -50,7 +60,9 @@ public class AgregarPreguntasController {
             campo.setPromptText("Opción de respuesta");
             campo.setPrefWidth(300);
             campo.getStyleClass().add("text-field");
-            camposOpciones.add(campo);
+
+            // Guarda id existente
+            camposOpciones.add(new OpcionUI(campo, opcion.getId()));
 
             Button btnAgregar = new Button();
             btnAgregar.setGraphic(new FontIcon("fa-plus"));
@@ -62,7 +74,7 @@ public class AgregarPreguntasController {
             btnEliminar.getStyleClass().add("opcion-action");
             btnEliminar.setOnAction(e -> {
                 opcionesBox.getChildren().remove(fila);
-                camposOpciones.remove(campo);
+                camposOpciones.removeIf(ou -> ou.campo == campo);
             });
 
             HBox accionesBox = new HBox(6, btnAgregar, btnEliminar);
@@ -72,7 +84,6 @@ public class AgregarPreguntasController {
             opcionesBox.getChildren().add(fila);
         }
 
-        // se añaden 2 opciones por default
         while (camposOpciones.size() < 2) {
             onAgregarOpcion();
         }
@@ -89,11 +100,12 @@ public class AgregarPreguntasController {
         HBox fila = new HBox(10);
         fila.getStyleClass().add("opcion-row");
 
-        TextField opcion = new TextField();
-        opcion.setPromptText("Opción de respuesta");
-        opcion.setPrefWidth(300);
-        opcion.getStyleClass().add("text-field");
-        camposOpciones.add(opcion);
+        TextField campo = new TextField();
+        campo.setPromptText("Opción de respuesta");
+        campo.setPrefWidth(300);
+        campo.getStyleClass().add("text-field");
+
+        camposOpciones.add(new OpcionUI(campo, null));
 
         Button btnAgregar = new Button();
         btnAgregar.setGraphic(new FontIcon("fa-plus"));
@@ -105,13 +117,13 @@ public class AgregarPreguntasController {
         btnEliminar.getStyleClass().add("opcion-action");
         btnEliminar.setOnAction(e -> {
             opcionesBox.getChildren().remove(fila);
-            camposOpciones.remove(opcion);
+            camposOpciones.removeIf(ou -> ou.campo == campo);
         });
 
         HBox accionesBox = new HBox(6, btnAgregar, btnEliminar);
         accionesBox.setAlignment(Pos.CENTER_RIGHT);
 
-        fila.getChildren().addAll(opcion, accionesBox);
+        fila.getChildren().addAll(campo, accionesBox);
         opcionesBox.getChildren().add(fila);
     }
 
@@ -119,49 +131,59 @@ public class AgregarPreguntasController {
     @FXML
     private void onGuardarPregunta() {
         String textoPregunta = preguntaField.getText().trim();
-        if (textoPregunta.isEmpty()) {
-            mostrarAlerta("La pregunta no puede estar vacía.");
-            return;
-        }
+        if (textoPregunta.isEmpty()) { mostrarAlerta("La pregunta no puede estar vacía."); return; }
 
-        List<String> opciones = new ArrayList<>();
-        for (TextField tf : camposOpciones) {
-            if (!tf.getText().trim().isEmpty()) {
-                opciones.add(tf.getText().trim());
-            }
-        }
+        // limpia opciones
+        List<OpcionUI> opcionesUI = camposOpciones.stream()
+                .filter(ou -> ou.campo.getText() != null && !ou.campo.getText().trim().isEmpty())
+                .toList();
 
-        if (opciones.size() < 2) {
+        if (opcionesUI.size() < 2) {
             mostrarAlerta("Agrega al menos dos opciones.");
             return;
         }
 
         if (preguntaExistente != null) {
-            // Editar pregunta existente
-            preguntaExistente.setTexto(textoPregunta);
-            boolean actualizada = dao.actualizarPregunta(
-                    preguntaExistente.getTexto(),
-                    this.idEncuesta, // se usa el ID ya establecido
-                    preguntaExistente.getId()
-            );
+            // actualiza la pregunta
+            boolean actualizada = dao.actualizarPregunta(textoPregunta, this.idEncuesta, preguntaExistente.getId());
+            if (!actualizada) { mostrarAlerta("Error al actualizar la pregunta."); return; }
 
-            if (actualizada) {
-                daoOp.eliminarOpcionesPorPregunta(preguntaExistente.getId());
-                for (String opcion : opciones) {
-                    daoOp.insertarOpcion(opcion, preguntaExistente.getId());
+            // obtiene opciones de bd
+            List<Opcion> opcionesBD = daoOp.obtenerOpcionesPorPregunta(preguntaExistente.getId());
+            // consulta rápida
+            java.util.Map<Integer, Opcion> mapaBD = new java.util.HashMap<>();
+            for (Opcion o : opcionesBD) mapaBD.put(o.getId(), o);
+
+            // actualiza o inserta segun se necesite
+            for (OpcionUI ou : opcionesUI) {
+                String nuevoTexto = ou.campo.getText().trim();
+                if (ou.id == null) {
+                    // si es nueva
+                    daoOp.insertarOpcion(nuevoTexto, preguntaExistente.getId());
+                } else {
+                    // si se va a actualizar
+                    Opcion existente = mapaBD.get(ou.id);
+                    if (existente != null && !existente.getTexto().equals(nuevoTexto)) {
+                        daoOp.actualizarOpcion(ou.id, nuevoTexto);
+                    }
+                    // se indica cual eliminar
+                    mapaBD.remove(ou.id);
                 }
-                mostrarAlerta("Pregunta actualizada.");
-                cerrarVentana();
-            } else {
-                mostrarAlerta("Error al actualizar la pregunta.");
             }
 
+            for (Opcion aEliminar : mapaBD.values()) {
+                daoOp.eliminarOpcionPorId(aEliminar.getId());
+            }
+
+            mostrarAlerta("Pregunta actualizada.");
+            cerrarVentana();
+
         } else {
-            // Crear nueva pregunta
+            // nueva pregunta
             int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
             if (idPregunta > 0) {
-                for (String opcion : opciones) {
-                    daoOp.insertarOpcion(opcion, idPregunta);
+                for (OpcionUI ou : opcionesUI) {
+                    daoOp.insertarOpcion(ou.campo.getText().trim(), idPregunta);
                 }
                 mostrarAlerta("Pregunta guardada.");
                 cerrarVentana();

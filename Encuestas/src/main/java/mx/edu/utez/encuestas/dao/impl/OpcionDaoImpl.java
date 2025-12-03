@@ -45,6 +45,54 @@ public class OpcionDaoImpl implements IOpcion {
         }
     }
 
+    public boolean eliminarOpcionPorId(int idOpcion) {
+        String sqlRespuestas = "DELETE FROM Respuestas WHERE opcion_id = ?";
+        String sqlOpcion = "DELETE FROM Opciones WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection()) {
+            // borra las respuestas ligadas
+            try (PreparedStatement stmtRes = conn.prepareStatement(sqlRespuestas)) {
+                stmtRes.setInt(1, idOpcion);
+                stmtRes.executeUpdate();
+            }
+            // borra la opción
+            try (PreparedStatement stmtOp = conn.prepareStatement(sqlOpcion)) {
+                stmtOp.setInt(1, idOpcion);
+                return stmtOp.executeUpdate() == 1;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar opción y respuestas: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public int contarRespuestasPorOpcion(int idOpcion) {
+        String sql = "SELECT COUNT(*) FROM Respuestas WHERE opcion_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idOpcion);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
+        } catch (SQLException e) {
+            System.err.println("Error al contar respuestas: " + e.getMessage());
+            return -1;
+        }
+    }
+
+
+    public boolean actualizarOpcion(int idOpcion, String nuevoTexto) {
+        String sql = "UPDATE Opciones SET texto = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nuevoTexto);
+            stmt.setInt(2, idOpcion);
+            return stmt.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar opción: " + e.getMessage());
+            return false;
+        }
+    }
+
+
     @Override
     public List<Opcion> obtenerOpcionesPorPregunta(int idPregunta) {
         List<Opcion> lista = new ArrayList<>();

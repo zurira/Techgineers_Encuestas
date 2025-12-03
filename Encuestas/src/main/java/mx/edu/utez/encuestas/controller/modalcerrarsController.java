@@ -29,7 +29,7 @@ public class modalcerrarsController {
 
             // Abre la vista de login.fxml en una nueva ventana
             FXMLLoader fxmlLoader = new FXMLLoader(
-                    HelloApplication.class.getResource("/mx/edu/utez/encuestas/login.fxml")
+                    HelloApplication.class.getResource("/mx/edu/utez/encuestas/views/login.fxml")
             );
             Parent root = fxmlLoader.load();
 
