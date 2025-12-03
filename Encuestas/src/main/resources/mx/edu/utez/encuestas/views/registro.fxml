@@ -12,7 +12,7 @@
       stylesheets="@../css/registro.css"
       styleClass="registro-root">
 
-    <Label text="Crear nueva cuenta" styleClass="titulo" />
+    <Label text="Agregar Docente" styleClass="titulo" />
 
     <VBox spacing="10">
         <Label text="Correo electrónico" />
