@@ -110,6 +110,16 @@ public class PrincipalAdminController implements Initializable {
 
     @FXML
     private void logout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/modalcerrars.fxml"));
+            Parent root = loader.load();
 
+            Stage stage = new Stage();
+            stage.setTitle("Cerrar sesión");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista " + e.getMessage());
+        }
     }
 }

@@ -45,7 +45,7 @@
                             <HBox alignment="CENTER_RIGHT" spacing="10">
                                 <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
                                 <Label fx:id="nombreDocente" styleClass="avatar-name" text="Docente"/>
-                                <Button fx:id="logoutButton" styleClass="logout-button">
+                                <Button fx:id="logoutButton" styleClass="logout-button" onAction="#logout">
                                     <graphic>
                                         <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
                                     </graphic>
