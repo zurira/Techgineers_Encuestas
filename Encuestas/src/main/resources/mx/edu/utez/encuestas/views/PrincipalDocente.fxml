@@ -7,14 +7,12 @@
 <?import javafx.scene.shape.Circle?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane
-        xmlns="http://javafx.com/javafx/21"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="mx.edu.utez.encuestas.controller.PrincipalDocenteController"
-        stylesheets="@../css/principalDocente.css">
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.edu.utez.encuestas.controller.PrincipalDocenteController"
+            stylesheets="@../css/principalDocente.css">
 
-    <BorderPane fx:id="mainBorderPane"
-                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+    <BorderPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
                 AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
         <!-- Menú lateral izquierdo -->
@@ -22,13 +20,16 @@
             <VBox fx:id="sidebar" prefWidth="240.0" styleClass="sidebar">
                 <Label text="Panel Docente" styleClass="sidebar-brand"/>
                 <Separator styleClass="sidebar-separator"/>
-                <Button text="Dashboard" styleClass="sidebar-button" prefWidth="200.0">
+
+                <Button fx:id="btnDashboard" text="Dashboard" styleClass="sidebar-button" prefWidth="200.0" onAction="#abrirVistaDashboard">
                     <graphic><FontIcon iconLiteral="fa-home"/></graphic>
                 </Button>
-                <Button text="Encuestas" styleClass="sidebar-button-selected" prefWidth="200.0">
+
+                <Button fx:id="btnEncuestas" text="Encuestas" styleClass="sidebar-button" prefWidth="200.0" onAction="#abrirVistaEncuestas">
                     <graphic><FontIcon iconLiteral="fa-list"/></graphic>
                 </Button>
-                <Button text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onAction="#abrirVistaReportes">
+
+                <Button fx:id="btnReportes" text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onAction="#abrirVistaReportes">
                     <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
                 </Button>
             </VBox>
@@ -36,9 +37,9 @@
 
         <!-- Contenido principal -->
         <center>
-            <!-- fx:id agregado para poder reemplazar esta vista desde el controlador -->
             <VBox fx:id="centerContent" spacing="0">
-                <!-- Header -->
+
+                <!-- Encabezado azul fijo -->
                 <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
                     <Label text="Encuestas" styleClass="header-title"/>
                     <TextField promptText="Buscar" styleClass="search-field"/>
@@ -49,34 +50,34 @@
                     </StackPane>
                 </HBox>
 
-                <!-- Contenido scrollable -->
-                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-background">
-                    <VBox spacing="24.0">
-                        <padding>
-                            <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
-                        </padding>
+                <!-- Esta es el area que cmabia para cambiar vistas -->
+                <VBox fx:id="contentArea" VBox.vgrow="ALWAYS">
+                    <!-- Aquí se cargan dinámicamente scrollEncuestas o reportes.fxml -->
+                    <ScrollPane fx:id="scrollEncuestas" fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-background">
+                        <VBox spacing="24.0">
+                            <padding>
+                                <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
+                            </padding>
 
-                        <!-- Crear nueva encuesta y plantillas como grid (opcional) -->
-                        <Label text="Crear nuevo formulario" styleClass="section-title"/>
-                        <FlowPane fx:id="contenedorPlantillas" hgap="16" vgap="16" prefWrapLength="980">
-                            <!-- Card: Nuevo -->
-                            <VBox styleClass="survey-card crear-card" onMouseClicked="#crearFormularioEnBlanco">
-                                <StackPane styleClass="image-wrapper">
-                                    <Label text="+" styleClass="plus-icon"/>
-                                </StackPane>
-                                <Label text="Nuevo" styleClass="card-title"/>
-                                <Label text="Crear desde cero" styleClass="card-description"/>
-                            </VBox>
-                        </FlowPane>
+                            <Label text="Crear nuevo formulario" styleClass="section-title"/>
+                            <FlowPane fx:id="contenedorPlantillas" hgap="16" vgap="16" prefWrapLength="980">
+                                <VBox styleClass="survey-card crear-card" onMouseClicked="#crearFormularioEnBlanco">
+                                    <StackPane styleClass="image-wrapper">
+                                        <Label text="+" styleClass="plus-icon"/>
+                                    </StackPane>
+                                    <Label text="Nuevo" styleClass="card-title"/>
+                                    <Label text="Crear desde cero" styleClass="card-description"/>
+                                </VBox>
+                            </FlowPane>
 
-                        <HBox alignment="CENTER_LEFT" spacing="8">
-                            <Label text="Tus encuestas" styleClass="section-title"/>
-                        </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label text="Tus encuestas" styleClass="section-title"/>
+                            </HBox>
 
-                        <!-- Encuestas cargadas dinamicamente -->
-                        <FlowPane fx:id="contenedorEncuestas" hgap="16" vgap="16" prefWrapLength="980"/>
-                    </VBox>
-                </ScrollPane>
+                            <FlowPane fx:id="contenedorEncuestas" hgap="16" vgap="16" prefWrapLength="980"/>
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
             </VBox>
         </center>
     </BorderPane>
