@@ -124,6 +124,13 @@ public class PrincipalAdminController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/modalcerrars.fxml"));
             Parent root = loader.load();
 
+            // se obtiene el controllador del modal
+            modalcerrarsController modalController = loader.getController();
+
+            // se pasa el stage actual al del modal
+            Stage principalStage = (Stage) nombreAdmin.getScene().getWindow();
+            modalController.setPrincipalStage(principalStage);
+
             Stage stage = new Stage();
             stage.setTitle("Cerrar sesión");
             stage.setScene(new Scene(root));
@@ -132,4 +139,5 @@ public class PrincipalAdminController implements Initializable {
             System.err.println("Error al cargar la vista " + e.getMessage());
         }
     }
+
 }

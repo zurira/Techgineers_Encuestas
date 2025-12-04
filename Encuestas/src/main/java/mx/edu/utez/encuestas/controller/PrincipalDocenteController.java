@@ -215,6 +215,13 @@ public class PrincipalDocenteController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/modalcerrars.fxml"));
             Parent root = loader.load();
 
+            // se obtiene el controllador del modal
+            modalcerrarsController modalController = loader.getController();
+
+            // se pasa el stage actual al del modal
+            Stage principalStage = (Stage) nombreDocente.getScene().getWindow();
+            modalController.setPrincipalStage(principalStage);
+
             Stage stage = new Stage();
             stage.setTitle("Cerrar sesión");
             stage.setScene(new Scene(root));

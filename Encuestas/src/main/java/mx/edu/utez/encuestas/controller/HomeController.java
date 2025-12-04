@@ -191,6 +191,7 @@ public class HomeController implements Initializable {
             stage.show();
             stage.setMaximized(true);
 
+            //cerrar ventana
             Stage currentStage = (Stage) loginButton.getScene().getWindow();
             currentStage.close();
 
