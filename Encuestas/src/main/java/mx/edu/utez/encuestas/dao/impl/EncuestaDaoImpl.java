@@ -6,12 +6,11 @@ import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
 
 import java.io.ByteArrayInputStream;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EncuestaImpl implements IEncuesta {
+public class EncuestaDaoImpl implements IEncuesta {
 
     @Override
     public List<Encuesta> obtenerEncuestasPorDocente(int idDocente) {
@@ -174,28 +173,6 @@ public class EncuestaImpl implements IEncuesta {
         }
     }
 
-    @Override
-    public boolean crearEncuesta(String titulo, String categoria, byte[] imagen, String estado, String descripcion, int idDocente) {
-        String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, titulo);
-            stmt.setString(2, categoria);
-            stmt.setBytes(3, imagen);
-            stmt.setString(4, estado);
-            stmt.setInt(5, idDocente);
-            stmt.setString(6, descripcion);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.err.println("Error al crear encuesta: " + e.getMessage());
-            return false;
-        }
-    }
-
     private static final String BASE_SELECT_ACTIVE =
             "SELECT id, titulo, categoria, imagen, estado, creador_id FROM Encuestas WHERE LOWER(estado) = 'activa'";
 
@@ -283,4 +260,41 @@ public class EncuestaImpl implements IEncuesta {
             return false;
         }
     }
+
+    public static int contarEncuestas() {
+        int total = 0;
+        String query = "SELECT COUNT(*) FROM encuestas";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al contar encuestas: " + e.getMessage());
+        }
+        return total;
+    }
+
+    public static int contarEncuestasPorEstado(String estado) {
+        int total = 0;
+        String query = "SELECT COUNT(*) FROM encuestas WHERE estado = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, estado);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al contar encuestas por estado: " + e.getMessage());
+        }
+        return total;
+    }
+
+
+
+
+
 }

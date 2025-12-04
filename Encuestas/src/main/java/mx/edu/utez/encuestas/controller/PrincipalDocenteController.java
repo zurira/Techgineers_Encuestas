@@ -23,7 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import mx.edu.utez.encuestas.dao.IEncuesta;
-import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
+import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Usuario;
 
@@ -33,7 +33,7 @@ public class PrincipalDocenteController {
     @FXML private TextField buscarField;
     @FXML private Label nombreDocente;
 
-    private final IEncuesta encuestaDao = new EncuestaImpl();
+    private final IEncuesta encuestaDao = new EncuestaDaoImpl();
     private Usuario usuarioActivo;
 
     public void setUsuarioActivo(Usuario usuario) {

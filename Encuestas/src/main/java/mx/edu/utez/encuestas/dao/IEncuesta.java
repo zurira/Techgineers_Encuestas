@@ -10,8 +10,7 @@ public interface IEncuesta {
     int obtenerUltimoIdEncuestaDelDocente(int idDocente);
     int guardarEncuesta(Encuesta encuesta);
     boolean actualizarEncuesta(Encuesta encuesta);
-    public Encuesta obtenerEncuestaCompletaPorId(int idEncuesta);
-    boolean crearEncuesta(String titulo, String categoria, byte[] imagen, String estado, String descripcion, int idDocente);
+    Encuesta obtenerEncuestaCompletaPorId(int idEncuesta);
     List<Encuesta> findAllActive() throws SQLException;
     List<Encuesta> findActiveByCategory(String categoria) throws SQLException;
     List<String> findAllActiveCategories() throws SQLException;

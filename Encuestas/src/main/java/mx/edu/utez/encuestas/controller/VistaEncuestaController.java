@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
+import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
@@ -177,7 +177,7 @@ public class VistaEncuestaController {
 
         //encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]);
 
-        EncuestaImpl encuestaDao = new EncuestaImpl();
+        EncuestaDaoImpl encuestaDao = new EncuestaDaoImpl();
         boolean resultado;
         if (encuesta.getId() > 0) {
             resultado = encuestaDao.actualizarEncuesta(encuesta);
@@ -235,7 +235,7 @@ public class VistaEncuestaController {
         encuesta.setEstado(Encuesta.EstadoEncuesta.activa); // Intención: publicarla
         //no se setea la imagen, ya que puede que haya cambiado o no
 
-        EncuestaImpl encuestaDao = new EncuestaImpl();
+        EncuestaDaoImpl encuestaDao = new EncuestaDaoImpl();
         boolean resultado;
 
         // actualiza en la base de datos y detecta si se cambio la imagen

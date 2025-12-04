@@ -2,11 +2,9 @@ package mx.edu.utez.encuestas.controller;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;

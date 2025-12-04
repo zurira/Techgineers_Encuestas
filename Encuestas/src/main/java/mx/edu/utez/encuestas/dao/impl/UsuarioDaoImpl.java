@@ -115,4 +115,20 @@ public class UsuarioDaoImpl implements IUsuario {
         return false;
     }
 
+    public static int contarDocentes() {
+        int total = 0;
+        String query = "SELECT COUNT(*) FROM usuarios WHERE rol_id = 2";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al contar docentes: " + e.getMessage());
+        }
+        return total;
+    }
+
+
 }

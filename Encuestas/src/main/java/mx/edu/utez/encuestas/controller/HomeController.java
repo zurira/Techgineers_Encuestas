@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,13 +18,12 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
+import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
 import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.dao.impl.OpcionDaoImpl;
 import mx.edu.utez.encuestas.dao.impl.PreguntaDaoImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Pregunta;
-import org.controlsfx.control.action.Action;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,7 +38,7 @@ public class HomeController implements Initializable {
     @FXML private Button loginButton;
     @FXML private TextField searchField;
 
-    private final IEncuesta encuestaDao = new EncuestaImpl();
+    private final IEncuesta encuestaDao = new EncuestaDaoImpl();
     private static final String OPCION_TODAS = "Todas las Categorías";
 
     @Override
