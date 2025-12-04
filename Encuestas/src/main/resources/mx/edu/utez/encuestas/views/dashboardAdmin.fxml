@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<?import javafx.scene.chart.PieChart?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="mx.edu.utez.encuestas.controller.DashboardAdminController"
+            prefHeight="600.0" prefWidth="900.0"
+            stylesheets="@../css/dashboardAdmin.css">
+
+    <BorderPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <left>
+            <VBox fx:id="sidebar" prefWidth="240.0" styleClass="sidebar">
+                <Label text="Panel Administrador" styleClass="sidebar-brand"/>
+                <Separator styleClass="sidebar-separator"/>
+                <Button text="Dashboard" styleClass="sidebar-button-selected" maxWidth="Infinity">
+                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                </Button>
+                <Button text="Docentes" styleClass="sidebar-button" maxWidth="Infinity">
+                    <graphic><FontIcon iconLiteral="fa-users"/></graphic>
+                </Button>
+            </VBox>
+        </left>
+
+        <top>
+            <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
+                <Label text="Dashboard" styleClass="header-title"/>
+                <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" styleClass="user-info-box">
+                    <children>
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
+                            <Label fx:id="nombreAdmin" styleClass="avatar-name" text="Administrador"/>
+                            <Button fx:id="logoutButton" styleClass="logout-button" >
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
+                                </graphic>
+                            </Button>
+                        </HBox>
+                    </children>
+                </VBox>
+            </HBox>
+        </top>
+
+        <center>
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane-background">
+                <content>
+                    <VBox spacing="20">
+                        <padding>
+                            <Insets right="20" bottom="20" left="20" top="20" />
+                        </padding>
+                        <HBox spacing="20" alignment="CENTER">
+                            <VBox styleClass="stat-card">
+                                <FontIcon iconLiteral="fa-users" styleClass="stat-icon"/>
+                                <Label text="Docentes registrados" styleClass="stat-title"/>
+                                <Label fx:id="lblTotalDocentes" text="0" styleClass="stat-value"/>
+                            </VBox>
+                            <VBox styleClass="stat-card">
+                                <FontIcon iconLiteral="fa-list-alt" styleClass="stat-icon"/>
+                                <Label text="Encuestas creadas" styleClass="stat-title"/>
+                                <Label fx:id="lblTotalEncuestas" text="0" styleClass="stat-value"/>
+                            </VBox>
+                            <VBox styleClass="stat-card">
+                                <FontIcon iconLiteral="fa-check-circle" styleClass="stat-icon"/>
+                                <Label text="Encuestas activas" styleClass="stat-title"/>
+                                <Label fx:id="lblEncuestasActivas" text="0" styleClass="stat-value"/>
+                            </VBox>
+                        </HBox>
+
+                        <Label text="Distribución de encuestas" styleClass="section-title"/>
+                        <PieChart fx:id="pieChartEncuestas" prefHeight="300" styleClass="chart-card"/>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+</AnchorPane>
