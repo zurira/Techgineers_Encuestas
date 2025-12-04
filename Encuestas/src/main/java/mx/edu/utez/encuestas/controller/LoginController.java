@@ -65,7 +65,10 @@ public class LoginController {
                 Object controller = loader.getController();
                 if (controller instanceof PrincipalDocenteController docenteController) {
                     docenteController.setUsuarioActivo(usuarioValido);
+                }else if (controller instanceof PrincipalAdminController adminController) {
+                    adminController.setUsuarioActivo(usuarioValido);
                 }
+
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
@@ -97,21 +100,6 @@ public class LoginController {
         alert.showAndWait();
     }
 
-    @FXML
-    private void onRegistrar(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/registro.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Registro de cuenta");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error al cargar la vista de registro: " + e.getMessage());
-        }
-
-    }
 
     @FXML
     private void togglePasswordVisibility(ActionEvent event) {

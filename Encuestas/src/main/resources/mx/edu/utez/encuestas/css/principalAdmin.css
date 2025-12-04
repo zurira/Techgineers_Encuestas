@@ -127,6 +127,11 @@
     -fx-cursor: hand;
 }
 
+.add-icon{
+    -fx-icon-color: white;
+    -fx-fill: white;
+}
+
 /* Estilos generales de la tabla */
 .table-view {
     -fx-background-color: #f7f8fa; /* Fondo neutro claro */
