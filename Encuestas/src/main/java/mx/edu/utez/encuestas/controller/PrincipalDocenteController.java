@@ -29,146 +29,18 @@ import mx.edu.utez.encuestas.model.Usuario;
 
 public class PrincipalDocenteController {
 
-    @FXML private FlowPane contenedorEncuestas;
+    @FXML private FlowPane contenedorEncuestas; //Este es el contenedor donde se muestran las encuestas como tarjetas
 
-    private final IEncuesta encuestaDao = new EncuestaImpl();
-    private Usuario usuarioActivo;
+    private final IEncuesta encuestaDao = new EncuestaImpl(); //DAO aqui para accede a encuestas
+    private Usuario usuarioActivo; //Usuario docente que actualmente esta logueado
 
+    //Este metodo es para recibir el usuario activo desde el login
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
         cargarEncuestasComoTarjetas(); // Carga encuestas como cards
     }
 
-    @FXML
-    private void crearFormularioEnBlanco(MouseEvent event) {
-        System.out.println("Crear Formulario en Blanco presionado. Cargando vista de encuesta...");
 
-        try {
-            // Crear encuesta en blanco
-            Encuesta nuevaEncuesta = new Encuesta();
-            nuevaEncuesta.setTitulo("Formulario sin título");
-            nuevaEncuesta.setDescripcionCorta("Descripción del formulario");
-            nuevaEncuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
-            nuevaEncuesta.setCreadorId(usuarioActivo.getId());
-            nuevaEncuesta.setId(0);
-
-            // carga la vista de encuesta
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
-            Parent root = loader.load();
-
-            VistaEncuestaController controller = loader.getController();
-            controller.setEncuesta(nuevaEncuesta);
-
-            Stage modalStage = new Stage();
-            modalStage.setScene(new Scene(root));
-            modalStage.setTitle("Editor de encuesta");
-            modalStage.initModality(Modality.APPLICATION_MODAL);
-            modalStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-            modalStage.showAndWait();
-
-
-            cargarEncuestasComoTarjetas();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            mostrarAlerta("Error al cargar la vista de encuesta.");
-        }
-    }
-
-    private void cargarEncuestasComoTarjetas() {
-        contenedorEncuestas.getChildren().clear();
-
-        List<Encuesta> encuestas = encuestaDao.obtenerEncuestasPorDocente(usuarioActivo.getId());
-
-        for (Encuesta encuesta : encuestas) {
-            VBox tarjeta = new VBox();
-            tarjeta.getStyleClass().add("recent-form-box");
-            tarjeta.setSpacing(5);
-            tarjeta.setPadding(new Insets(10));
-
-            Label titulo = new Label(encuesta.getTitulo());
-            titulo.getStyleClass().add("recent-form-title");
-
-            Label subtitulo = new Label(encuesta.getCategoria());
-            subtitulo.getStyleClass().add("recent-form-subtitle");
-
-            Label estado = new Label("Estado: " + encuesta.getEstado());
-            estado.getStyleClass().add("recent-form-time");
-
-            HBox acciones = new HBox(10);
-            acciones.setAlignment(Pos.CENTER_RIGHT);
-
-
-            // Solo mostrar switch si la encuesta NO está en borrador
-            if (encuesta.getEstado() != Encuesta.EstadoEncuesta.borrador) {
-                FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
-                switchIcon.setIconSize(24);
-                switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
-
-                Button btnSwitch = new Button();
-                btnSwitch.setGraphic(switchIcon);
-                btnSwitch.getStyleClass().add("action-button");
-                btnSwitch.setTooltip(new Tooltip("Activar/Desactivar encuesta"));
-                btnSwitch.setOnAction(e -> {
-                    encuesta.setActiva(!encuesta.isActiva());
-                    switchIcon.setIconLiteral(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
-                    switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
-                    String nuevoEstado = encuesta.isActiva() ? "activa" : "inactiva";
-                    encuestaDao.actualizarEstado(encuesta.getId(), nuevoEstado);
-
-                    cargarEncuestasComoTarjetas();
-                });
-
-                acciones.getChildren().add(btnSwitch);
-            }
-
-            tarjeta.getChildren().addAll(titulo, subtitulo, estado, acciones);
-            contenedorEncuestas.getChildren().add(tarjeta);
-
-            tarjeta.setOnMouseClicked(e -> abrirEditorEncuesta(encuesta));
-            tarjeta.setCursor(Cursor.HAND);
-
-        }
-    }
-
-    private void abrirEditorEncuesta(Encuesta encuesta) {
-        try {
-            // se verifica si la encuesta existe, si si se carga la info
-            Encuesta encuestaCompleta = encuesta;
-            if (encuesta.getId() > 0) {
-                Encuesta dbEncuesta = encuestaDao.obtenerEncuestaCompletaPorId(encuesta.getId());
-                if (dbEncuesta != null) {
-                    encuestaCompleta = dbEncuesta;
-                }
-            }
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
-            Parent root = loader.load();
-
-            VistaEncuestaController controller = loader.getController();
-            controller.setEncuesta(encuestaCompleta);
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Editor de encuesta");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(contenedorEncuestas.getScene().getWindow());
-            stage.showAndWait();
-
-            cargarEncuestasComoTarjetas();
-        } catch (IOException e) {
-            e.printStackTrace();
-            mostrarAlerta("No se pudo abrir la vista de la encuesta.");
-        }
-    }
-
-    private void mostrarAlerta(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Panel docente");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
 
 }
