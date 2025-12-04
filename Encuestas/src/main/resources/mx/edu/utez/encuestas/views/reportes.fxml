@@ -15,29 +15,35 @@
             fx:controller="mx.edu.utez.encuestas.controller.ReportesController"
             style="-fx-background-color: #f4f8fc;">
 
-    <!-- Encabezado con fondo azul -->
+    <!-- Encabezado azul -->
     <top>
-        <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: #0055a5;">
+        <VBox spacing="16" style="-fx-padding: 24; -fx-background-color: #1f2937;">
+            <!-- Título principal -->
             <Label text="Estadísticas de Encuestas"
-                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Encuesta:" style="-fx-text-fill: white;"/>
-                <ComboBox fx:id="cmbEncuestas" prefWidth="150"/>
+                   style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+            <!--  botón  y la caja de encuestas-->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Label text="Encuesta:" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+                <ComboBox fx:id="cmbEncuestas" prefWidth="220" style="-fx-background-color: white;"/>
                 <Button text="Actualizar" onAction="#actualizarGrafico"
-                        style="-fx-background-color: white; -fx-text-fill: #0055a5; -fx-font-weight: bold;"/>
+                        style="-fx-background-color: white; -fx-text-fill: #1f2937; -fx-font-weight: bold;"/>
             </HBox>
         </VBox>
     </top>
 
-    <!-- Contenido principal: título + gráfico -->
+    <!-- Contenido principal de la vista -->
     <center>
-        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
-            <Label fx:id="lblTituloEncuesta" text="Encuesta seleccionada"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <VBox spacing="16" alignment="CENTER" style="-fx-padding: 32;">
+            <!-- Título centrado de la encuesta -->
+            <Label fx:id="lblTituloEncuesta" text="Encuesta: IA"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;"/>
+
+            <!-- Gráfico -->
             <BarChart fx:id="barChart"
                       title="Respuestas por opción"
-                      prefWidth="800" prefHeight="400"
-                      style="-fx-background-color: white; -fx-border-color: #cce0ff; -fx-border-width: 2;">
+                      prefWidth="900" prefHeight="420"
+                      style="-fx-background-color: white; -fx-border-color: #cce0ff; -fx-border-width: 2; -fx-padding: 16;">
                 <xAxis>
                     <CategoryAxis label="Opciones"/>
                 </xAxis>
@@ -47,5 +53,4 @@
             </BarChart>
         </VBox>
     </center>
-
 </BorderPane>
