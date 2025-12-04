@@ -55,6 +55,8 @@ public class LoginController {
                     case "docente":
                         System.out.println("Cargando vista de docente");
                         loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalDocente.fxml"));
+                        DashboardDocenteController controller = loader.getController();
+                        controller.setDocenteId(usuarioValido.getId());
                         break;
                     default:
                         mostrarAlerta("Rol no reconocido");

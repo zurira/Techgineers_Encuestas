@@ -293,6 +293,37 @@ public class EncuestaDaoImpl implements IEncuesta {
         return total;
     }
 
+    public static int contarEncuestasPorDocente(int docenteId) {
+        int total = 0;
+        String query = "SELECT COUNT(*) FROM encuestas WHERE docente_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, docenteId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al contar encuestas por docente: " + e.getMessage());
+        }
+        return total;
+    }
+
+    public static int contarEncuestasPorDocenteEstado(int docenteId, String estado) {
+        int total = 0;
+        String query = "SELECT COUNT(*) FROM encuestas WHERE docente_id = ? AND estado = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, docenteId);
+            stmt.setString(2, estado);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al contar encuestas por estado: " + e.getMessage());
+        }
+        return total;
+    }
+
 
 
 
