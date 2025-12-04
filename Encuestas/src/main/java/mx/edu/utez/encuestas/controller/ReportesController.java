@@ -19,7 +19,67 @@ import java.util.Map;
 
 public class ReportesController {
 
+    @FXML private BarChart<String, Number> barChart;
+    @FXML private ComboBox<EncuestaOption> cmbEncuestas;
 
+    private final RespuestaDaoImpl respuestaDao = new RespuestaDaoImpl();
+    private Usuario usuarioActivo;
+
+    // Clase interna para mostrar títulos en el ComboBox
+    public static class EncuestaOption {
+        private final int id;
+        private final String titulo;
+        public EncuestaOption(int id, String titulo) { this.id = id; this.titulo = titulo; }
+        public int getId() { return id; }
+        public String getTitulo() { return titulo; }
+        @Override public String toString() { return titulo; } // lo que se muestra en el ComboBox
+    }
+
+    @FXML
+    public void initialize() {
+        // Solo configurar el listener, no cargar encuestas aún
+        cmbEncuestas.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
+            if (newV != null) {
+                cargarDatos(newV.getId());
+            }
+        });
+    }
+    @FXML private Label lblTituloEncuesta;
+
+
+
+    private void cargarDatos(int encuestaId) {
+        try {
+            List<FrecuenciaDTO> datos = respuestaDao.frecuenciasPorEncuesta(encuestaId);
+
+            Map<String, XYChart.Series<String, Number>> seriesMap = new LinkedHashMap<>();
+            for (FrecuenciaDTO f : datos) {
+                seriesMap.putIfAbsent(f.getPregunta(), new XYChart.Series<>());
+                XYChart.Series<String, Number> seriePregunta = seriesMap.get(f.getPregunta());
+                seriePregunta.setName(f.getPregunta());
+                seriePregunta.getData().add(new XYChart.Data<>(f.getOpcion(), f.getTotal()));
+            }
+
+            barChart.getData().clear();
+            barChart.getData().addAll(seriesMap.values());
+
+            // Mostrar título de la encuesta seleccionada
+            EncuestaOption opt = cmbEncuestas.getValue();
+            if (opt != null) {
+                lblTituloEncuesta.setText("Encuesta: " + opt.getTitulo());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void setUsuarioActivo(Usuario usuario) {
+        this.usuarioActivo = usuario;
+        System.out.println("Usuario activo en reportes: " + usuario.getNombreUsuario());
+        cargarEncuestas(); // ahora sí, con el usuario activo listo
+    }
 
 
 }
