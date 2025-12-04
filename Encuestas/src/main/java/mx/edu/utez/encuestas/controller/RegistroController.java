@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import mx.edu.utez.encuestas.dao.IUsuario;
 import mx.edu.utez.encuestas.dao.impl.UsuarioDaoImpl;
+import mx.edu.utez.encuestas.model.Rol;
 import mx.edu.utez.encuestas.model.Usuario;
 
 public class RegistroController {
@@ -33,10 +34,14 @@ public class RegistroController {
             return;
         }
 
+        Rol rolDocente = new Rol();
+        rolDocente.setId(2);
+        rolDocente.setNombre("docente");
+
         Usuario nuevo = new Usuario(correo, nombre, usuario, clave);
+        nuevo.setRol(rolDocente);
         if (usuarioDao.registrarUsuario(nuevo)) {
             mostrarAlerta("Registro exitoso.");
-            limpiarCampos();
         } else {
             mostrarAlerta("Error al registrar. Intenta más tarde.");
         }

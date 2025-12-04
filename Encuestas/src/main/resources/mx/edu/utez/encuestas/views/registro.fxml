@@ -18,11 +18,12 @@
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
-        <Label text="Correo electrónico" />
-        <TextField fx:id="correoField" promptText="ejemplo@correo.com" styleClass="text-field" />
 
         <Label text="Nombre completo" />
         <TextField fx:id="nombreField" promptText="Nombre" styleClass="text-field"  />
+
+        <Label text="Correo electrónico" />
+        <TextField fx:id="correoField" promptText="ejemplo@correo.com" styleClass="text-field" />
 
         <Label text="Nombre de usuario" />
         <TextField fx:id="usuarioField" promptText="Nombre de usuario único" styleClass="text-field"  />

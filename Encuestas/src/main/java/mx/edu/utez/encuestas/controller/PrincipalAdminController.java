@@ -111,6 +111,7 @@ public class PrincipalAdminController implements Initializable {
             stage.setTitle("Registro de docente");
             stage.setScene(new Scene(root, 400, 500));
             stage.show();
+            cargarDocentes();
         } catch (IOException e) {
             System.err.println("Error al cargar la vista de registro: " + e.getMessage());
         }

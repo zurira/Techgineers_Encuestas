@@ -97,14 +97,17 @@ public class UsuarioDaoImpl implements IUsuario {
 
     @Override
     public boolean registrarUsuario(Usuario usuario) {
-        String query = "INSERT INTO Usuarios (correo, nombre, nombre_usuario, contraseña) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Usuarios (correo, nombre, nombre_usuario, contraseña, rol_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, usuario.getCorreo());
             stmt.setString(2, usuario.getNombre());
             stmt.setString(3, usuario.getNombreUsuario());
             stmt.setString(4, usuario.getContraseña());
+            stmt.setInt(5, usuario.getRol().getId());
+
             return stmt.executeUpdate() == 1;
+
         } catch (SQLException e) {
             System.err.println("Error al registrar usuario: " + e.getMessage());
             e.printStackTrace();
