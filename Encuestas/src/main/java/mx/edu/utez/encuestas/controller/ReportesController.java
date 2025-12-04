@@ -110,5 +110,14 @@ public class ReportesController {
     }
 
 
+    @FXML
+    private void actualizarGrafico() {
+        EncuestaOption opt = cmbEncuestas.getValue();
+        if (opt != null) {
+            cargarDatos(opt.getId());
+        }
+    }
+
+
 
 }
