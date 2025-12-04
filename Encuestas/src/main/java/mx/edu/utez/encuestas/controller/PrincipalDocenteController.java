@@ -173,6 +173,31 @@ public class PrincipalDocenteController {
     }
 
 
+//Agregque esto
+
+    @FXML
+    private void abrirVistaReportes(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/reportes.fxml"));
+            Parent root = loader.load();
+
+            // Pasar el usuario activo al controlador de reportes
+            ReportesController controller = loader.getController();
+            controller.setUsuarioActivo(usuarioActivo);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reportes de encuestas");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("No se pudo abrir la vista de reportes.");
+        }
+    }
+
 
 
 
