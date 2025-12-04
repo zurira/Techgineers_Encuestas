@@ -73,11 +73,6 @@
                                     <Label text="Borrador" styleClass="stat-title"/>
                                     <Label fx:id="lblEncuestasBorradorDocente" text="0" styleClass="stat-value"/>
                                 </VBox>
-                                <VBox styleClass="stat-card">
-                                    <FontIcon iconLiteral="fa-lock" styleClass="stat-icon"/>
-                                    <Label text="Cerradas" styleClass="stat-title"/>
-                                    <Label fx:id="lblEncuestasCerradasDocente" text="0" styleClass="stat-value"/>
-                                </VBox>
                             </FlowPane>
                         </VBox>
                     </content>
