@@ -13,7 +13,8 @@
         fx:controller="mx.edu.utez.encuestas.controller.PrincipalDocenteController"
         stylesheets="@../css/principalDocente.css">
 
-    <BorderPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+    <BorderPane fx:id="mainBorderPane"
+                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
                 AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
         <!-- Menú lateral izquierdo -->
@@ -22,23 +23,21 @@
                 <Label text="Panel Docente" styleClass="sidebar-brand"/>
                 <Separator styleClass="sidebar-separator"/>
                 <Button text="Dashboard" styleClass="sidebar-button" prefWidth="200.0">
-                    <graphic><FontIcon iconLiteral="fa-home"/>
-                    </graphic>
+                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
                 </Button>
                 <Button text="Encuestas" styleClass="sidebar-button-selected" prefWidth="200.0">
                     <graphic><FontIcon iconLiteral="fa-list"/></graphic>
                 </Button>
-                <Button text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onMouseClicked="#abrirVistaReportes">
-                    <graphic><FontIcon iconLiteral="fa-bar-chart"/>
-                    </graphic>
+                <Button text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onAction="#abrirVistaReportes">
+                    <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
                 </Button>
-
             </VBox>
         </left>
 
         <!-- Contenido principal -->
         <center>
-            <VBox spacing="0">
+            <!-- fx:id agregado para poder reemplazar esta vista desde el controlador -->
+            <VBox fx:id="centerContent" spacing="0">
                 <!-- Header -->
                 <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
                     <Label text="Encuestas" styleClass="header-title"/>
