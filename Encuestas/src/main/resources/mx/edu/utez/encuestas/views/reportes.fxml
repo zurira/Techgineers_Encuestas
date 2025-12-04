@@ -1,56 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-<BorderPane xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.chart.CategoryAxis?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="mx.edu.utez.encuestas.controller.ReportesController"
-            style="-fx-background-color: #f4f8fc;">
+            prefHeight="600.0" prefWidth="900.0"
+            stylesheets="@../css/dashboardAdmin.css">
 
-    <!-- Encabezado azul -->
-    <top>
-        <VBox spacing="16" style="-fx-padding: 24; -fx-background-color: #1f2937;">
-            <!-- Título principal -->
-            <Label text="Estadísticas de Encuestas"
-                   style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+    <BorderPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-            <!--  botón  y la caja de encuestas-->
-            <HBox spacing="12" alignment="CENTER_LEFT">
-                <Label text="Encuesta:" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
-                <ComboBox fx:id="cmbEncuestas" prefWidth="220" style="-fx-background-color: white;"/>
-                <Button text="Actualizar" onAction="#actualizarGrafico"
-                        style="-fx-background-color: white; -fx-text-fill: #1f2937; -fx-font-weight: bold;"/>
-            </HBox>
-        </VBox>
-    </top>
+        <!-- Menú lateral izquierdo -->
+        <left>
+            <VBox fx:id="sidebar" prefWidth="240.0" styleClass="sidebar">
+                <Label text="Panel Docente" styleClass="sidebar-brand"/>
+                <Separator styleClass="sidebar-separator"/>
+                <Button fx:id="btnDashboard" text="Dashboard" styleClass="sidebar-button" prefWidth="200.0" onAction="#irDashboard">
+                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                </Button>
+                <Button fx:id="btnEncuestas" text="Encuestas" styleClass="sidebar-button" prefWidth="200.0" onAction="#irEncuesta">
+                    <graphic><FontIcon iconLiteral="fa-list"/></graphic>
+                </Button>
+                <Button  text="Reportes" styleClass="sidebar-button-selected" prefWidth="200.0">
+                    <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
+                </Button>
+            </VBox>
+        </left>
+        <center>
+            <VBox spacing="0">
 
-    <!-- Contenido principal de la vista -->
-    <center>
-        <VBox spacing="16" alignment="CENTER" style="-fx-padding: 32;">
-            <!-- Título centrado de la encuesta -->
-            <Label fx:id="lblTituloEncuesta" text="Encuesta: IA"
-                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;"/>
+                <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
+                    <Label text="Estadísticas encuestas" styleClass="sidebar-brand"/>
+                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
+                    <VBox alignment="CENTER_RIGHT" styleClass="user-info-box">
+                        <children>
+                            <HBox alignment="CENTER_RIGHT" spacing="10">
+                                <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
+                                <Label fx:id="nombreDocente" styleClass="avatar-name" text="Administrador"/>
+                                <Button fx:id="logoutButton" styleClass="logout-button" onAction="#logout" >
+                                    <graphic>
+                                        <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                        </children>
+                    </VBox>
+                </HBox>
+                <!--  botón  y la caja de encuestas-->
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                    <Label text="Encuesta:" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+                    <ComboBox fx:id="cmbEncuestas" prefWidth="220" style="-fx-background-color: white;"/>
+                    <Button text="Actualizar" onAction="#actualizarGrafico"
+                            style="-fx-background-color: #111827; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+                <VBox spacing="16" alignment="CENTER" style="-fx-padding: 32;">
+                    <!-- Título centrado de la encuesta -->
+                    <Label fx:id="lblTituloEncuesta" text="Encuesta: IA"
+                           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;"/>
 
-            <!-- Gráfico -->
-            <BarChart fx:id="barChart"
-                      title="Respuestas por opción"
-                      prefWidth="900" prefHeight="420"
-                      style="-fx-background-color: white; -fx-border-color: #cce0ff; -fx-border-width: 2; -fx-padding: 16;">
-                <xAxis>
-                    <CategoryAxis label="Opciones"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis label="Total de respuestas"/>
-                </yAxis>
-            </BarChart>
-        </VBox>
-    </center>
-</BorderPane>
+                    <!-- Gráfico -->
+                    <BarChart fx:id="barChart"
+                              title="Respuestas por opción"
+                              prefWidth="900" prefHeight="420"
+                              style="-fx-background-color: white; -fx-border-color: #cce0ff; -fx-border-width: 2; -fx-padding: 16;">
+                        <xAxis>
+                            <CategoryAxis label="Opciones"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Total de respuestas"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </VBox>
+        </center>
+    </BorderPane>
+</AnchorPane>

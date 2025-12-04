@@ -23,6 +23,7 @@ public class DashboardDocenteController {
 
     @FXML private Label nombreDocente;
     @FXML private Button btnEncuestas;
+    @FXML private Button btnReportes;
 
     private int docenteId;
     private Usuario usuarioActivo;
@@ -84,6 +85,30 @@ public class DashboardDocenteController {
 
             //cerrar ventana
             Stage currentStage = (Stage) btnEncuestas.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void irReportes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/reportes.fxml"));
+            Parent root = loader.load();
+
+            // obtiene el controlador del dashboard
+            ReportesController reportController = loader.getController();
+            reportController.setUsuarioActivo(usuarioActivo);
+
+            Stage stage = new Stage();
+            stage.setTitle("Dashboard");
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.show();
+
+            // cerrar ventana actual
+            Stage currentStage = (Stage) btnReportes.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
             System.err.println("Error al cargar la vista " + e.getMessage());

@@ -26,7 +26,7 @@
                 <Button fx:id="btnEncuestas" text="Encuestas" styleClass="sidebar-button" prefWidth="200.0" onAction="#irEncuesta">
                     <graphic><FontIcon iconLiteral="fa-list"/></graphic>
                 </Button>
-                <Button text="Reportes" styleClass="sidebar-button" prefWidth="200.0">
+                <Button fx:id="btnReportes" text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onAction="#irReportes">
                     <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
                 </Button>
             </VBox>
