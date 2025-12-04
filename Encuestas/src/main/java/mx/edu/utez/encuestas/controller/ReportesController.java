@@ -80,6 +80,35 @@ public class ReportesController {
         System.out.println("Usuario activo en reportes: " + usuario.getNombreUsuario());
         cargarEncuestas(); // ahora sí, con el usuario activo listo
     }
+    private void cargarEncuestas() {
+        if (usuarioActivo == null) return;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "SELECT id, titulo FROM Encuestas WHERE creador_id = ? ORDER BY id")) {
+            ps.setInt(1, usuarioActivo.getId());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                cmbEncuestas.getItems().clear();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String titulo = rs.getString("titulo");
+                    cmbEncuestas.getItems().add(new EncuestaOption(id, titulo));
+                }
+            }
+
+            if (!cmbEncuestas.getItems().isEmpty()) {
+                cmbEncuestas.getSelectionModel().selectFirst();
+                cargarDatos(cmbEncuestas.getValue().getId());
+            } else {
+                barChart.getData().clear();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
