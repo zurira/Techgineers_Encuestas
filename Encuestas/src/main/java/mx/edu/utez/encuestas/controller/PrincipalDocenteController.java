@@ -1,5 +1,6 @@
 package mx.edu.utez.encuestas.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,17 +29,17 @@ import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Usuario;
 
 public class PrincipalDocenteController {
+    @FXML private VBox centerContent; // fx:id del VBox central en el FXML
+    @FXML private FlowPane contenedorEncuestas; // contenedor de encuestas como tarjetas
 
-    @FXML private FlowPane contenedorEncuestas; //Este es el contenedor donde se muestran las encuestas como tarjetas
+    private final IEncuesta encuestaDao = new EncuestaImpl();
+    private Usuario usuarioActivo;
 
-    private final IEncuesta encuestaDao = new EncuestaImpl(); //DAO aqui para accede a encuestas
-    private Usuario usuarioActivo; //Usuario docente que actualmente esta logueado
-
-    //Este metodo es para recibir el usuario activo desde el login
+    // Recibir usuario activo desde login
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
-        cargarEncuestasComoTarjetas(); // Carga encuestas como cards
+        cargarEncuestasComoTarjetas();
     }
 
     @FXML
@@ -46,7 +47,6 @@ public class PrincipalDocenteController {
         System.out.println("Crear Formulario en Blanco presionado. Cargando vista de encuesta...");
 
         try {
-            // Crear encuesta en blanco
             Encuesta nuevaEncuesta = new Encuesta();
             nuevaEncuesta.setTitulo("Formulario sin título");
             nuevaEncuesta.setDescripcionCorta("Descripción del formulario");
@@ -54,7 +54,6 @@ public class PrincipalDocenteController {
             nuevaEncuesta.setCreadorId(usuarioActivo.getId());
             nuevaEncuesta.setId(0);
 
-            // carga la vista de encuesta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
             Parent root = loader.load();
 
@@ -67,7 +66,6 @@ public class PrincipalDocenteController {
             modalStage.initModality(Modality.APPLICATION_MODAL);
             modalStage.initOwner(((Node) event.getSource()).getScene().getWindow());
             modalStage.showAndWait();
-
 
             cargarEncuestasComoTarjetas();
 
@@ -100,8 +98,6 @@ public class PrincipalDocenteController {
             HBox acciones = new HBox(10);
             acciones.setAlignment(Pos.CENTER_RIGHT);
 
-
-            // Solo mostrar switch si la encuesta NO está en borrador
             if (encuesta.getEstado() != Encuesta.EstadoEncuesta.borrador) {
                 FontIcon switchIcon = new FontIcon(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
                 switchIcon.setIconSize(24);
@@ -129,13 +125,11 @@ public class PrincipalDocenteController {
 
             tarjeta.setOnMouseClicked(e -> abrirEditorEncuesta(encuesta));
             tarjeta.setCursor(Cursor.HAND);
-
         }
     }
 
     private void abrirEditorEncuesta(Encuesta encuesta) {
         try {
-            // se verifica si la encuesta existe, si si se carga la info
             Encuesta encuestaCompleta = encuesta;
             if (encuesta.getId() > 0) {
                 Encuesta dbEncuesta = encuestaDao.obtenerEncuestaCompletaPorId(encuesta.getId());
@@ -172,33 +166,24 @@ public class PrincipalDocenteController {
         alert.showAndWait();
     }
 
-
-//Agregque esto
-
+    //Corregi este metodo para que no se habra un modal si no cambia la vista principal
     @FXML
-    private void abrirVistaReportes(MouseEvent event) {
+    private void abrirVistaReportes(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/reportes.fxml"));
-            Parent root = loader.load();
+            Parent reportesView = loader.load();
 
-            // Pasar el usuario activo al controlador de reportes
             ReportesController controller = loader.getController();
-            controller.setUsuarioActivo(usuarioActivo);
+            if (controller != null && usuarioActivo != null) {
+                controller.setUsuarioActivo(usuarioActivo);
+            }
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Reportes de encuestas");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
-            stage.show();
+            centerContent.getChildren().setAll(reportesView);
 
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarAlerta("No se pudo abrir la vista de reportes.");
+            mostrarAlerta("No se pudo cargar la vista de reportes.");
         }
     }
-
-
-
 
 }
