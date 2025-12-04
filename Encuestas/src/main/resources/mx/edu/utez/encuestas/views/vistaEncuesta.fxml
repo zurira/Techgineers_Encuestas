@@ -15,7 +15,7 @@
           AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
         <HBox alignment="CENTER_RIGHT">
-            <Button text="Publicar" onAction="#publicarEncuesta" styleClass="save-button"/>
+            <Button fx:id="btnpublicar" text="Publicar" onAction="#publicarEncuesta" styleClass="save-button"/>
         </HBox>
 
         <VBox spacing="10" styleClass="survey-card">

@@ -35,6 +35,7 @@ public class VistaEncuestaController {
     @FXML private Button btnSeleccionarImagen;
     @FXML private ImageView imgPortada;
     @FXML private TextField txtCategoria;
+    @FXML private Button btnpublicar;
 
     private byte[] imagenSeleccionada;
 
@@ -56,6 +57,14 @@ public class VistaEncuestaController {
             cargarImagenPortada(encuesta.getImagen());
             System.out.println("ID de la encuesta cargada: " + encuesta.getId());
             cargarPreguntas();
+
+            //solo aparecera el boton de publicar para encuestas en borrador
+            if (encuesta.getEstado() == Encuesta.EstadoEncuesta.borrador) {
+                btnpublicar.setVisible(true);
+            } else {
+                btnpublicar.setVisible(false);
+            }
+
         }
     }
 

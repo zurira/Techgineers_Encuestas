@@ -38,8 +38,17 @@ public class PrincipalAdminController implements Initializable {
     private final UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
     private ObservableList<Usuario> listaDocentes;
 
+    private Usuario usuarioActivo;
+
+    public void setUsuarioActivo(Usuario usuario) {
+        this.usuarioActivo = usuario;
+        System.out.println("Usuario activo: " + usuario.getNombre());
+        nombreAdmin.setText(usuario.getNombre());
+        cargarDocentes();
+    }
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb ) {
         //columna de No. para mejor visualización
         colNo.setCellValueFactory(cellData -> {
             int index = tableViewDocentes.getItems().indexOf(cellData.getValue()) + 1;
