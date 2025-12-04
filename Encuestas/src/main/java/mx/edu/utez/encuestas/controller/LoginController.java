@@ -24,6 +24,7 @@ public class LoginController {
     @FXML private PasswordField txtPassword;
     @FXML private TextField txtPasswordVisible;
     @FXML private Button togglePasswordBtn;
+    @FXML private Button btnReturn;
 
     private final IUsuario usuarioDao = new UsuarioDaoImpl();
 
@@ -33,7 +34,7 @@ public class LoginController {
         String clave = txtPassword.getText();
 
         if(usuario.isEmpty() || clave.isEmpty()){
-            mostrarAlerta("Los campos de usurio y contraseña no pueden estar vacíos");
+            mostrarAlerta("Los campos de usuario y contraseña no pueden estar vacíos");
             return;
         }
 
@@ -126,5 +127,27 @@ public class LoginController {
                 icon.setIconLiteral("fa-eye-slash");
             }
         }
+    }
+
+    @FXML
+    private void onHome(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/Home.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Encuestas");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.setMaximized(true);
+
+            //cerrar ventana
+            Stage currentStage = (Stage) btnReturn.getScene().getWindow();
+            currentStage.close();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista de registro: " + e.getMessage());
+        }
+
     }
 }

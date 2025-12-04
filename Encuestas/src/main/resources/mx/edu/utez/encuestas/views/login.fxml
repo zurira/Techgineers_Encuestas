@@ -10,8 +10,15 @@
       alignment="CENTER"
       stylesheets="@../css/login.css"
       styleClass="root">
-
     <HBox spacing="30" alignment="CENTER" styleClass="login-card">
+        <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+            <Button fx:id="btnReturn" styleClass="btn-return" onAction="#onHome">
+                <graphic>
+                    <FontIcon iconLiteral="fa-arrow-left" styleClass="return-icon"/>
+                </graphic>
+            </Button>
+        </HBox>
+
         <VBox alignment="CENTER">
             <FontIcon iconLiteral="fa-user" iconSize="180" styleClass="user-icon" />
         </VBox>
