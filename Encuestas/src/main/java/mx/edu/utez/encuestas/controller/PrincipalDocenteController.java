@@ -5,47 +5,50 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import org.kordamp.ikonli.javafx.FontIcon;
-
-import java.io.IOException;
-import java.util.List;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import org.kordamp.ikonli.javafx.FontIcon;
 import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.dao.impl.EncuestaImpl;
 import mx.edu.utez.encuestas.model.Encuesta;
 import mx.edu.utez.encuestas.model.Usuario;
 
+import java.io.IOException;
+import java.util.List;
+
 public class PrincipalDocenteController {
-    @FXML private VBox centerContent; // fx:id del VBox central en el FXML
-    @FXML private FlowPane contenedorEncuestas; // contenedor de encuestas como tarjetas
+
+    @FXML private VBox centerContent;
+    @FXML private ScrollPane scrollEncuestas;
+    @FXML private FlowPane contenedorEncuestas;
+    @FXML private HBox header; // referencia al encabezado de Encuestas/Dashboard
+
+    @FXML private Button btnDashboard;
+    @FXML private Button btnEncuestas;
+    @FXML private Button btnReportes;
 
     private final IEncuesta encuestaDao = new EncuestaImpl();
     private Usuario usuarioActivo;
 
-    // Recibir usuario activo desde login
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombreUsuario());
         cargarEncuestasComoTarjetas();
+        // Vista inicial: Encuestas con encabezado
+        centerContent.getChildren().setAll(header, scrollEncuestas);
+        actualizarSeleccionMenu(btnEncuestas);
     }
 
     @FXML
     private void crearFormularioEnBlanco(MouseEvent event) {
-        System.out.println("Crear Formulario en Blanco presionado. Cargando vista de encuesta...");
-
         try {
             Encuesta nuevaEncuesta = new Encuesta();
             nuevaEncuesta.setTitulo("Formulario sin título");
@@ -166,7 +169,6 @@ public class PrincipalDocenteController {
         alert.showAndWait();
     }
 
-    //Corregi este metodo para que no se habra un modal si no cambia la vista principal
     @FXML
     private void abrirVistaReportes(ActionEvent event) {
         try {
@@ -179,6 +181,7 @@ public class PrincipalDocenteController {
             }
 
             centerContent.getChildren().setAll(reportesView);
+            actualizarSeleccionMenu(btnReportes);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -186,4 +189,26 @@ public class PrincipalDocenteController {
         }
     }
 
+    @FXML
+    private void abrirVistaEncuestas(ActionEvent event) {
+        centerContent.getChildren().setAll(header, scrollEncuestas);
+        cargarEncuestasComoTarjetas();
+        actualizarSeleccionMenu(btnEncuestas);
+    }
+
+    @FXML
+    private void abrirVistaDashboard(ActionEvent event) {
+        centerContent.getChildren().setAll(header, scrollEncuestas);
+        actualizarSeleccionMenu(btnDashboard);
+    }
+
+    private void actualizarSeleccionMenu(Button seleccionado) {
+        btnDashboard.getStyleClass().remove("sidebar-button-selected");
+        btnEncuestas.getStyleClass().remove("sidebar-button-selected");
+        btnReportes.getStyleClass().remove("sidebar-button-selected");
+
+        if (!seleccionado.getStyleClass().contains("sidebar-button-selected")) {
+            seleccionado.getStyleClass().add("sidebar-button-selected");
+        }
+    }
 }
