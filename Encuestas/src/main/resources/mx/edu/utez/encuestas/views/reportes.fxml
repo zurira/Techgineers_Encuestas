@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="mx.edu.utez.encuestas.controller.ReportesController"
+            style="-fx-background-color: #f4f8fc;">
+
+    <!-- Encabezado con fondo azul -->
+    <top>
+        <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: #0055a5;">
+            <Label text="Estadísticas de Encuestas"
+                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Encuesta:" style="-fx-text-fill: white;"/>
+                <ComboBox fx:id="cmbEncuestas" prefWidth="150"/>
+                <Button text="Actualizar" onAction="#actualizarGrafico"
+                        style="-fx-background-color: white; -fx-text-fill: #0055a5; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Contenido principal: título + gráfico -->
+    <center>
+        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+            <Label fx:id="lblTituloEncuesta" text="Encuesta seleccionada"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <BarChart fx:id="barChart"
+                      title="Respuestas por opción"
+                      prefWidth="800" prefHeight="400"
+                      style="-fx-background-color: white; -fx-border-color: #cce0ff; -fx-border-width: 2;">
+                <xAxis>
+                    <CategoryAxis label="Opciones"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Total de respuestas"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </center>
+
+</BorderPane>
