@@ -194,13 +194,6 @@ public class AgregarPreguntasController {
     }
 
 
-    private void limpiarCampos() {
-        preguntaField.clear();
-        opcionesBox.getChildren().clear();
-        onAgregarOpcion();
-        onAgregarOpcion();
-    }
-
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Agregar pregunta");

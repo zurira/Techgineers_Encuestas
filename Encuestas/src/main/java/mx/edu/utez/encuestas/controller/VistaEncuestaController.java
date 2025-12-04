@@ -183,6 +183,7 @@ public class VistaEncuestaController {
         }
 
         mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
+
     }
 
 
@@ -294,6 +295,9 @@ public class VistaEncuestaController {
         }
     }
 
+    private void cerrarVentana() {
+
+    }
 
 
     private void mostrarAlerta(String mensaje) {

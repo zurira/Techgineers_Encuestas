@@ -15,6 +15,9 @@
     <Label text="Agregar Docente" styleClass="titulo" />
 
     <VBox spacing="10">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
         <Label text="Correo electrónico" />
         <TextField fx:id="correoField" promptText="ejemplo@correo.com" styleClass="text-field" />
 

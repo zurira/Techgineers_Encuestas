@@ -72,7 +72,7 @@ public class PrincipalDocenteController {
 
             Stage modalStage = new Stage();
             modalStage.setScene(new Scene(root));
-            modalStage.setTitle("Editor de encuesta");
+            modalStage.setTitle("Agregar encuesta");
             modalStage.initModality(Modality.APPLICATION_MODAL);
             modalStage.initOwner(((Node) event.getSource()).getScene().getWindow());
             modalStage.showAndWait();

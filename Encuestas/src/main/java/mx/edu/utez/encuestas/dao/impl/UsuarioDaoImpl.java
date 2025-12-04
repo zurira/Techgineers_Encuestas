@@ -107,6 +107,7 @@ public class UsuarioDaoImpl implements IUsuario {
             return stmt.executeUpdate() == 1;
         } catch (SQLException e) {
             System.err.println("Error al registrar usuario: " + e.getMessage());
+            e.printStackTrace();
         }
         return false;
     }
