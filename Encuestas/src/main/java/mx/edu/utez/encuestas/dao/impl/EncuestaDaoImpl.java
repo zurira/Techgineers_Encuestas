@@ -295,7 +295,7 @@ public class EncuestaDaoImpl implements IEncuesta {
 
     public static int contarEncuestasPorDocente(int docenteId) {
         int total = 0;
-        String query = "SELECT COUNT(*) FROM encuestas WHERE docente_id = ?";
+        String query = "SELECT COUNT(*) FROM encuestas WHERE creador_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, docenteId);
@@ -310,7 +310,7 @@ public class EncuestaDaoImpl implements IEncuesta {
 
     public static int contarEncuestasPorDocenteEstado(int docenteId, String estado) {
         int total = 0;
-        String query = "SELECT COUNT(*) FROM encuestas WHERE docente_id = ? AND estado = ?";
+        String query = "SELECT COUNT(*) FROM encuestas WHERE creador_id = ? AND estado = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, docenteId);

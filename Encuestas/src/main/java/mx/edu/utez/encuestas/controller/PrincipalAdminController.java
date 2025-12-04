@@ -34,6 +34,7 @@ public class PrincipalAdminController implements Initializable {
     @FXML private Button btnAgregarDocente;
     @FXML private Button logoutButton;
     @FXML private Label nombreAdmin;
+    @FXML private Button btnDashboard;
 
     private final UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
     private ObservableList<Usuario> listaDocentes;
@@ -140,4 +141,27 @@ public class PrincipalAdminController implements Initializable {
         }
     }
 
+    @FXML
+    private void irDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/dashboardDocente.fxml"));
+            Parent root = loader.load();
+
+            // obtiene el controlador del dashboard
+            DashboardDocenteController dashboardController = loader.getController();
+            dashboardController.setUsuarioActivo(usuarioActivo);
+
+            Stage stage = new Stage();
+            stage.setTitle("Dashboard");
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.show();
+
+            // cerrar ventana actual
+            Stage currentStage = (Stage) btnDashboard.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista " + e.getMessage());
+        }
+    }
 }

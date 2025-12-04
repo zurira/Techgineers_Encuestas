@@ -33,45 +33,50 @@ public class LoginController {
         String usuario = usernameField.getText();
         String clave = txtPassword.getText();
 
-        if(usuario.isEmpty() || clave.isEmpty()){
+        if (usuario.isEmpty() || clave.isEmpty()) {
             mostrarAlerta("Los campos de usuario y contraseña no pueden estar vacíos");
             return;
         }
 
-        //valida usuario en la base de datos
+        // valida usuario en la base de datos
         Usuario usuarioValido = usuarioDao.validarLogin(usuario, clave);
 
         if (usuarioValido != null) {
             System.out.println("Inicio de sesión exitoso");
 
             try {
-                FXMLLoader loader = null;
-
+                FXMLLoader loader;
                 switch (usuarioValido.getRol().getNombre().trim().toLowerCase()) {
                     case "administrador":
                         System.out.println("Cargando vista admin");
-                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalAdmin.fxml"));
+                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/dashboardAdmin.fxml"));
                         break;
+
                     case "docente":
                         System.out.println("Cargando vista de docente");
-                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/principalDocente.fxml"));
-                        DashboardDocenteController controller = loader.getController();
-                        controller.setDocenteId(usuarioValido.getId());
+                        loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/dashboardDocente.fxml"));
                         break;
+
                     default:
                         mostrarAlerta("Rol no reconocido");
                         return;
                 }
 
                 Region root = loader.load();
-                //pasa el usuario al controllador
+
+                // obtiene controlador
                 Object controller = loader.getController();
+
+                //se pasa el id de acuerdo al controllador
                 if (controller instanceof PrincipalDocenteController docenteController) {
                     docenteController.setUsuarioActivo(usuarioValido);
-                }else if (controller instanceof PrincipalAdminController adminController) {
+                } else if (controller instanceof PrincipalAdminController adminController) {
                     adminController.setUsuarioActivo(usuarioValido);
+                } else if (controller instanceof DashboardDocenteController dashboardController) {
+                    dashboardController.setUsuarioActivo(usuarioValido);
+                }else if (controller instanceof DashboardAdminController dashboardController) {
+                    dashboardController.setUsuarioActivo(usuarioValido);
                 }
-
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
@@ -79,6 +84,7 @@ public class LoginController {
                 stage.setScene(scene);
                 stage.show();
 
+                // ajusta pantalla
                 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                 stage.setX(screenBounds.getMinX());
                 stage.setY(screenBounds.getMinY());

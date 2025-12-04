@@ -19,7 +19,7 @@
             <VBox fx:id="sidebar" prefWidth="240.0" styleClass="sidebar">
                 <Label text="Panel Administrador" styleClass="sidebar-brand"/>
                 <Separator styleClass="sidebar-separator"/>
-                <Button text="Dashboard" styleClass="sidebar-button" maxWidth="Infinity">
+                <Button fx:id="btnDashboard" text="Dashboard" styleClass="sidebar-button" maxWidth="Infinity" onAction="#irDashboard">
                     <graphic><FontIcon iconLiteral="fa-home"/></graphic>
                 </Button>
                 <Button text="Docentes" styleClass="sidebar-button-selected" maxWidth="Infinity">
