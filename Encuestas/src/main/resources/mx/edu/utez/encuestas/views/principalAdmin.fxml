@@ -28,10 +28,7 @@
             </VBox>
         </left>
         <center>
-            <VBox spacing="12">
-                <padding>
-                    <Insets top="12" right="12" bottom="12" left="12"/>
-                </padding>
+            <VBox spacing="0">
 
                 <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
                     <Label text="Docentes" styleClass="header-title"/>
@@ -52,6 +49,9 @@
                 </HBox>
 
                 <HBox spacing="10" alignment="CENTER_LEFT">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
                     <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field" HBox.hgrow="ALWAYS"/>
                     <Button fx:id="btnAgregarDocente" text="Agregar" styleClass="add-button" onAction="#onAgregarDocente">
                         <graphic><FontIcon iconLiteral="fa-plus" styleClass="add-icon"/></graphic>
@@ -70,9 +70,9 @@
                             <TableView fx:id="tableViewDocentes" prefHeight="450.0" prefWidth="800" VBox.vgrow="ALWAYS">
                                 <columns>
                                     <TableColumn fx:id="colNo" prefWidth="60.0" text="No." />
-                                    <TableColumn fx:id="colNombre" prefWidth="240.0" text="Nombre" />
-                                    <TableColumn fx:id="colCorreo" prefWidth="240.0" text="Correo" />
-                                    <TableColumn fx:id="colUsuario" prefWidth="240.0" text="Usuario" />
+                                    <TableColumn fx:id="colNombre" prefWidth="300.0" text="Nombre" />
+                                    <TableColumn fx:id="colCorreo" prefWidth="300.0" text="Correo" />
+                                    <TableColumn fx:id="colUsuario" prefWidth="300.0" text="Usuario" />
                                 </columns>
                             </TableView>
 

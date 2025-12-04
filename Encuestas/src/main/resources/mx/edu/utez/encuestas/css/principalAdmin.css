@@ -127,10 +127,90 @@
     -fx-cursor: hand;
 }
 
-.add-button:hover {
-    -fx-background-color: #080b15;
+/* Estilos generales de la tabla */
+.table-view {
+    -fx-background-color: #f7f8fa; /* Fondo neutro claro */
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-family: "Helvetica Neue", Arial, sans-serif;
+    -fx-effect: dropshadow(gaussian, rgba(17,24,39,0.08), 8, 0.3, 0, 2);
 }
 
-.add-icon {
-    -fx-fill: white;
+/* Encabezado */
+.table-view .column-header-background {
+    -fx-border-color: #d1d5db; /* Borde inferior */
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-radius: 8 8 0 0;
+    -fx-background-color: #111827; /* Oscuro consistente */
+}
+
+.table-view .column-header,
+.table-view .filler,
+.table-view .table-header-row {
+    -fx-background-color: #111827;
+}
+
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12px 10px;
+}
+
+/* Celdas de la tabla - tonos suaves */
+.table-view .table-cell {
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;   /* Gris oscuro para texto */
+    -fx-font-weight: 500;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12px 10px;
+    -fx-border-color: #e5e7eb; /* Borde gris claro */
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* Filas alternas en gris suave */
+.table-row-cell:odd {
+    -fx-background-color: #f9fafb; /* Gris muy claro */
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff; /* Blanco */
+}
+
+/* Hover y selección equilibrados */
+.table-row-cell:hover {
+    -fx-background-color: #f3f4f6; /* Gris claro al pasar el mouse */
+    -fx-cursor: hand;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #dbeafe; /* Azul grisáceo suave */
+    -fx-text-fill: #1f2937;        /* Texto gris oscuro */
+}
+
+/* Scrollbar */
+.table-view .scroll-bar:vertical .increment-button,
+.table-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .scroll-bar:vertical .increment-arrow,
+.table-view .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: #d1d5db;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6;
+}
+
+.table-view .scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6;
 }
