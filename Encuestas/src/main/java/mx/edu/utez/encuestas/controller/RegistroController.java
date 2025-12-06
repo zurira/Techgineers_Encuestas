@@ -28,25 +28,19 @@ public class RegistroController {
         String correo = correoField.getText();
         String nombre = nombreField.getText();
         String usuario = usuarioField.getText();
-        String clave = txtPassword.getText();
 
-        String password = txtPassword.isVisible()
+        String clave = txtPassword.isVisible()
                 ? txtPassword.getText()
                 : txtPasswordVisible.getText();
 
 
-        if (correo.isEmpty() || nombre.isEmpty() || usuario.isEmpty() || password.isEmpty()) {
+        if (correo.isEmpty() || nombre.isEmpty() || usuario.isEmpty() || clave.isEmpty()) {
             mostrarAlerta("Todos los campos son obligatorios.");
             return;
         }
 
         if (usuarioDao.existeUsuario(usuario)) {
             mostrarAlerta("El nombre de usuario ya existe.");
-            return;
-        }
-
-        if (correo.isEmpty() || nombre.isEmpty() || usuario.isEmpty() || clave.isEmpty()) {
-            mostrarAlerta("Todos los campos son obligatorios.");
             return;
         }
 
