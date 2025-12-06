@@ -8,4 +8,5 @@ public interface IOpcion {
     int insertarOpcion(String texto, int idEncuesta);
     List<Opcion> obtenerOpcionesPorPregunta(int idPregunta);
     boolean eliminarOpcionesPorPregunta(int idPregunta);
+    boolean existeOpcionConTexto(String texto, int preguntaId);
 }

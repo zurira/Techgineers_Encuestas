@@ -2,19 +2,37 @@ package mx.edu.utez.encuestas.dao.impl;
 
 import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IOpcion;
-import mx.edu.utez.encuestas.dao.IPregunta;
 import mx.edu.utez.encuestas.model.Opcion;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OpcionDaoImpl implements IOpcion {
     @Override
-    public int insertarOpcion(String texto, int preguntaId) {
-        String sql = "INSERT INTO Opciones (texto, pregunta_id) VALUES (?, ?)";
+    public boolean existeOpcionConTexto(String texto, int preguntaId) {
+        String sql = "SELECT COUNT(*) FROM Opciones WHERE UPPER(texto) = UPPER(?) AND pregunta_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, texto);
+            stmt.setInt(2, preguntaId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar existencia de opción: " + e.getMessage());
+        }
+        return false;
+    }
 
+    @Override
+    public int insertarOpcion(String texto, int preguntaId) {
+        if (existeOpcionConTexto(texto, preguntaId)) {
+            System.out.println("Opcion ya existente");
+            return -2;
+        }
+        String sql = "INSERT INTO Opciones (texto, pregunta_id) VALUES (?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -23,10 +41,7 @@ public class OpcionDaoImpl implements IOpcion {
 
             int rows = stmt.executeUpdate();
             if (rows == 1) {
-
-                // recupera la ultima opcion insertada para la pregunta elegida
                 String sql2 = "SELECT id FROM Opciones WHERE pregunta_id = ? ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
-
                 try (PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
                     stmt2.setInt(1, preguntaId);
                     ResultSet rs = stmt2.executeQuery();
@@ -98,7 +113,11 @@ public class OpcionDaoImpl implements IOpcion {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nuevoTexto);
             stmt.setInt(2, idOpcion);
-            return stmt.executeUpdate() == 1;
+            boolean exito = stmt.executeUpdate() == 1;
+            if (exito) {
+                System.out.println("Opcion actualizada correctamente");
+            }
+            return exito;
         } catch (SQLException e) {
             System.err.println("Error al actualizar opción: " + e.getMessage());
             return false;

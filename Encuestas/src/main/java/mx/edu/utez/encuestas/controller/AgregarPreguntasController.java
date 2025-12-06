@@ -143,54 +143,65 @@ public class AgregarPreguntasController {
         }
 
         if (preguntaExistente != null) {
-            // actualiza la pregunta
+            // Actualiza la pregunta
             boolean actualizada = dao.actualizarPregunta(textoPregunta, this.idEncuesta, preguntaExistente.getId());
             if (!actualizada) { mostrarAlerta("Error al actualizar la pregunta."); return; }
 
-            // obtiene opciones de bd
+            // Obtiene las opciones
             List<Opcion> opcionesBD = daoOp.obtenerOpcionesPorPregunta(preguntaExistente.getId());
-            // consulta rápida
             java.util.Map<Integer, Opcion> mapaBD = new java.util.HashMap<>();
             for (Opcion o : opcionesBD) mapaBD.put(o.getId(), o);
 
-            // actualiza o inserta segun se necesite
+            boolean opcionDuplicada = false;
+
+            //Actualiza o inserta
             for (OpcionUI ou : opcionesUI) {
                 String nuevoTexto = ou.campo.getText().trim();
+
                 if (ou.id == null) {
-                    // si es nueva
-                    daoOp.insertarOpcion(nuevoTexto, preguntaExistente.getId());
+                    int resultado = daoOp.insertarOpcion(nuevoTexto, preguntaExistente.getId());
+                    if (resultado == -2) {
+                        opcionDuplicada = true;
+                    }
                 } else {
-                    // si se va a actualizar
                     Opcion existente = mapaBD.get(ou.id);
                     if (existente != null && !existente.getTexto().equals(nuevoTexto)) {
                         daoOp.actualizarOpcion(ou.id, nuevoTexto);
                     }
-                    // se indica cual eliminar
                     mapaBD.remove(ou.id);
                 }
             }
 
+            // Elimina opciones no usadas
             for (Opcion aEliminar : mapaBD.values()) {
                 daoOp.eliminarOpcionPorId(aEliminar.getId());
             }
-
-            mostrarAlerta("Pregunta actualizada.");
+            if(opcionDuplicada) {
+                mostrarAlerta("Pregunta actualizada. Se omitieron algunas opciones porque estaban duplicadas");
+            } else {
+                mostrarAlerta("Pregunta actualizada.");
+            }
             cerrarVentana();
-
         } else {
-            // nueva pregunta
             int idPregunta = dao.insertarPregunta(textoPregunta, idEncuesta);
             if (idPregunta > 0) {
+                boolean opcionDuplicada = false;
                 for (OpcionUI ou : opcionesUI) {
-                    daoOp.insertarOpcion(ou.campo.getText().trim(), idPregunta);
+                    int resultado = daoOp.insertarOpcion(ou.campo.getText().trim(), idPregunta);
+                    if (resultado == -2) {
+                        opcionDuplicada = true;
+                    }
                 }
-                mostrarAlerta("Pregunta guardada.");
+                if(opcionDuplicada) {
+                    mostrarAlerta("Pregunta guardada, pero algunas opciones no se guardaron porque ya existían.");
+                } else {
+                    mostrarAlerta("Pregunta guardada.");
+                }
                 cerrarVentana();
             } else {
                 mostrarAlerta("Error al guardar la pregunta.");
             }
         }
-        cerrarVentana();
     }
 
 
