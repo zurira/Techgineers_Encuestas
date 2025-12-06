@@ -47,7 +47,6 @@ public class VistaEncuestaController {
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
         inicializarDatos();
-        cargarPreguntas();
     }
 
     private void inicializarDatos() {
@@ -119,6 +118,9 @@ public class VistaEncuestaController {
         contenedorPreguntas.getChildren().clear();
 
         List<Pregunta> preguntas = dao.obtenerPreguntasPorEncuesta(encuesta.getId());
+        if (preguntas == null || preguntas.isEmpty()) {
+            return; // No hay preguntas, no pasa nada
+        }
 
         for (Pregunta pregunta : preguntas) {
             VBox tarjeta = new VBox();
@@ -168,7 +170,7 @@ public class VistaEncuestaController {
         String categoria = txtCategoria.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
-        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty()) {
+        if (titulo.isEmpty() || categoria.isEmpty() || descripcion.isEmpty() || imagenSeleccionada==null) {
             mostrarAlerta("Todos los campos deben estar completos.");
             return;
         }

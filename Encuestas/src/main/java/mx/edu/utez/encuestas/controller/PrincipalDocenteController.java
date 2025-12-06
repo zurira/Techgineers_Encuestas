@@ -63,11 +63,13 @@ public class PrincipalDocenteController {
         try {
             // Crear encuesta en blanco
             Encuesta nuevaEncuesta = new Encuesta();
-            nuevaEncuesta.setTitulo("Formulario sin título");
-            nuevaEncuesta.setDescripcionCorta("Descripción del formulario");
+            nuevaEncuesta.setTitulo("");
+            nuevaEncuesta.setDescripcionCorta("");
+            nuevaEncuesta.setCategoria("");
             nuevaEncuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
             nuevaEncuesta.setCreadorId(usuarioActivo.getId());
             nuevaEncuesta.setId(0);
+            System.out.println("Usuario activo: " + usuarioActivo);
 
             // carga la vista de encuesta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/edu/utez/encuestas/views/vistaEncuesta.fxml"));
