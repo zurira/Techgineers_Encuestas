@@ -17,17 +17,11 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(root);
         stage.setTitle("Encuestas");
         stage.setScene(scene);
-        // Esta línea maximiza la ventana.
         stage.setMaximized(true);
         stage.show();
     }
 
     public static void main(String[] args) {
-
         launch();
     }
-
-
-
-
 }

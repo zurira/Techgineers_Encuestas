@@ -9,5 +9,6 @@ public interface IUsuario {
     Usuario validarLogin(String nombreUsuario, String contraseña);
     boolean registrarUsuario(Usuario usuario);
     boolean existeUsuario(String nombreUsuario);
+    boolean existeCorreo(String correo);
     public List<Usuario> findAll() throws SQLException;
 }

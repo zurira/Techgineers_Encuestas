@@ -28,22 +28,10 @@ public class RegistroController {
         String correo = correoField.getText();
         String nombre = nombreField.getText();
         String usuario = usuarioField.getText();
-        String clave = txtPassword.getText();
-
-        String password = txtPassword.isVisible()
+        String clave = txtPassword.isVisible()
                 ? txtPassword.getText()
                 : txtPasswordVisible.getText();
 
-
-        if (correo.isEmpty() || nombre.isEmpty() || usuario.isEmpty() || password.isEmpty()) {
-            mostrarAlerta("Todos los campos son obligatorios.");
-            return;
-        }
-
-        if (usuarioDao.existeUsuario(usuario)) {
-            mostrarAlerta("El nombre de usuario ya existe.");
-            return;
-        }
 
         if (correo.isEmpty() || nombre.isEmpty() || usuario.isEmpty() || clave.isEmpty()) {
             mostrarAlerta("Todos los campos son obligatorios.");
@@ -66,10 +54,19 @@ public class RegistroController {
         }
 
         if (!esClaveValida(clave)) {
-            mostrarAlerta("La contraseña debe mayúscula, una minúscula, un número, un caracter especial y mínimo 8 caracteres");
+            mostrarAlerta("La contraseña debe tener una mayúscula, una minúscula, un número, un caracter especial y mínimo 8 caracteres");
             return;
         }
 
+        if (usuarioDao.existeCorreo(correo)) {
+            mostrarAlerta("El correo ya está registrado.");
+            return;
+        }
+
+        if (usuarioDao.existeUsuario(usuario)) {
+            mostrarAlerta("El nombre de usuario ya está registrado.");
+            return;
+        }
 
         Rol rolDocente = new Rol();
         rolDocente.setId(2);
@@ -78,11 +75,10 @@ public class RegistroController {
         Usuario nuevo = new Usuario(correo, nombre, usuario, clave);
         nuevo.setRol(rolDocente);
         if (usuarioDao.registrarUsuario(nuevo)) {
-            mostrarAlerta("Registro exitoso.");
+            mostrarAlerta("Docente registrado exitosamente");
         } else {
             mostrarAlerta("Error al registrar. Intenta más tarde.");
         }
-        //cerrar ventana
         Stage currentStage = (Stage) btnRegistrar.getScene().getWindow();
         currentStage.close();
     }
@@ -117,8 +113,6 @@ public class RegistroController {
         String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&.#_-])[A-Za-z\\d@$!%*?&.#_-]{8,}$";
         return clave.matches(regex);
     }
-
-
 
     @FXML
     private void togglePasswordVisibility(ActionEvent event) {

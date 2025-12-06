@@ -2,7 +2,6 @@ package mx.edu.utez.encuestas.dao.impl;
 
 import mx.edu.utez.encuestas.config.DBConnection;
 import mx.edu.utez.encuestas.dao.IUsuario;
-import mx.edu.utez.encuestas.model.Respuesta;
 import mx.edu.utez.encuestas.model.Rol;
 import mx.edu.utez.encuestas.model.Usuario;
 
@@ -62,6 +61,23 @@ public class UsuarioDaoImpl implements IUsuario {
             }
         } catch (SQLException e) {
             System.err.println("Error al verificar usuario: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean existeCorreo(String correo) {
+        String query = "SELECT COUNT(*) FROM Usuarios WHERE correo = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, correo);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Retorna true si el conteo es mayor a 0 (el correo existe)
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar correo: " + e.getMessage());
         }
         return false;
     }
@@ -129,6 +145,4 @@ public class UsuarioDaoImpl implements IUsuario {
         }
         return total;
     }
-
-
 }
