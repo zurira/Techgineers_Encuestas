@@ -39,6 +39,7 @@ public class PrincipalDocenteController {
     private final IEncuesta encuestaDao = new EncuestaDaoImpl();
     private Usuario usuarioActivo;
 
+
     public void setUsuarioActivo(Usuario usuario) {
         this.usuarioActivo = usuario;
         System.out.println("Usuario activo: " + usuario.getNombre());
@@ -131,13 +132,32 @@ public class PrincipalDocenteController {
                 btnSwitch.getStyleClass().add("action-button");
                 btnSwitch.setTooltip(new Tooltip("Activar/Desactivar encuesta"));
                 btnSwitch.setOnAction(e -> {
-                    encuesta.setActiva(!encuesta.isActiva());
-                    switchIcon.setIconLiteral(encuesta.isActiva() ? "fa-toggle-on" : "fa-toggle-off");
-                    switchIcon.setIconColor(encuesta.isActiva() ? Color.GREEN : Color.GRAY);
-                    String nuevoEstado = encuesta.isActiva() ? "activa" : "inactiva";
-                    encuestaDao.actualizarEstado(encuesta.getId(), nuevoEstado);
+                    boolean activar = !encuesta.isActiva();
+                    String mensaje = activar
+                            ? "¿Deseas ACTIVAR esta encuesta? Los usuarios podrán responderla."
+                            : "¿Deseas DESACTIVAR esta encuesta? Los usuarios ya no podrán responderla.";
 
-                    cargarEncuestasComoTarjetas();
+                    Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirm.setTitle("Confirmar acción");
+                    confirm.setHeaderText("Cambiar estado de encuesta");
+                    confirm.setContentText(mensaje);
+
+                    confirm.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.OK) {
+
+                            encuesta.setActiva(activar);
+
+                            switchIcon.setIconLiteral(activar ? "fa-toggle-on" : "fa-toggle-off");
+                            switchIcon.setIconColor(activar ? Color.GREEN : Color.GRAY);
+
+                            String nuevoEstado = activar ? "activa" : "inactiva";
+                            encuestaDao.actualizarEstado(encuesta.getId(), nuevoEstado);
+
+                            mostrarAlerta("La encuesta ha sido " + (activar ? "activada" : "desactivada") + " correctamente.");
+
+                            cargarEncuestasComoTarjetas();
+                        }
+                    });
                 });
 
                 acciones.getChildren().add(btnSwitch);
@@ -146,7 +166,14 @@ public class PrincipalDocenteController {
             tarjeta.getChildren().addAll(titulo, subtitulo, estado, acciones);
             contenedorEncuestas.getChildren().add(tarjeta);
 
-            tarjeta.setOnMouseClicked(e -> abrirEditorEncuesta(encuesta));
+            tarjeta.setOnMouseClicked(e -> {
+                if (encuesta.getEstado() == Encuesta.EstadoEncuesta.activa) {
+                    mostrarAlerta("Esta encuesta está publicada y no puede editarse.");
+                    return;
+                }
+                abrirEditorEncuesta(encuesta);
+            });
+
             tarjeta.setCursor(Cursor.HAND);
 
             Tooltip tooltip = new Tooltip("Da clic para ver la encuesta");

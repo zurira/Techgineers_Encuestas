@@ -49,6 +49,21 @@ public class VistaEncuestaController {
         inicializarDatos();
     }
 
+    private void deshabilitarEdicion() {
+        txtTitulo.setEditable(false);
+        txtCategoria.setEditable(false);
+        txtDescripcion.setEditable(false);
+
+        btnGuardar.setDisable(true);
+        btnpublicar.setDisable(true);
+        btnSeleccionarImagen.setDisable(true);
+
+        // Deshabilitar edición de preguntas existentes
+        for (var nodo : contenedorPreguntas.getChildren()) {
+            nodo.setDisable(true);
+        }
+    }
+
     private void inicializarDatos() {
         if (encuesta != null) {
             txtTitulo.setText(encuesta.getTitulo());
@@ -58,6 +73,9 @@ public class VistaEncuestaController {
             cargarImagenPortada(encuesta.getImagen());
             System.out.println("ID de la encuesta cargada: " + encuesta.getId());
             cargarPreguntas();
+
+
+
 
             //solo aparecera el boton de publicar para encuestas en borrador
             if (encuesta.getEstado() == Encuesta.EstadoEncuesta.borrador || encuesta.getEstado()==null) {
@@ -72,6 +90,7 @@ public class VistaEncuestaController {
 
         }
     }
+
 
     private void cargarImagenPortada(byte[] imagenBytes) {
         if (imagenBytes != null && imagenBytes.length > 0) {
