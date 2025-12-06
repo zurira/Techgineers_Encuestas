@@ -5,28 +5,41 @@ import mx.edu.utez.encuestas.dao.IOpcion;
 import mx.edu.utez.encuestas.dao.IPregunta;
 import mx.edu.utez.encuestas.model.Opcion;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OpcionDaoImpl implements IOpcion {
     @Override
-    public boolean insertarOpcion(String texto, int idPregunta) {
+    public int insertarOpcion(String texto, int preguntaId) {
         String sql = "INSERT INTO Opciones (texto, pregunta_id) VALUES (?, ?)";
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, texto);
-            stmt.setInt(2, idPregunta);
-            return stmt.executeUpdate() == 1;
+            stmt.setInt(2, preguntaId);
+
+            int rows = stmt.executeUpdate();
+            if (rows == 1) {
+
+                // recupera la ultima opcion insertada para la pregunta elegida
+                String sql2 = "SELECT id FROM Opciones WHERE pregunta_id = ? ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
+
+                try (PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
+                    stmt2.setInt(1, preguntaId);
+                    ResultSet rs = stmt2.executeQuery();
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
+                }
+            }
 
         } catch (SQLException e) {
             System.err.println("Error al insertar opción: " + e.getMessage());
-            return false;
         }
+        return -1;
     }
 
     @Override

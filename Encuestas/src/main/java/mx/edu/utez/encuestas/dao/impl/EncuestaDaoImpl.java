@@ -6,6 +6,7 @@ import mx.edu.utez.encuestas.dao.IEncuesta;
 import mx.edu.utez.encuestas.model.Encuesta;
 
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,25 +110,40 @@ public class EncuestaDaoImpl implements IEncuesta {
 
     @Override
     public int guardarEncuesta(Encuesta encuesta) {
-        String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO encuestas (titulo, categoria, imagen, estado, creador_id, descripcion) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, encuesta.getTitulo());
             stmt.setString(2, encuesta.getCategoria());
-            stmt.setBytes(3, encuesta.getImagen() != null ? encuesta.getImagen() : new byte[0]);
+
+            if (encuesta.getImagen() == null || encuesta.getImagen().length == 0) {
+                throw new SQLException("La imagen es obligatoria y no puede ser nula.");
+            }
+            stmt.setBytes(3, encuesta.getImagen());
+
+
             stmt.setString(4, encuesta.getEstado().name());
             stmt.setInt(5, encuesta.getCreadorId());
             stmt.setString(6, encuesta.getDescripcionCorta());
 
             int rows = stmt.executeUpdate();
             if (rows == 1) {
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    //evita error de conversión
-                    return (int) rs.getLong(1);
+
+                // recupera el ultimo id generado del docente
+                String sql2 = "SELECT id FROM encuestas WHERE creador_id = ? ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
+
+                try (PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
+                    stmt2.setInt(1, encuesta.getCreadorId());
+                    ResultSet rs = stmt2.executeQuery();
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
                 }
             }
+
         } catch (SQLException e) {
             System.err.println("Error al guardar encuesta: " + e.getMessage());
         }
@@ -323,9 +339,5 @@ public class EncuestaDaoImpl implements IEncuesta {
         }
         return total;
     }
-
-
-
-
 
 }

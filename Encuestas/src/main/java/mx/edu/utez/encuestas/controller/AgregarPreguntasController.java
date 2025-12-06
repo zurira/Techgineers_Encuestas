@@ -205,4 +205,3 @@ public class AgregarPreguntasController {
         stage.close();
     }
 }
-

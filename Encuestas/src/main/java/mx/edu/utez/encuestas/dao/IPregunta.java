@@ -7,7 +7,7 @@ import java.util.List;
 public interface IPregunta {
     int insertarPregunta(String texto, int idEncuesta);
     boolean actualizarPregunta(String texto, int idEncuesta, int idPregunta);
-    boolean eliminarPregunta(int idPregunta);
+    boolean eliminarPreguntaConOpciones(int idPregunta);
     List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta);
     int contarPreguntasPorEncuesta(int idEncuesta);
 }

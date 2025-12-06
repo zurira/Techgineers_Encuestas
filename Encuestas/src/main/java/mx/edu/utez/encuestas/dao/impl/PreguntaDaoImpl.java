@@ -13,19 +13,25 @@ public class PreguntaDaoImpl implements IPregunta {
     @Override
     public int insertarPregunta(String texto, int idEncuesta) {
         String sql = "INSERT INTO Preguntas (texto, encuesta_id) VALUES (?, ?)";
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, texto);
             stmt.setInt(2, idEncuesta);
-            stmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                //evita error de conversion
-                BigDecimal idBigDecimal = rs.getBigDecimal(1);
-                if (idBigDecimal != null) {
-                    return idBigDecimal.intValue();
+            int rows = stmt.executeUpdate();
+            if (rows == 1) {
+
+                // recupera la ultima pregunta insertada a la encuesta
+                String sql2 = "SELECT id FROM Preguntas WHERE encuesta_id = ? ORDER BY id DESC FETCH FIRST 1 ROWS ONLY";
+
+                try (PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
+                    stmt2.setInt(1, idEncuesta);
+                    ResultSet rs = stmt2.executeQuery();
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
                 }
             }
 
@@ -54,22 +60,47 @@ public class PreguntaDaoImpl implements IPregunta {
         }
     }
 
-    @Override
-    public boolean eliminarPregunta(int idPregunta){
-        String sql = "DELETE FROM Preguntas WHERE id = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    public boolean eliminarPreguntaConOpciones(int idPregunta) {
+        String sqlRespuestas =
+                "DELETE FROM Respuestas WHERE opcion_id IN (SELECT id FROM Opciones WHERE pregunta_id = ?)";
 
-            stmt.setInt(1, idPregunta);
-            //si se elimina correctamente
-            return stmt.executeUpdate() == 1;
+        String sqlOpciones =
+                "DELETE FROM Opciones WHERE pregunta_id = ?";
+
+        String sqlPregunta =
+                "DELETE FROM Preguntas WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            // primero elimina respuestas
+            try (PreparedStatement stmtRes = conn.prepareStatement(sqlRespuestas)) {
+                stmtRes.setInt(1, idPregunta);
+                stmtRes.executeUpdate();
+            }
+
+            //luego elimina opciones
+            try (PreparedStatement stmtOp = conn.prepareStatement(sqlOpciones)) {
+                stmtOp.setInt(1, idPregunta);
+                stmtOp.executeUpdate();
+            }
+
+            // por ultimo elimna la pregunta
+            int rowsPregunta;
+            try (PreparedStatement stmtPreg = conn.prepareStatement(sqlPregunta)) {
+                stmtPreg.setInt(1, idPregunta);
+                rowsPregunta = stmtPreg.executeUpdate();
+            }
+
+            //se eliminan primero las entidades hijas
+            conn.commit();
+            return rowsPregunta == 1;
 
         } catch (SQLException e) {
-            System.err.println("Error al eliminar pregunta: " + e.getMessage());
+            System.err.println("Error al eliminar pregunta con opciones/respuestas: " + e.getMessage());
             return false;
         }
     }
-
 
     @Override
     public List<Pregunta> obtenerPreguntasPorEncuesta(int idEncuesta) {

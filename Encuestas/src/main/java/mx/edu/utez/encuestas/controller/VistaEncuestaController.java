@@ -128,7 +128,12 @@ public class VistaEncuestaController {
             btnEliminar.setGraphic(new FontIcon("fa-trash"));
             btnEliminar.getStyleClass().add("pregunta-action");
             btnEliminar.setOnAction(e -> {
-                eliminarPregunta(pregunta);
+                boolean ok = dao.eliminarPreguntaConOpciones(pregunta.getId());
+                if (ok) {
+                    cargarPreguntas();
+                } else {
+                    mostrarAlerta("No se pudo eliminar la pregunta.");
+                }
             });
 
             Button btnEditar = new Button();
@@ -169,13 +174,15 @@ public class VistaEncuestaController {
             mostrarAlerta("Todos los campos deben estar completos.");
             return;
         }
-
+        if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
+            mostrarAlerta("Debes seleccionar una imagen para la encuesta.");
+            return;
+        }
         encuesta.setTitulo(titulo);
         encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
         encuesta.setEstado(Encuesta.EstadoEncuesta.borrador);
-
-        //encuesta.setImagen(imagenSeleccionada != null ? imagenSeleccionada : new byte[0]);
+        encuesta.setImagen(imagenSeleccionada);
 
         EncuestaDaoImpl encuestaDao = new EncuestaDaoImpl();
         boolean resultado;
@@ -208,9 +215,15 @@ public class VistaEncuestaController {
             return;
         }
 
+        //validación de imagen
+        if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
+            mostrarAlerta("Debes seleccionar una imagen para la encuesta.");
+            return;
+        }
+
         // se valida si la encuesta ya esta guardada para poder publicarla
         if (encuesta.getId() <= 0) {
-            mostrarAlerta("Error al publicar la encuesta");
+            mostrarAlerta("Tienes que guardar la encuesta, antes de publicar");
             return;
         }
 
@@ -232,7 +245,7 @@ public class VistaEncuestaController {
         encuesta.setTitulo(titulo);
         encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
-        encuesta.setEstado(Encuesta.EstadoEncuesta.activa); // Intención: publicarla
+        encuesta.setEstado(Encuesta.EstadoEncuesta.activa);
         //no se setea la imagen, ya que puede que haya cambiado o no
 
         EncuestaDaoImpl encuestaDao = new EncuestaDaoImpl();
@@ -265,7 +278,7 @@ public class VistaEncuestaController {
                 daoOp.eliminarOpcionesPorPregunta(idPregunta);
 
                 //se elimina la pregunta
-                boolean preguntaEliminada = dao.eliminarPregunta(idPregunta);
+                boolean preguntaEliminada = dao.eliminarPreguntaConOpciones(pregunta.getId());
 
                 if (preguntaEliminada) {
                     mostrarAlerta("Pregunta eliminada correctamente.");
