@@ -8,14 +8,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.edu.utez.encuestas.dao.impl.EncuestaDaoImpl;
@@ -154,9 +152,11 @@ public class HomeController implements Initializable {
         if (encuesta.getImagen() != null) {
             Image image = new Image(new ByteArrayInputStream(encuesta.getImagen()));
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(250);
-            imageView.setFitHeight(250);
-            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(200);
+            imageView.setFitHeight(150);
+            imageView.setPreserveRatio(false);
+            imageView.setClip(new Rectangle(200, 150));
+
             imageWrapper.getChildren().add(imageView);
         }
 
@@ -173,6 +173,9 @@ public class HomeController implements Initializable {
         card.getChildren().addAll(imageWrapper, titleLabel, descriptionLabel);
 
         card.setOnMouseClicked(e -> abrirModalEncuesta(encuesta));
+
+        Tooltip tooltip = new Tooltip("Haz clic para ver esta encuesta.");
+        Tooltip.install(card, tooltip);
 
         encuestasContainer.getChildren().add(card);
     }
@@ -192,6 +195,9 @@ public class HomeController implements Initializable {
             //cerrar ventana
             Stage currentStage = (Stage) loginButton.getScene().getWindow();
             currentStage.close();
+
+            Tooltip tooltip = new Tooltip("Inicia sesión");
+            loginButton.setTooltip(tooltip);
 
         } catch (IOException e) {
             System.err.println("Error al cargar la vista de registro: " + e.getMessage());
@@ -225,6 +231,7 @@ public class HomeController implements Initializable {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+
 
         } catch (IOException ex) {
             System.err.println("Error al abrir modal de encuesta: " + ex.getMessage());

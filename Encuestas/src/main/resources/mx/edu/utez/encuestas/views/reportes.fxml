@@ -24,13 +24,13 @@
                 <Label text="Panel Docente" styleClass="sidebar-brand"/>
                 <Separator styleClass="sidebar-separator"/>
                 <Button fx:id="btnDashboard" text="Dashboard" styleClass="sidebar-button" prefWidth="200.0" onAction="#irDashboard">
-                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-home" styleClass="add-icon"/></graphic>
                 </Button>
                 <Button fx:id="btnEncuestas" text="Encuestas" styleClass="sidebar-button" prefWidth="200.0" onAction="#irEncuesta">
-                    <graphic><FontIcon iconLiteral="fa-list"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-list" styleClass="add-icon"/></graphic>
                 </Button>
                 <Button  text="Reportes" styleClass="sidebar-button-selected" prefWidth="200.0">
-                    <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-bar-chart" styleClass="add-icon"/></graphic>
                 </Button>
             </VBox>
         </left>
@@ -46,6 +46,9 @@
                                 <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
                                 <Label fx:id="nombreDocente" styleClass="avatar-name" text="Administrador"/>
                                 <Button fx:id="logoutButton" styleClass="logout-button" onAction="#logout" >
+                                    <tooltip>
+                                        <Tooltip text="Cerrar sesión" />
+                                    </tooltip>
                                     <graphic>
                                         <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
                                     </graphic>
@@ -60,12 +63,13 @@
                         <Insets bottom="20" left="20" right="20" top="20" />
                     </padding>
                     <Label text="Encuesta:" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
-                    <ComboBox fx:id="cmbEncuestas" prefWidth="220" style="-fx-background-color: white;"/>
-                    <Button text="Actualizar" onAction="#actualizarGrafico"
-                            style="-fx-background-color: #111827; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <ComboBox fx:id="cmbEncuestas" prefWidth="220" style="-fx-background-color: white;">
+                        <tooltip>
+                            <Tooltip text="Elija una encuesta" />
+                        </tooltip>
+                    </ComboBox>
                 </HBox>
                 <VBox spacing="16" alignment="CENTER" style="-fx-padding: 32;">
-                    <!-- Título centrado de la encuesta -->
                     <Label fx:id="lblTituloEncuesta" text="Encuesta: IA"
                            style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;"/>
 

@@ -13,6 +13,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.layout.Region?>
 
+<?import javafx.scene.control.Tooltip?>
 <BorderPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.encuestas.controller.HomeController">
     <top>
         <HBox alignment="CENTER_LEFT" styleClass="header-bar" prefHeight="100.0">
@@ -24,6 +25,9 @@
             <Region HBox.hgrow="ALWAYS" />
 
             <Button fx:id="loginButton" text="Iniciar sesión" styleClass="login-button" onAction="#onLogin">
+                <tooltip>
+                    <Tooltip text="Accede a tu cuenta para ver tus encuestas" />
+                </tooltip>
                 <graphic>
                     <FontIcon iconLiteral="fa-user" iconSize="24" styleClass="user-icon"/>
                 </graphic>
@@ -40,9 +44,17 @@
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="20.0">
-                <TextField fx:id="searchField" promptText="Buscar encuesta" prefWidth="350.0" styleClass="search-field"/>
+                <TextField fx:id="searchField" promptText="Buscar encuesta" prefWidth="350.0" styleClass="search-field">
+                    <tooltip>
+                        <Tooltip text="Escribe el nombre de una encuesta para buscarla" />
+                    </tooltip>
+                </TextField>
                 <Label text="Filtrar por:" styleClass="filter-label" />
-                <ComboBox fx:id="categoryFilter" promptText="Categoría" prefWidth="200.0" styleClass="category-filter-dropdown"/>
+                <ComboBox fx:id="categoryFilter" promptText="Categoría" prefWidth="200.0" styleClass="category-filter-dropdown">
+                    <tooltip>
+                        <Tooltip text="Filtra las encuestas por categoría" />
+                    </tooltip>
+                </ComboBox>
             </HBox>
             <Label styleClass="section-title" text="Encuestas Activas" />
             <ScrollPane fitToWidth="true" styleClass="scroll-pane-background" BorderPane.alignment="CENTER">

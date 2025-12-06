@@ -12,20 +12,35 @@
       styleClass="root"
       prefWidth="400" prefHeight="400">
 
-    <Label text="Preguntas" styleClass="titulo" />
-
-    <TextArea fx:id="preguntaField" promptText="Escribe la pregunta aquí..." wrapText="true" prefRowCount="3" styleClass="text-field" />
-
-    <ScrollPane xmlns="http://javafx.com/javafx/21"
-                xmlns:fx="http://javafx.com/fxml/1"
-                fitToWidth="true"
+    <Label text="Preguntas" styleClass="titulo">
+        <tooltip>
+            <Tooltip text="Crea o edita una pregunta para la encuesta" />
+        </tooltip>
+    </Label>
+    <TextArea fx:id="preguntaField"
+              promptText="Escribe la pregunta aquí..."
+              wrapText="true"
+              prefRowCount="3"
+              styleClass="text-field">
+        <tooltip>
+            <Tooltip text="Escribe la pregunta que aparecerá en la encuesta" />
+        </tooltip>
+    </TextArea>
+    <ScrollPane fitToWidth="true"
                 hbarPolicy="NEVER"
                 vbarPolicy="AS_NEEDED">
         <VBox fx:id="opcionesBox" spacing="10">
-            <!-- se agregan dinámicamente las opciones -->
+            <!-- Se agregan dinámicamente las opciones -->
         </VBox>
     </ScrollPane>
 
     <Separator />
-    <Button text="Guardar pregunta" onAction="#onGuardarPregunta" styleClass="save-button" />
+    <Button text="Guardar pregunta"
+            onAction="#onGuardarPregunta"
+            styleClass="save-button">
+        <tooltip>
+            <Tooltip text="Guarda esta pregunta y sus opciones" />
+        </tooltip>
+    </Button>
+
 </VBox>

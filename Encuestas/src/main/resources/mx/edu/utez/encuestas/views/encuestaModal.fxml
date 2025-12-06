@@ -9,9 +9,14 @@
             fx:controller="mx.edu.utez.encuestas.controller.EncuestaModalController"
             prefHeight="650.0" prefWidth="900.0"
             stylesheets="@../css/encuestaModal.css">
+
     <top>
         <VBox alignment="CENTER" spacing="10" styleClass="modal-header">
-            <Label fx:id="lblTituloEncuesta" styleClass="modal-title" text="Título de la Encuesta"/>
+            <Label fx:id="lblTituloEncuesta" styleClass="modal-title" text="Título de la Encuesta">
+                <tooltip>
+                    <Tooltip text="Título de la encuesta que estás respondiendo" />
+                </tooltip>
+            </Label>
         </VBox>
     </top>
 
@@ -22,20 +27,40 @@
                     <padding>
                         <Insets top="20" right="40" bottom="20" left="40"/>
                     </padding>
-
                     <VBox styleClass="survey-card" spacing="8">
-                        <Label text="Nombre del alumno" styleClass="card-title"/>
-                        <TextField fx:id="txtNombreAlumno" promptText="Ingresa tu nombre" styleClass="search-field"/>
-                    </VBox>
+                        <Label text="Nombre del alumno" styleClass="card-title">
+                            <tooltip>
+                                <Tooltip text="Escribe tu nombre completo" />
+                            </tooltip>
+                        </Label>
 
+                        <TextField fx:id="txtNombreAlumno"
+                                   promptText="Ingresa tu nombre"
+                                   styleClass="search-field">
+                            <tooltip>
+                                <Tooltip text="Ingresa tu nombre tal como deseas que aparezca en el registro" />
+                            </tooltip>
+                        </TextField>
+                    </VBox>
                     <VBox styleClass="survey-card" spacing="8">
-                        <Label text="Grupo" styleClass="card-title"/>
-                        <TextField fx:id="txtGrupoAlumno" promptText="Ingresa tu grupo" styleClass="search-field"/>
-                    </VBox>
+                        <Label text="Grupo" styleClass="card-title">
+                            <tooltip>
+                                <Tooltip text="Indica el grupo al que perteneces" />
+                            </tooltip>
+                        </Label>
 
+                        <TextField fx:id="txtGrupoAlumno"
+                                   promptText="Ingresa tu grupo"
+                                   styleClass="search-field">
+                            <tooltip>
+                                <Tooltip text="Ejemplo: 3A, 4B, 5C" />
+                            </tooltip>
+                        </TextField>
+                    </VBox>
                     <VBox fx:id="preguntasContainer" spacing="20">
-                        <!-- se cargan las preguntas como card dinamicamente -->
+                        <!-- Se cargan dinámicamente las preguntas -->
                     </VBox>
+
                 </VBox>
             </content>
         </ScrollPane>
@@ -46,7 +71,16 @@
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20" />
             </padding>
-            <Button fx:id="btnEnviarRespuestas" text="Enviar respuestas" styleClass="submit-button"/>
+
+            <Button fx:id="btnEnviarRespuestas"
+                    text="Enviar respuestas"
+                    styleClass="submit-button">
+                <tooltip>
+                    <Tooltip text="Envía tus respuestas cuando hayas terminado" />
+                </tooltip>
+            </Button>
+
         </VBox>
     </bottom>
+
 </BorderPane>

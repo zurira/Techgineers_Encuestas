@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/mx/edu/utez/encuestas/views/Home.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/mx/edu/utez/encuestas/views/login.fxml"));
         Scene scene = new Scene(root);
         stage.setTitle("Encuestas");
         stage.setScene(scene);

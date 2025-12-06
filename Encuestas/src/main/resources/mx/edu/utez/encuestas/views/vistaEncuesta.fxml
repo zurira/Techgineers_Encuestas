@@ -13,39 +13,66 @@
 
     <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
           AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
-
         <HBox alignment="CENTER_RIGHT">
-            <Button fx:id="btnpublicar" text="Publicar" onAction="#publicarEncuesta" styleClass="save-button"/>
+            <Button fx:id="btnpublicar" text="Publicar" onAction="#publicarEncuesta" styleClass="save-button">
+                <tooltip>
+                    <Tooltip text="Publica la encuesta para que los usuarios puedan responderla" />
+                </tooltip>
+            </Button>
         </HBox>
-
         <VBox spacing="10" styleClass="survey-card">
-            <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title"/>
-            <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="form-category"/>
-        </VBox>
 
+            <TextField fx:id="txtTitulo" promptText="Formulario sin título" styleClass="form-title">
+                <tooltip>
+                    <Tooltip text="Escribe el título de la encuesta" />
+                </tooltip>
+            </TextField>
+
+            <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="form-category">
+                <tooltip>
+                    <Tooltip text="Indica la categoría o tema de la encuesta" />
+                </tooltip>
+            </TextField>
+
+        </VBox>
         <GridPane hgap="20" vgap="10" styleClass="survey-card">
+
             <columnConstraints>
                 <ColumnConstraints percentWidth="40"/>
                 <ColumnConstraints percentWidth="60"/>
             </columnConstraints>
 
             <VBox spacing="10" GridPane.columnIndex="0">
+
                 <ImageView fx:id="imgPortada"
                            fitWidth="180" fitHeight="180"
-                           preserveRatio="true" styleClass="image-wrapper"/>
+                           preserveRatio="true" styleClass="image-wrapper">
+                </ImageView>
+
                 <Button fx:id="btnSeleccionarImagen" text="Subir portada"
                         onAction="#seleccionarPortada"
-                        prefWidth="140" alignment="CENTER" styleClass="add-button"/>
+                        prefWidth="140" alignment="CENTER" styleClass="add-button">
+                    <tooltip>
+                        <Tooltip text="Selecciona una imagen para usar como portada" />
+                    </tooltip>
+                </Button>
+
             </VBox>
 
             <VBox spacing="5" GridPane.columnIndex="1">
+
                 <TextArea fx:id="txtDescripcion"
                           promptText="Descripción del formulario"
                           styleClass="form-description"
-                          wrapText="true"/>
-            </VBox>
-        </GridPane>
+                          wrapText="true">
+                    <tooltip>
+                        <Tooltip text="Describe brevemente el propósito de la encuesta" />
+                    </tooltip>
+                </TextArea>
 
+            </VBox>
+
+        </GridPane>
         <ScrollPane VBox.vgrow="ALWAYS"
                     fitToWidth="true"
                     hbarPolicy="NEVER"
@@ -53,10 +80,20 @@
                     styleClass="scroll-pane-background">
             <VBox fx:id="contenedorPreguntas" spacing="15"/>
         </ScrollPane>
-
         <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button"/>
-            <Button text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button"/>
+
+            <Button text="+ Añadir pregunta" onAction="#agregarPregunta" styleClass="add-button">
+                <tooltip>
+                    <Tooltip text="Agrega una nueva pregunta al formulario" />
+                </tooltip>
+            </Button>
+
+            <Button fx:id="btnGuardar" text="Guardar encuesta" onAction="#guardarEncuesta" styleClass="save-button">
+                <tooltip>
+                    <Tooltip text="Guarda los cambios realizados en la encuesta" />
+                </tooltip>
+            </Button>
+
         </HBox>
 
     </VBox>

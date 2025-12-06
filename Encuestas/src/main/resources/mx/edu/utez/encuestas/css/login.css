@@ -34,9 +34,10 @@
 }
 
 .title {
-    -fx-font-size: 75px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: #111827;
+    -fx-font-family: "Arial";
 }
 
 .label {

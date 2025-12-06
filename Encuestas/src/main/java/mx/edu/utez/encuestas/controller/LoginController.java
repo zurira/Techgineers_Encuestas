@@ -112,22 +112,25 @@ public class LoginController {
 
     @FXML
     private void togglePasswordVisibility(ActionEvent event) {
-        boolean isVisible = txtPasswordVisible.isVisible();
+        boolean showingVisible = txtPasswordVisible.isVisible();
 
-        if (isVisible) {
+        if (showingVisible) {
             txtPassword.setText(txtPasswordVisible.getText());
             txtPasswordVisible.setVisible(false);
             txtPasswordVisible.setManaged(false);
+
             txtPassword.setVisible(true);
             txtPassword.setManaged(true);
 
             if (togglePasswordBtn.getGraphic() instanceof FontIcon icon) {
                 icon.setIconLiteral("fa-eye");
             }
+
         } else {
             txtPasswordVisible.setText(txtPassword.getText());
             txtPassword.setVisible(false);
             txtPassword.setManaged(false);
+
             txtPasswordVisible.setVisible(true);
             txtPasswordVisible.setManaged(true);
 

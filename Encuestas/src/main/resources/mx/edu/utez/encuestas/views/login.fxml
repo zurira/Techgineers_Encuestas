@@ -13,6 +13,9 @@
     <HBox spacing="30" alignment="CENTER" styleClass="login-card">
         <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
             <Button fx:id="btnReturn" styleClass="btn-return" onAction="#onHome">
+                <tooltip>
+                    <Tooltip text="Regresar a la página principal" />
+                </tooltip>
                 <graphic>
                     <FontIcon iconLiteral="fa-arrow-left" styleClass="return-icon"/>
                 </graphic>
@@ -28,14 +31,25 @@
 
             <VBox spacing="10">
                 <Label text="Usuario" styleClass="label" />
-                <TextField fx:id="usernameField" promptText="Ingresa tu usuario" styleClass="text-field" />
+                <TextField fx:id="usernameField" promptText="Ingresa tu usuario" styleClass="text-field">
+                    <tooltip>
+                        <Tooltip text="Escribe tu nombre de usuario" />
+                    </tooltip>
+                </TextField>
                 <Label text="Contraseña" styleClass="label" />
                 <StackPane alignment="CENTER_LEFT" >
-                    <PasswordField fx:id="txtPassword" promptText="Ingresa contraseña" styleClass="password-field" />
+                    <PasswordField fx:id="txtPassword" promptText="Ingresa contraseña" styleClass="password-field">
+                        <tooltip>
+                            <Tooltip text="Ingresa tu contraseña para acceder" />
+                        </tooltip>
+                    </PasswordField>
                     <TextField fx:id="txtPasswordVisible" promptText="Ingresa contraseña" styleClass="login-input"
                                visible="false" managed="false" />
                     <Button fx:id="togglePasswordBtn" onAction="#togglePasswordVisibility"
                             styleClass="user-icon" StackPane.alignment="CENTER_RIGHT">
+                        <tooltip>
+                            <Tooltip text="Mostrar u ocultar contraseña" />
+                        </tooltip>
                         <graphic>
                             <FontIcon iconLiteral="fa-eye" />
                         </graphic>

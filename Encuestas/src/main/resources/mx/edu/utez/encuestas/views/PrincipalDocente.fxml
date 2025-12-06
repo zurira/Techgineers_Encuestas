@@ -19,37 +19,71 @@
         <!-- Menú lateral izquierdo -->
         <left>
             <VBox fx:id="sidebar" prefWidth="240.0" styleClass="sidebar">
+
                 <Label text="Panel Docente" styleClass="sidebar-brand"/>
+
                 <Separator styleClass="sidebar-separator"/>
-                <Button fx:id="btnDashboard" text="Dashboard" styleClass="sidebar-button" prefWidth="200.0" onAction="#irDashboard">
-                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                <Button fx:id="btnDashboard" text="Dashboard" styleClass="sidebar-button"
+                        prefWidth="200.0" onAction="#irDashboard">
+                    <tooltip>
+                        <Tooltip text="Ir al panel principal del docente" />
+                    </tooltip>
+                    <graphic><FontIcon iconLiteral="fa-home" styleClass="add-icon" /></graphic>
                 </Button>
                 <Button text="Encuestas" styleClass="sidebar-button-selected" prefWidth="200.0">
-                    <graphic><FontIcon iconLiteral="fa-list"/></graphic>
+                    <tooltip>
+                        <Tooltip text="Ver y administrar tus encuestas" />
+                    </tooltip>
+                    <graphic><FontIcon iconLiteral="fa-list" styleClass="add-icon"/></graphic>
                 </Button>
-                <Button fx:id="btnReportes" text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onAction="#irReportes">
-                    <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
+                <Button fx:id="btnReportes" text="Reportes" styleClass="sidebar-button"
+                        prefWidth="200.0" onAction="#irReportes">
+                    <tooltip>
+                        <Tooltip text="Consultar reportes y estadísticas" />
+                    </tooltip>
+                    <graphic><FontIcon iconLiteral="fa-bar-chart" styleClass="add-icon"/></graphic>
                 </Button>
+
             </VBox>
         </left>
 
         <center>
             <VBox spacing="0">
+
                 <!-- Header -->
                 <HBox fx:id="header" alignment="CENTER_LEFT" spacing="12.0" styleClass="header-bar">
+
                     <Label text="Encuestas" styleClass="header-title"/>
-                    <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field"/>
+
+                    <TextField fx:id="buscarField" promptText="Buscar" styleClass="search-field">
+                        <tooltip>
+                            <Tooltip text="Busca una encuesta por nombre" />
+                        </tooltip>
+                    </TextField>
+
                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS"/>
+
                     <VBox alignment="CENTER_RIGHT" styleClass="user-info-box">
                         <children>
                             <HBox alignment="CENTER_RIGHT" spacing="10">
+
                                 <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
-                                <Label fx:id="nombreDocente" styleClass="avatar-name" text="Docente"/>
+
+                                <Label fx:id="nombreDocente" styleClass="avatar-name" text="Docente">
+                                    <tooltip>
+                                        <Tooltip text="Nombre del docente actualmente conectado" />
+                                    </tooltip>
+                                </Label>
+
                                 <Button fx:id="logoutButton" styleClass="logout-button" onAction="#logout">
+                                    <tooltip>
+                                        <Tooltip text="Cerrar sesión" />
+                                    </tooltip>
                                     <graphic>
                                         <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
                                     </graphic>
                                 </Button>
+
                             </HBox>
                         </children>
                     </VBox>
@@ -57,14 +91,17 @@
                 </HBox>
 
                 <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane-background">
+
                     <VBox spacing="24.0">
                         <padding>
                             <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
                         </padding>
 
                         <Label text="Crear nueva encuesta" styleClass="section-title"/>
-                        <VBox styleClass="survey-card" alignment="CENTER" spacing="8" onMouseClicked="#crearFormularioEnBlanco" prefWidth="140"
-                              prefHeight="160">
+
+                        <VBox fx:id="encuestaBlanco" styleClass="survey-card" alignment="CENTER" spacing="8"
+                              onMouseClicked="#crearFormularioEnBlanco"
+                              prefWidth="140" prefHeight="160">
                             <StackPane styleClass="image-wrapper">
                                 <Label text="+" styleClass="plus-icon"/>
                             </StackPane>
@@ -72,13 +109,13 @@
                             <Label text="Crear desde cero" styleClass="card-description"/>
                         </VBox>
 
-
                         <HBox alignment="CENTER_LEFT" spacing="8">
                             <Label text="Encuestas recientes" styleClass="section-title"/>
                         </HBox>
 
-                        <!-- Encuestas cargadas dinamicamente -->
+                        <!-- Encuestas cargadas dinámicamente -->
                         <FlowPane fx:id="contenedorEncuestas" hgap="16" vgap="16" prefWrapLength="980"/>
+
                     </VBox>
                 </ScrollPane>
             </VBox>

@@ -34,6 +34,7 @@ public class PrincipalDocenteController {
     @FXML private Label nombreDocente;
     @FXML private Button btnDashboard;
     @FXML private Button btnReportes;
+    @FXML private VBox encuestaBlanco;
 
     private final IEncuesta encuestaDao = new EncuestaDaoImpl();
     private Usuario usuarioActivo;
@@ -50,6 +51,9 @@ public class PrincipalDocenteController {
         buscarField.textProperty().addListener((observable, oldValue, newValue) -> {
             filtrarEncuestas(newValue);
         });
+        Tooltip tooltip = new Tooltip("Crear una nueva encuesta desde cero");
+        Tooltip.install(encuestaBlanco, tooltip);
+
     }
 
     @FXML
@@ -143,6 +147,8 @@ public class PrincipalDocenteController {
             tarjeta.setOnMouseClicked(e -> abrirEditorEncuesta(encuesta));
             tarjeta.setCursor(Cursor.HAND);
 
+            Tooltip tooltip = new Tooltip("Da clic para ver la encuesta");
+            Tooltip.install(contenedorEncuestas, tooltip);
         }
     }
 

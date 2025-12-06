@@ -19,6 +19,7 @@ public class AgregarPreguntasController {
 
     @FXML private TextArea preguntaField;
     @FXML private VBox opcionesBox;
+    @FXML private Button btnGuardarPregunta;
 
     private final PreguntaDaoImpl dao = new PreguntaDaoImpl();
     private final OpcionDaoImpl daoOp = new OpcionDaoImpl();
@@ -189,6 +190,7 @@ public class AgregarPreguntasController {
                 mostrarAlerta("Error al guardar la pregunta.");
             }
         }
+        cerrarVentana();
     }
 
 

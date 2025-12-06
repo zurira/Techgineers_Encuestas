@@ -116,6 +116,11 @@
     -fx-text-fill: #6b7280;
 }
 
+.add-icon{
+    -fx-icon-color: white;
+    -fx-fill: white;
+}
+
 /* Cards generales */
 .survey-card, .recent-form-box {
     -fx-background-color: #ffffff;

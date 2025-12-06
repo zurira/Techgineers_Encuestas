@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -18,19 +19,57 @@
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
-
         <Label text="Nombre completo" />
-        <TextField fx:id="nombreField" promptText="Nombre" styleClass="text-field"  />
-
+        <TextField fx:id="nombreField" promptText="Nombre" styleClass="text-field">
+            <tooltip>
+                <Tooltip text="Ingresa el nombre completo del docente" />
+            </tooltip>
+        </TextField>
         <Label text="Correo electrónico" />
-        <TextField fx:id="correoField" promptText="ejemplo@correo.com" styleClass="text-field" />
-
+        <TextField fx:id="correoField" promptText="ejemplo@correo.com" styleClass="text-field">
+            <tooltip>
+                <Tooltip text="Introduce un correo válido, por ejemplo: usuario@correo.com" />
+            </tooltip>
+        </TextField>
         <Label text="Nombre de usuario" />
-        <TextField fx:id="usuarioField" promptText="Nombre de usuario único" styleClass="text-field"  />
-
+        <TextField fx:id="usuarioField" promptText="Nombre de usuario único" styleClass="text-field">
+            <tooltip>
+                <Tooltip text="Este será el usuario con el que el docente iniciará sesión" />
+            </tooltip>
+        </TextField>
         <Label text="Contraseña" />
-        <PasswordField fx:id="claveField" promptText="Contraseña segura" styleClass="text-field" />
+        <StackPane alignment="CENTER_LEFT">
+
+            <PasswordField fx:id="txtPassword" promptText="Ingresa contraseña" styleClass="text-field">
+                <tooltip>
+                    <Tooltip text="Debe incluir mayúsculas, minúsculas, números y un carácter especial" />
+                </tooltip>
+            </PasswordField>
+
+            <TextField fx:id="txtPasswordVisible" promptText="Ingresa contraseña"
+                       visible="false" managed="false">
+                <tooltip>
+                    <Tooltip text="Debe incluir mayúsculas, minúsculas, números y un carácter especial" />
+                </tooltip>
+            </TextField>
+
+            <Button fx:id="togglePasswordBtn" onAction="#togglePasswordVisibility"
+                    styleClass="user-icon" StackPane.alignment="CENTER_RIGHT">
+                <tooltip>
+                    <Tooltip text="Mostrar u ocultar contraseña" />
+                </tooltip>
+                <graphic>
+                    <FontIcon iconLiteral="fa-eye" />
+                </graphic>
+            </Button>
+
+        </StackPane>
     </VBox>
 
-    <Button text="Registrarse" fx:id="registrarButton" onAction="#onRegistrar" styleClass="boton" />
+    <Button text="Registrarse" fx:id="btnRegistrar" onAction="#onRegistrar" styleClass="boton">
+        <tooltip>
+            <Tooltip text="Registrar al nuevo docente" />
+        </tooltip>
+    </Button>
+
 </VBox>

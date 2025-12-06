@@ -139,6 +139,7 @@
     -fx-alignment: CENTER;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6,0,0,2);
     -fx-pref-width: 300;
+    -fx-pref-height: 300;
 }
 .stat-icon {
     -fx-icon-color: #2980b9;

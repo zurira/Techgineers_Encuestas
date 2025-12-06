@@ -36,6 +36,7 @@ public class VistaEncuestaController {
     @FXML private ImageView imgPortada;
     @FXML private TextField txtCategoria;
     @FXML private Button btnpublicar;
+    @FXML private Button btnGuardar;
 
     private byte[] imagenSeleccionada;
 
@@ -46,6 +47,7 @@ public class VistaEncuestaController {
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
         inicializarDatos();
+        cargarPreguntas();
     }
 
     private void inicializarDatos() {
@@ -59,10 +61,14 @@ public class VistaEncuestaController {
             cargarPreguntas();
 
             //solo aparecera el boton de publicar para encuestas en borrador
-            if (encuesta.getEstado() == Encuesta.EstadoEncuesta.borrador) {
+            if (encuesta.getEstado() == Encuesta.EstadoEncuesta.borrador || encuesta.getEstado()==null) {
                 btnpublicar.setVisible(true);
             } else {
                 btnpublicar.setVisible(false);
+            }
+            if (encuesta.getId() <= 0) {
+                btnpublicar.setVisible(false);
+                return;
             }
 
         }
@@ -127,14 +133,7 @@ public class VistaEncuestaController {
             Button btnEliminar = new Button();
             btnEliminar.setGraphic(new FontIcon("fa-trash"));
             btnEliminar.getStyleClass().add("pregunta-action");
-            btnEliminar.setOnAction(e -> {
-                boolean ok = dao.eliminarPreguntaConOpciones(pregunta.getId());
-                if (ok) {
-                    cargarPreguntas();
-                } else {
-                    mostrarAlerta("No se pudo eliminar la pregunta.");
-                }
-            });
+            btnEliminar.setOnAction(e -> eliminarPregunta(pregunta));
 
             Button btnEditar = new Button();
             btnEditar.setGraphic(new FontIcon("fa-pencil"));
@@ -159,7 +158,6 @@ public class VistaEncuestaController {
             tarjeta.setOnMouseClicked(e -> abrirEditorPregunta(pregunta));
 
             tarjeta.getChildren().addAll(lblPregunta, opcionesBox, accionesBox);
-
             contenedorPreguntas.getChildren().add(tarjeta);
         }
     }
@@ -174,10 +172,20 @@ public class VistaEncuestaController {
             mostrarAlerta("Todos los campos deben estar completos.");
             return;
         }
-        if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
-            mostrarAlerta("Debes seleccionar una imagen para la encuesta.");
-            return;
+
+        if (encuesta.getId() > 0) {
+            //si ya hay imagen se conserva la misma
+            if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
+                imagenSeleccionada = encuesta.getImagen();
+            }
+        } else {
+            // si se agrega una encuesta nueva debe ser obligatoria
+            if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
+                mostrarAlerta("Debes seleccionar una imagen para la encuesta.");
+                return;
+            }
         }
+
         encuesta.setTitulo(titulo);
         encuesta.setCategoria(categoria);
         encuesta.setDescripcionCorta(descripcion);
@@ -200,6 +208,9 @@ public class VistaEncuestaController {
 
         mostrarAlerta(resultado ? "Encuesta guardada correctamente." : "Error al guardar la encuesta.");
 
+        //cerrar ventana
+        Stage currentStage = (Stage) btnGuardar.getScene().getWindow();
+        currentStage.close();
     }
 
 
@@ -216,9 +227,17 @@ public class VistaEncuestaController {
         }
 
         //validación de imagen
-        if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
-            mostrarAlerta("Debes seleccionar una imagen para la encuesta.");
-            return;
+        if (encuesta.getId() > 0) {
+            //si ya hay imagen se conserva la misma
+            if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
+                imagenSeleccionada = encuesta.getImagen();
+            }
+        } else {
+            // si se agrega una encuesta nueva debe ser obligatoria
+            if (imagenSeleccionada == null || imagenSeleccionada.length == 0) {
+                mostrarAlerta("Debes seleccionar una imagen para la encuesta.");
+                return;
+            }
         }
 
         // se valida si la encuesta ya esta guardada para poder publicarla
@@ -257,13 +276,14 @@ public class VistaEncuestaController {
         if (resultado) {
             // si se hizo la actualización correcta
             mostrarAlerta("Encuesta publicada correctamente.");
-            // se cierra modal
-            Stage stage = (Stage) txtTitulo.getScene().getWindow();
-            stage.close();
         } else {
             // si no se actualiza
             mostrarAlerta("Error al publicar la encuesta");
         }
+
+        // se cierra modal
+        Stage stage = (Stage) btnpublicar.getScene().getWindow();
+        stage.close();
     }
 
     private void eliminarPregunta(Pregunta pregunta) {
@@ -286,6 +306,8 @@ public class VistaEncuestaController {
                 } else {
                     mostrarAlerta("Error al eliminar la pregunta");
                 }
+                cargarPreguntas();
+                inicializarDatos();
             }
         });
     }
@@ -316,11 +338,6 @@ public class VistaEncuestaController {
             }
         }
     }
-
-    private void cerrarVentana() {
-
-    }
-
 
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

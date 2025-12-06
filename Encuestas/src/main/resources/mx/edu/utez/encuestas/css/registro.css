@@ -35,3 +35,13 @@
 .boton:hover{
     -fx-background-color: #080b15;
 }
+
+.add-icon{
+    -fx-icon-color: white;
+    -fx-fill: white;
+}
+
+.user-icon {
+    -fx-icon-color: #374151;
+    -fx-background-color: transparent ;
+}

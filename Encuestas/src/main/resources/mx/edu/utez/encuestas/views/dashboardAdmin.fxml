@@ -21,10 +21,10 @@
                 <Label text="Panel Administrador" styleClass="sidebar-brand"/>
                 <Separator styleClass="sidebar-separator"/>
                 <Button text="Dashboard" styleClass="sidebar-button-selected" maxWidth="Infinity">
-                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-home" styleClass="add-icon"/></graphic>
                 </Button>
                 <Button fx:id="btnDocentes" text="Docentes" styleClass="sidebar-button" maxWidth="Infinity" onAction="#irDocentes">
-                    <graphic><FontIcon iconLiteral="fa-users"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-users" styleClass="add-icon"/></graphic>
                 </Button>
             </VBox>
         </left>
@@ -40,6 +40,9 @@
                                 <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
                                 <Label fx:id="nombreAdmin" styleClass="avatar-name" text="Administrador"/>
                                 <Button fx:id="logoutButton" styleClass="logout-button" onAction="#logout">
+                                    <tooltip>
+                                        <Tooltip text="Cerrar sesión" />
+                                    </tooltip>
                                     <graphic>
                                         <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
                                     </graphic>

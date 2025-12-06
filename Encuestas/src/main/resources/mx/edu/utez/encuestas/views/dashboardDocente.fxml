@@ -21,13 +21,13 @@
                 <Label text="Panel Docente" styleClass="sidebar-brand"/>
                 <Separator styleClass="sidebar-separator"/>
                 <Button text="Dashboard" styleClass="sidebar-button-selected" prefWidth="200.0">
-                    <graphic><FontIcon iconLiteral="fa-home"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-home" styleClass="add-icon"/></graphic>
                 </Button>
                 <Button fx:id="btnEncuestas" text="Encuestas" styleClass="sidebar-button" prefWidth="200.0" onAction="#irEncuesta">
-                    <graphic><FontIcon iconLiteral="fa-list"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-list" styleClass="add-icon"/></graphic>
                 </Button>
                 <Button fx:id="btnReportes" text="Reportes" styleClass="sidebar-button" prefWidth="200.0" onAction="#irReportes">
-                    <graphic><FontIcon iconLiteral="fa-bar-chart"/></graphic>
+                    <graphic><FontIcon iconLiteral="fa-bar-chart" styleClass="add-icon"/></graphic>
                 </Button>
             </VBox>
         </left>
@@ -43,6 +43,9 @@
                                 <FontIcon iconLiteral="fa-user" styleClass="avatar-icon"/>
                                 <Label fx:id="nombreDocente" styleClass="avatar-name" text="Administrador"/>
                                 <Button fx:id="logoutButton" styleClass="logout-button" onAction="#logout" >
+                                    <tooltip>
+                                        <Tooltip text="Cerrar sesión" />
+                                    </tooltip>
                                     <graphic>
                                         <FontIcon iconLiteral="fa-sign-out" styleClass="avatar-icon"/>
                                     </graphic>
@@ -67,6 +70,7 @@
                                     <FontIcon iconLiteral="fa-check-circle" styleClass="stat-icon"/>
                                     <Label text="Activas" styleClass="stat-title"/>
                                     <Label fx:id="lblEncuestasActivasDocente" text="0" styleClass="stat-value"/>
+
                                 </VBox>
                                 <VBox styleClass="stat-card">
                                     <FontIcon iconLiteral="fa-pencil" styleClass="stat-icon"/>
